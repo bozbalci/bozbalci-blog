@@ -17,7 +17,9 @@ def cache_response(cache_key, timeout):
             result = func(*args, **kwargs)
             cache.set(cache_key, result, timeout)
             return result
+
         return wrapper
+
     return decorator
 
 

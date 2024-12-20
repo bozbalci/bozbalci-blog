@@ -114,8 +114,8 @@ STORAGES = {
             "access_key": os.getenv("AWS_ACCESS_KEY_ID"),
             "secret_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
             "querystring_auth": False,
-            "custom_domain": "i.bozbalci.me"
-        }
+            "custom_domain": "i.bozbalci.me",
+        },
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",

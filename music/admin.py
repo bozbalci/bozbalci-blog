@@ -3,6 +3,7 @@ from django.utils.html import format_html
 
 from music.models import Album
 
+
 class AlbumAdmin(admin.ModelAdmin):
     list_display = ("id", "thumbnail_preview", "artist", "title", "year", "rating")
 
@@ -13,5 +14,6 @@ class AlbumAdmin(admin.ModelAdmin):
                 obj.cover_image.original.url,
             )
         return "-"
+
 
 admin.site.register(Album, AlbumAdmin)

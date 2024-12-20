@@ -24,5 +24,5 @@ class AlbumSchema(ModelSchema):
             "openscrobbler_url",
             "discogs_url",
             "review",
-            "tags"
+            "tags",
         ]

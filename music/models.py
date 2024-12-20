@@ -19,7 +19,9 @@ class Album(models.Model):
     artist = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    cover_image = models.OneToOneField(ImageUpload, on_delete=models.CASCADE, null=True, blank=True)
+    cover_image = models.OneToOneField(
+        ImageUpload, on_delete=models.CASCADE, null=True, blank=True
+    )
     year = models.IntegerField(null=True, blank=True)
     openscrobbler_url = models.URLField(null=True, blank=True)
     discogs_url = models.URLField(null=True, blank=True)

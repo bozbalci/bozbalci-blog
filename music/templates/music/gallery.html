@@ -1,0 +1,26 @@
+{% extends "base_with_sidebar.html" %}
+
+{% block title %}
+  Music Collection
+{% endblock %}
+
+{% block navigation %}
+  {% include "music/partials/navigation.html" %}
+{% endblock %}
+
+{% block content %}
+  <ul class="fluid-grid grid-min-item-[12rem]">
+    {% for album in albums %}
+      <li>
+        <a href="{% url "music:album" slug=album.slug %}" class="no-underline">
+          <img src="{{ album.cover_image.original.url }}"
+               alt="Cover art for {{ album.artist }} - {{ album.title }}"
+               class="aspect-square object-cover border-1 border-gray-6"
+               loading="lazy"/>
+          <div class="a-title font-bold text-gray-12 mt-3xs">{{ album.title }}</div>
+          <div class="a-artist font-gray-11 text-step--1">{{ album.artist }}</div>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

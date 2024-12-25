@@ -1,0 +1,29 @@
+{% extends "base_with_sidebar.html" %}
+
+{% load lightgallery %}
+{% load django_vite %}
+
+{% block title %}
+  Gallery
+{% endblock %}
+
+{% block navigation %}
+  {% include "photo/partials/navigation.html" %}
+{% endblock %}
+
+{% block scripts %}
+  {% vite_asset "static/scripts/lightbox-multi.js" %}
+{% endblock %}
+
+{% block content %}
+  <div class="fluid-grid grid-gutter-3xs" id="gallery">
+    {% for photo in photos %}
+      <a href="/gallery/photo/{{ photo.id }}">
+        <div class="photo-thumbnail" data-src="{{ photo.image_url }}" data-sub-html="{{ photo|lg_caption }}">
+          <img src="{{ photo.thumbnail_url }}" alt="{{ photo.title }}"
+               class="border-1 border-gray-6 aspect-square object-cover"/>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -3,37 +3,30 @@ from typing import List
 from django.shortcuts import get_object_or_404
 from ninja import Router
 
-from music.lastfm import LastfmAPI
+from music.lastfm import lastfm_api
 from music.models import Album
 from music.schemas import AlbumSchema
 
 router = Router()
-lastfm_api = LastfmAPI()
 
 
 @router.get("/last-played")
 def get_last_played(request):
-    return lastfm_api.get_recent_tracks()
+    return lastfm_api.get_last_played()
 
 
 @router.get("/albums", response=List[AlbumSchema])
-def get_albums(request, year: int = 0):
+def get_albums(request, year: int = 0, rating: int = None, shuffled: bool = False):
     queryset = Album.objects.all()
 
     if year:
         queryset = queryset.filter(year=year)
+    if rating is not None:
+        queryset = queryset.filter(rating=rating)
+    if shuffled:
+        queryset = queryset.shuffled()
 
     return queryset
-
-
-@router.get("/albums/rated-10", response=List[AlbumSchema])
-def get_albums_with_rating_10(request):
-    return Album.objects.perfect_tens()
-
-
-@router.get("/albums/shuffled", response=List[AlbumSchema])
-def get_albums_shuffled(request):
-    return Album.objects.shuffled()
 
 
 @router.get("/album/{slug}", response=AlbumSchema)

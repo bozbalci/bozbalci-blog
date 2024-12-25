@@ -1,0 +1,41 @@
+{% load static %}
+{% load django_vite %}
+
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8"/>
+  <title>{% block title %}{% endblock %}</title>
+  <meta name="description" content="Personal home page of Berk Özbalcı"/>
+  <meta name="viewport" content="width=device-width"/>
+  <meta name="generator" content="Django 5.2"/>
+
+  <!--Generated using Real Favicon Generator-->
+  <link rel="icon" type="image/png" href="{% static "favicon-96x96.png" %}" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"/>
+  <meta name="apple-mobile-web-app-title" content="bozbalci"/>
+
+  {% vite_hmr_client %}
+
+  <link rel="stylesheet" href="{% vite_asset_url "static/styles/main.css" %}">
+</head>
+<body>
+<a href="#main-content" class="sr-only focus:not-sr-only">
+  Skip to main content
+</a>
+{% include "sections/header.html" %}
+<main id="main-content" class="main">
+  {% block main %}
+  {% endblock %}
+</main>
+{% include "sections/footer.html" %}
+<script>
+  document.documentElement.classList.remove("no-js");
+</script>
+{% vite_asset "static/scripts/theme-toggle.js" %}
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

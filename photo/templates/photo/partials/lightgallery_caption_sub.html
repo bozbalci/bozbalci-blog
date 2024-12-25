@@ -1,0 +1,39 @@
+{% load date_formats %}
+
+<div class="font-mono text-step--2">
+  <div class="e-textbg">
+    {% if photo.title %}
+      <span class="e-title">{{ photo.title }}</span>
+    {% else %}
+      <span class="e-untitled">Untitled</span>
+    {% endif %}
+  </div>
+  <div>
+    <span class="e-label">Camera</span>
+    <span class="e-make">{{ photo.exif.make }}</span>
+    <span class="e-model">{{ photo.exif.model }}</span>
+    <span class="e-label">Lens</span>
+    <span class="e-lens">{{ photo.exif.lens }}</span>
+  </div>
+  <div>
+    <span class="e-label">Focal length</span>
+    <span class="e-focal-length">{{ photo.exif.focal_length }}</span>
+    <span class="e-label">Aperture</span>
+    <span class="e-aperture">&fnof;/{{ photo.exif.aperture }}</span>
+    <span class="e-label">Shutter speed</span>
+    <span class="e-shutter">{{ photo.exif.shutter }}</span>
+    <span class="e-label">ISO</span>
+    <span class="e-iso">{{ photo.exif.iso }}</span>
+  </div>
+  <div>
+    <span class="e-label">Uploaded</span>
+    <time class="e-uploaded" datetime="{{ photo.uploaded_at|format_iso_date }}">
+      {{ photo.uploaded_at|format_date }}
+    </time>
+    <span class="e-label">Taken</span>
+    <time class="e-taken" datetime="{{ photo.exif.shot_at|format_iso_date }}">
+      {{ photo.exif.shot_at|format_date }}
+    </time>
+    <a href="{% url "photo:details" pk=photo.pk %}" class="e-permalink">Permalink</a>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+{% extends "base_with_sidebar.html" %}
+
+{% load music_tags %}
+{% load render_markdown %}
+
+{% block title %}
+  Music Collection
+{% endblock %}
+
+{% block navigation %}
+  {% include "music/partials/navigation.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="flow">
+    <div class="a-album sidebar">
+      <div class="a-cover-art">
+        <img src="{{ album.cover_image.original.url }}"
+             alt="Cover art for {{ album.artist }} - {{ album.title }}"
+             class="aspect-square object-cover border-1 border-gray-6">
+      </div>
+      <div class="a-meta font-mono text-step--1">
+        <h1 class="text-step-1 font-bold mb-s">{{ album.title }}</h1>
+        <dl class="a-meta-grid">
+          <dt class="font-bold">Artist</dt>
+          <dd>{{ album.artist }}</dd>
+          <dt class="font-bold">Release year</dt>
+          <dd>{{ album.year }}</dd>
+          {% if album.rating is not None %}
+            <dt class="font-bold">Berk's rating</dt>
+            <dd>{{ album.rating|stars }}</dd>
+          {% endif %}
+        </dl>
+        {% if album.discogs_url or album.openscrobbler_url %}
+          <ul>
+            {% if album.discogs_url %}
+              <li><a href="{{ album.discogs_url }}">View release on Discogs</a></li>
+            {% endif %}
+            {% if album.openscrobbler_url %}
+              <li><a href="{{ album.openscrobbler_url }}">Scrobble this album</a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+    <article class="a-review prose mt-s">
+      {{ album.review|render_markdown|safe }}
+    </article>
+  </div>
+{% endblock %}

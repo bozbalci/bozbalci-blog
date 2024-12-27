@@ -22,6 +22,8 @@ DJANGO_VITE = {"default": {"dev_mode": True}}
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "HOST": "localhost",
+        "PORT": "",
         "NAME": "notcms",
         "USER": "django_notcms_owner",
         "PASSWORD": "password",

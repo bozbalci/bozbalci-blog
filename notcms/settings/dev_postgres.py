@@ -23,8 +23,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "notcms",
-        "USER": "bozbalci",
-        "PASSWORD": "my_psql_password",
+        "USER": "django_notcms_owner",
+        "PASSWORD": "password",
         "CONN_MAX_AGE": 600,
     }
 }

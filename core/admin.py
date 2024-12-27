@@ -3,7 +3,7 @@ from django import forms
 from django.utils.html import format_html
 
 from core.images import compress_image, generate_thumbnail
-from core.models import ImageUpload, Tag, Category
+from core.models import ImageUpload, Tag, Category, Feature
 
 admin.site.register(Category)
 admin.site.register(Tag)
@@ -107,3 +107,10 @@ class ImageUploadAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ImageUpload, ImageUploadAdmin)
+
+
+class FeatureAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug", "description", "enabled")
+
+
+admin.site.register(Feature, FeatureAdmin)

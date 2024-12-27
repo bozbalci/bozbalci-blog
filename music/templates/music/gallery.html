@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-  <ul class="fluid-grid grid-min-item-[12rem]">
+  <ul class="auto-grid grid-min-item-[12rem]">
     {% for album in albums %}
       <li>
         <a href="{% url "music:album" slug=album.slug %}" class="no-underline">

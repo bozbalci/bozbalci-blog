@@ -4,7 +4,7 @@
 {% load render_markdown %}
 
 {% block title %}
-  Music Collection
+  {{ album.title }}
 {% endblock %}
 
 {% block navigation %}
@@ -20,15 +20,15 @@
              class="aspect-square object-cover border-1 border-gray-6">
       </div>
       <div class="a-meta font-mono text-step--1">
-        <h1 class="text-step-1 font-bold mb-s">{{ album.title }}</h1>
-        <dl class="a-meta-grid">
+        <h1 class="a-title text-step-1 font-bold mb-s">{{ album.title }}</h1>
+        <dl class="grid grid-cols-[auto_1fr] gap-x-s gap-y-0">
           <dt class="font-bold">Artist</dt>
-          <dd>{{ album.artist }}</dd>
-          <dt class="font-bold">Release year</dt>
-          <dd>{{ album.year }}</dd>
+          <dd class="a-artist">{{ album.artist }}</dd>
+          <dt class="a-year font-bold">Release year</dt>
+          <dd class="a-release-year">{{ album.year }}</dd>
           {% if album.rating is not None %}
             <dt class="font-bold">Berk's rating</dt>
-            <dd>{{ album.rating|stars }}</dd>
+            <dd class="a-rating flex items-center">{{ album.rating|stars }}</dd>
           {% endif %}
         </dl>
         {% if album.discogs_url or album.openscrobbler_url %}
@@ -43,8 +43,27 @@
         {% endif %}
       </div>
     </div>
-    <article class="a-review prose mt-s">
+    <article class="a-review prose">
       {{ album.review|render_markdown|safe }}
     </article>
+    {% if related_albums %}
+      <div class="a-related-albums pt-2xl flow">
+        <h2 class="font-mono">Also in collection</h2>
+        <ul class="auto-grid grid-min-item-[12rem]">
+          {% for album in related_albums %}
+            <li>
+              <a href="{% url "music:album" slug=album.slug %}" class="no-underline">
+                <img src="{{ album.cover_image.original.url }}"
+                     alt="Cover art for {{ album.artist }} - {{ album.title }}"
+                     class="aspect-square object-cover border-1 border-gray-6"
+                     loading="lazy"/>
+                <div class="a-title font-bold text-gray-12 mt-3xs">{{ album.title }}</div>
+                <div class="a-artist font-gray-11 text-step--1">{{ album.artist }}</div>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
   </div>
 {% endblock %}

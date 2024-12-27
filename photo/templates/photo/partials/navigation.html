@@ -1,10 +1,10 @@
-<nav class="sticky">
+<nav class="lg:sticky lg:top-gutter">
   <ul>
     <li>
-      <a href="/gallery">Camera roll</a>
+      <a href="{% url "photo:index" %}">Camera roll</a>
     </li>
     <li>
-      <a href="/gallery/album/latte-art">Latte art</a>
+      <a href="{% url "photo:album" slug="latte-art" %}">Latte art</a>
     </li>
   </ul>
 </nav>

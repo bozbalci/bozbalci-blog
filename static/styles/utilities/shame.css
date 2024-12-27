@@ -1,0 +1,20 @@
+/* Done is better than perfect. */
+
+.e-label,
+.e-permalink {
+  /* Need !important here because lightgallery has higher-specificity styles
+   * for anchor tags within captions. */
+  color: var(--color-gray-9) !important;
+}
+
+.grid-gutter-3xs {
+  --gutter: var(--spacing-3xs);
+}
+
+.grid-min-item-\[12rem\] {
+  --grid-min-item-size: 12rem;
+}
+
+.a-album {
+  --gutter: var(--spacing-s);
+}

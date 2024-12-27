@@ -21,7 +21,14 @@ def shuffled(request):
 
 def single_album_details(request, slug: str):
     album = get_object_or_404(Album, slug=slug)
-    return render(request, "music/single_album_details.html", {"album": album})
+
+    related_albums = Album.objects.filter(artist=album.artist).exclude(id=album.id)
+
+    return render(
+        request,
+        "music/single_album_details.html",
+        {"album": album, "related_albums": related_albums},
+    )
 
 
 def gallery_from_queryset(request, queryset):
@@ -29,6 +36,6 @@ def gallery_from_queryset(request, queryset):
         request,
         "music/gallery.html",
         {
-            "albums": queryset,
+            "albums": queryset.prefetch_related("cover_image"),
         },
     )

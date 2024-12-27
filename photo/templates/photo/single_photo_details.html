@@ -4,7 +4,11 @@
 {% load django_vite %}
 
 {% block title %}
-  Gallery
+  {% if photo.title %}
+    {{ photo.title }}
+  {% else %}
+    Untitled Photo
+  {% endif %}
 {% endblock %}
 
 {% block navigation %}
@@ -42,18 +46,20 @@
         <div class="text-right">
           {% if photo.title %}
             <div>
-              <span class="e-title">{{ photo.title }}</span>
+              <span class="e-title italic double-quote">{{ photo.title }}</span>
             </div>
           {% endif %}
 
           <div>
             <span class="e-uploaded">
-              Uploaded on <time datetime={{ photo.uploaded_at|format_iso_date }}>{{ photo.uploaded_at|format_date}}</time>
+              Uploaded on <time
+                datetime={{ photo.uploaded_at|format_iso_date }}>{{ photo.uploaded_at|format_date }}</time>
             </span>
           </div>
           <div>
             <span class="e-taken text-gray-10">
-              Taken on <time datetime={{ photo.exif.shot_at|format_iso_date }}>{{ photo.exif.shot_at|format_date }}</time>
+              Taken on <time
+                datetime={{ photo.exif.shot_at|format_iso_date }}>{{ photo.exif.shot_at|format_date }}</time>
             </span>
           </div>
         </div>

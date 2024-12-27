@@ -122,3 +122,11 @@ p + p {
     word-wrap: break-word;
   }
 }
+
+.double-quote::before {
+  content: "\201C";
+}
+
+.double-quote::after {
+  content: "\201C";
+}

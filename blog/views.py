@@ -4,25 +4,49 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import render, get_object_or_404
 
-from blog.models import CustomFlatPage
+from blog.models import CustomFlatPage, Post
+from core.models import Category
+
+POSTS_ON_HOMEPAGE = 5
 
 
-# Create your views here.
-def index(request):
-    return render(request, "index.html")
+def handler400(request, exception):
+    return render(request, "errors/400.html", status=400)
+
+
+def handler403(request, exception):
+    return render(request, "errors/403.html", status=403)
+
+
+def handler404(request, exception):
+    return render(request, "errors/404.html", status=404)
+
+
+def handler500(request):
+    return render(request, "errors/500.html", status=500)
+
+
+def home(request):
+    posts = list(
+        Post.objects.filter(is_draft=False)
+        .exclude(categories__slug="now")
+        .order_by("-created")[:POSTS_ON_HOMEPAGE]
+    )
+    return render(
+        request,
+        "home.html",
+        {
+            "posts": posts,
+        },
+    )
+
+
+def post(request, year, slug):
+    post = get_object_or_404(Post, created__year=year, slug=slug)
+    return render(request, "blog/post.html", {"post": post})
 
 
 def custom_flatpage(request, url):
-    """
-    Public interface to the flat page view.
-
-    Models: `flatpages.flatpages`
-    Templates: Uses the template defined by the ``template_name`` field,
-        or :template:`flatpages/default.html` if template_name is not defined.
-    Context:
-        flatpage
-            `flatpages.flatpages` object
-    """
     if not url.startswith("/"):
         url = "/" + url
     site_id = get_current_site(request).id
@@ -36,3 +60,37 @@ def custom_flatpage(request, url):
         else:
             raise
     return render_flatpage(request, f)
+
+
+def then(request):
+    category = Category.objects.get(slug="now")
+
+    posts = Post.objects.filter(
+        is_draft=False, categories__slug=category.slug
+    ).order_by("-created")
+    return render(
+        request,
+        "blog/category.html",
+        {
+            "category": category,
+            "posts": posts,
+        },
+    )
+
+
+def now(request):
+    post = (
+        Post.objects.filter(is_draft=False, categories__slug="now")
+        .order_by("-created")
+        .first()
+    )
+    return render(request, "blog/post.html", {"post": post})
+
+
+def index(request):
+    posts = (
+        Post.objects.filter(is_draft=False)
+        .exclude(categories__slug="now")
+        .order_by("-created")
+    )
+    return render(request, "blog/archive.html", {"posts": posts})

@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="fluid-grid grid-gutter-3xs" id="gallery">
+  <div class="auto-grid grid-gutter-3xs" id="gallery">
     {% for photo in photos %}
       <a href="/gallery/photo/{{ photo.id }}">
         <div class="photo-thumbnail" data-src="{{ photo.image_url }}" data-sub-html="{{ photo|lg_caption }}">

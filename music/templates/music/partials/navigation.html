@@ -1,16 +1,16 @@
-<nav class="sticky">
+<nav class="lg:sticky lg:top-gutter">
   <ul>
     <li>
-      <a href="/music-collection">Everything</a>
+      <a href="{% url "music:index" %}">Everything</a>
     </li>
     <li>
-      <a href="/music-collection/all-time">All-time favourites</a>
+      <a href="{% url "music:all-time" %}">All-time favourites</a>
     </li>
     <li>
-      <a href="/music-collection/2024">2024</a>
+      <a href="{% url "music:year-2024" %}">2024</a>
     </li>
     <li>
-      <a href="/music-collection/shuffled">Shuffled</a>
+      <a href="{% url "music:shuffled" %}">Shuffled</a>
     </li>
   </ul>
 </nav>

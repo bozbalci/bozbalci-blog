@@ -1,6 +1,8 @@
 import mistune
 from django import template
 
+from core.helpers import markdown
+
 register = template.Library()
 
 
@@ -8,5 +10,4 @@ register = template.Library()
 def render_markdown(text):
     if not text:
         return ""
-    markdown = mistune.create_markdown(plugins=["footnotes"], escape=False)
     return markdown(text)

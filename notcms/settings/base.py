@@ -9,25 +9,10 @@ load_dotenv()
 SITE_ID = 1
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-3ef#by+9v1wpn^m)-3nxou2pfr5b$iz#jz7+qw+on@$nfg$89%"
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-INTERNAL_IPS = ["127.0.0.1"]
-
-# Application definition
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
-    "whitenoise.runserver_nostatic",
-    "django.contrib.sites",  # Required for flatpages
+    "django.contrib.sites",
     "django.contrib.flatpages",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -36,9 +21,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    # Third-party apps
     "debug_toolbar",
     "corsheaders",
     "django_vite",
+    # NotCMS apps
     "core",
     "blog",
     "photo",
@@ -57,8 +44,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "notcms.urls"
 
@@ -83,12 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "notcms.wsgi.application"
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -114,13 +93,6 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "unique-snowflake",
-    }
-}
-
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
@@ -144,15 +116,9 @@ LASTFM = {
     "username": os.getenv("LASTFM_USERNAME"),
 }
 
-#
-# Static files
-#
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (BASE_DIR / "static" / "assets", BASE_DIR / "static" / "dist")
-
-DJANGO_VITE = {"default": {"dev_mode": True}}
 
 
 # http://whitenoise.evans.io/en/stable/django.html#WHITENOISE_IMMUTABLE_FILE_TEST

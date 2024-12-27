@@ -1,5 +1,5 @@
 const theme = (() => {
-  if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+  if (localStorage.getItem("theme")) {
     return localStorage.getItem("theme");
   }
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
@@ -8,11 +8,10 @@ const theme = (() => {
   return "light";
 })();
 
-if (theme === "light") {
-  document.documentElement.classList.remove("dark");
-} else {
-  document.documentElement.classList.add("dark");
-}
+// Toggling the dark mode class on the body has been inlined to <head>
+// to avoid FOUC.
+//
+// TODO Implement a progressively-enhanced dark mode with CSS as well
 
 window.localStorage.setItem("theme", theme);
 

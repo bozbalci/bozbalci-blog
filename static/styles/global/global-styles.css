@@ -1,0 +1,58 @@
+/**
+ * Base font size
+ */
+html,
+body {
+  font-size: var(--text-step-0);
+}
+
+/**
+ * Sticky footer
+ * https://css-tricks.com/couple-takes-sticky-footer/
+ */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#main-content {
+  flex: 1 0 auto;
+}
+
+/**
+ * General UI color
+ */
+body {
+  background-color: var(--color-gray-1);
+  color: var(--color-gray-12);
+}
+
+::selection {
+  background-color: var(--color-accent-7);
+  color: var(--color-gray-12);
+}
+
+
+@layer base {
+  a {
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-gray-8);
+    text-underline-offset: max(0.1em, 2.5px);
+  }
+
+  a:hover {
+    text-decoration-line: none;
+  }
+}
+
+@layer utilities {
+  a.no-underline:hover {
+    text-decoration: underline;
+  }
+}

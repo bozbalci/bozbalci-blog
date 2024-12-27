@@ -1,11 +1,13 @@
 import lightGallery from "lightgallery";
 
+import {LIGHTGALLERY_LICENSE_KEY} from "./constants.js";
+
 function registerLightbox(element) {
   const options = {
     speed: 500,
     enableDrag: false,
     counter: true,
-    licenseKey: "09C98B16-6CB8-429D-9D8A-54EF3FEBB5CE",
+    licenseKey: LIGHTGALLERY_LICENSE_KEY,
     subHtmlSelectorRelative: true,
     selector: ".photo-thumbnail",
   };

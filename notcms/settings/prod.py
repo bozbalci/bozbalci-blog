@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = False
 
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+
 ALLOWED_HOSTS = ["bozbalci.me", "www.bozbalci.me"]
 
 

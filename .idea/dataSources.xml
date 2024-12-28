@@ -14,7 +14,7 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://notcms-postgres-do-user-3727778-0.m.db.ondigitalocean.com:25060/defaultdb</jdbc-url>
+      <jdbc-url>jdbc:postgresql://notcms-postgres-do-user-3727778-0.m.db.ondigitalocean.com:25060/notcms</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="Local Postgres DB" uuid="4a7b6567-d39e-4a58-8a73-cb9dc77f6409">
@@ -22,6 +22,13 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/notcms</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="Production DB - Admin" uuid="16d547dc-9e83-4599-bcab-c4de1599f9e8">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://notcms-postgres-do-user-3727778-0.m.db.ondigitalocean.com:25060/notcms?sslmode=require</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

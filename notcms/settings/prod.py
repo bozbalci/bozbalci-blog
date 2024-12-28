@@ -6,7 +6,6 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 ALLOWED_HOSTS = ["bozbalci.me", "www.bozbalci.me"]
 
-
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -17,6 +16,7 @@ CACHES = {
 DJANGO_VITE = {"default": {"dev_mode": False}}
 
 CSRF_COOKIE_SECURE = True
+
 SESSION_COOKIE_SECURE = True
 
 DATABASES = {
@@ -29,4 +29,39 @@ DATABASES = {
         "PORT": os.getenv("POSTGRES_PORT"),
         "CONN_MAX_AGE": 600,
     }
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "/var/log/django/notcms.log",
+            "formatter": "verbose",
+        },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
 }

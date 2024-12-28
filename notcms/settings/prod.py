@@ -6,6 +6,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 ALLOWED_HOSTS = ["bozbalci.me", "www.bozbalci.me"] + [os.getenv("DO_IP_ADDRESS")]
 
+CSRF_TRUSTED_ORIGINS = ["https://bozbalci.me", "https://www.bozbalci.me"]
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",

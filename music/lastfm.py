@@ -1,24 +1,13 @@
-from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
 
 import httpx
 from django.conf import settings
 from django.utils.timezone import make_aware
 
 from core.helpers import cache_response
+from music.schemas import LastfmTrack
 
 API_URL = "https://ws.audioscrobbler.com/2.0/"
-
-
-@dataclass
-class LastfmTrack:
-    artist: str
-    title: str
-    lastfm_url: str
-    image_url: str
-    scrobbled_at: Optional[datetime]
-    now_playing: bool
 
 
 class LastfmAPI:

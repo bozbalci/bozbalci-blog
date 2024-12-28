@@ -1,8 +1,18 @@
+from datetime import datetime
 from typing import Optional
 
-from ninja import ModelSchema
+from ninja import ModelSchema, Schema
 
 from music.models import Album
+
+
+class LastfmTrack(Schema):
+    artist: str
+    title: str
+    lastfm_url: str
+    image_url: str
+    scrobbled_at: Optional[datetime]
+    now_playing: bool
 
 
 class AlbumSchema(ModelSchema):

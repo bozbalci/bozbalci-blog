@@ -1,16 +1,16 @@
-from typing import List
+from typing import List, Optional
 
 from django.shortcuts import get_object_or_404
 from ninja import Router
 
 from music.lastfm import lastfm_api
 from music.models import Album
-from music.schemas import AlbumSchema
+from music.schemas import AlbumSchema, LastfmTrack
 
 router = Router()
 
 
-@router.get("/last-played")
+@router.get("/last-played", response=Optional[LastfmTrack])
 def get_last_played(request):
     return lastfm_api.get_last_played()
 

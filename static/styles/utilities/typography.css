@@ -128,5 +128,5 @@ p + p {
 }
 
 .double-quote::after {
-  content: "\201C";
+  content: "\201D";
 }

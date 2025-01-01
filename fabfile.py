@@ -1,5 +1,6 @@
 import os
 from contextlib import contextmanager
+from datetime import datetime
 
 from dotenv import load_dotenv
 from fabric import Connection, task
@@ -8,8 +9,11 @@ load_dotenv()
 
 HOST = os.getenv("PROD_HOST")
 USER = os.getenv("PROD_USER")
-PROJECT_DIRECTORY = f"/home/{USER}/bozbalci-blog"
-VIRTUALENV_DIRECTORY = f"/home/{USER}/blog-virtualenv"
+
+HOME = f"/home/{USER}"
+
+CURRENT_RELEASE_DIRECTORY = f"{HOME}/release-current"
+
 ENV = {"DJANGO_SETTINGS_MODULE": "notcms.settings.prod"}
 
 
@@ -17,26 +21,47 @@ def get_remote():
     return Connection(HOST)
 
 
+def get_timestamp():
+    return int(datetime.now().timestamp())
+
+
 @contextmanager
 def virtualenv(c):
-    with c.cd(PROJECT_DIRECTORY):
-        with c.prefix(f"source {VIRTUALENV_DIRECTORY}/bin/activate"):
-            yield
+    with c.prefix(f"source .venv/bin/activate"):
+        yield
 
 
 @contextmanager
 def npm(c):
-    with c.cd(PROJECT_DIRECTORY):
-        with c.prefix(f'export NVM_DIR="/home/{USER}/.nvm"'):
-            with c.prefix(f'source "$NVM_DIR/nvm.sh"'):
-                yield
+    with c.prefix(f'export NVM_DIR="/home/{USER}/.nvm"'):
+        with c.prefix(f'source "$NVM_DIR/nvm.sh"'):
+            yield
 
 
 @task
 def git_pull(c):
-    with c.cd(PROJECT_DIRECTORY):
-        print("Pulling from latest master")
-        c.run("git pull")
+    print("Pulling from latest master")
+    c.run("git pull")
+
+
+@task
+def git_clone(c):
+    print("Cloning repository")
+    c.run(
+        "git clone --depth 1 --branch master git@github.com:bozbalci/bozbalci-blog.git ."
+    )
+
+
+@task
+def create_virtualenv(c):
+    print("Creating virtual environment")
+    c.run("python3 -m venv .venv")
+
+
+@task
+def inject_secrets(c):
+    print("Injecting secrets")
+    c.run(f"mv {HOME}/secrets/prod.env .env")
 
 
 @task
@@ -84,33 +109,35 @@ def restart_wsgi(c):
 @task
 def deploy_incremental(c, dependencies=True, collectstatic=True, migrate=True):
     with get_remote() as conn:
-        git_pull(conn)
-
-        if dependencies:
-            install_node_dependencies(conn)
-            install_python_dependencies(conn)
-
-        if collectstatic:
-            build_frontend(conn)
-            django_collectstatic(conn)
-
-        if migrate:
-            django_migrate_db(conn)
-
-    restart_wsgi(conn)
+        with conn.cd(CURRENT_RELEASE_DIRECTORY):
+            git_pull(conn)
+            if dependencies:
+                install_node_dependencies(conn)
+                install_python_dependencies(conn)
+            if collectstatic:
+                build_frontend(conn)
+                django_collectstatic(conn)
+            if migrate:
+                django_migrate_db(conn)
+            restart_wsgi(conn)
 
 
 @task
-def deploy_atomic(c):
+def deploy(c):
     with get_remote() as conn:
-        git_pull(conn)
-        install_node_dependencies(conn)
-        install_python_dependencies(conn)
-        build_frontend(conn)
-        django_collectstatic(conn)
-        django_migrate_db(conn)
-
-    restart_wsgi(conn)
+        current_ts = get_timestamp()
+        release_directory = f"{HOME}/release-{current_ts}"
+        conn.run(f"mkdir -p {release_directory}")
+        with conn.cd(release_directory):
+            git_clone(conn)
+            inject_secrets(conn)
+            create_virtualenv(conn)
+            install_node_dependencies(conn)
+            install_python_dependencies(conn)
+            build_frontend(conn)
+            django_collectstatic(conn)
+            django_migrate_db(conn)
+        # conn.run(f"ln -sf {release_directory} {CURRENT_RELEASE_DIRECTORY}")
 
 
 @task

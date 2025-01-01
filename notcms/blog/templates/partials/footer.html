@@ -67,9 +67,9 @@
         </ul>
         <ul>
           <li><a href="{% url "social" %}">Social</a></li>
-          <li><a href="https://github.com/bozbalci" rel="nofollow">GitHub</a></li>
-          <li><a href="https://bsky.app/profile/bozbalci.me" rel="nofollow">Bluesky</a></li>
-          <li><a href="https://linkedin.com/in/bozbalci" rel="nofollow">LinkedIn</a></li>
+          <li><a href="https://github.com/bozbalci" rel="me">GitHub</a></li>
+          <li><a href="https://bsky.app/profile/bozbalci.me" rel="me">Bluesky</a></li>
+          <li><a href="https://linkedin.com/in/bozbalci" rel="me">LinkedIn</a></li>
           <li><a href="{% url "contact" %}">Contact</a></li>
           {% if request.user.is_superuser %}
             <li><a href="{% url "admin:index" %}">Admin</a></li>

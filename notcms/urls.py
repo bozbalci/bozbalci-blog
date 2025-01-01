@@ -3,14 +3,14 @@ from django.contrib import admin
 from django.urls import path, include
 from ninja import NinjaAPI
 
-import blog.views as blog_views
-from blog.views import custom_flatpage
+import notcms.blog.views as blog_views
+from notcms.blog.views import custom_flatpage
 
 
 api = NinjaAPI()
 
-api.add_router("/photos/", "photo.api.router")
-api.add_router("/music/", "music.api.router")
+api.add_router("/photos/", "notcms.photo.api.router")
+api.add_router("/music/", "notcms.music.api.router")
 
 urlpatterns = [
     path("", blog_views.home, name="home"),
@@ -23,9 +23,9 @@ urlpatterns = [
     path("now/", blog_views.now, name="now"),
     path("then/", blog_views.then, name="then"),
     # Apps
-    path("blog/", include("blog.urls", namespace="blog")),
-    path("gallery/", include("photo.urls", namespace="photo")),
-    path("music-collection/", include("music.urls", namespace="music")),
+    path("blog/", include("notcms.blog.urls", namespace="blog")),
+    path("gallery/", include("notcms.photo.urls", namespace="photo")),
+    path("music-collection/", include("notcms.music.urls", namespace="music")),
     # Uncomment to test error pages on local
     # path("400/", lambda r: blog_views.handler400(r, None)),
     # path("403/", lambda r: blog_views.handler403(r, None)),

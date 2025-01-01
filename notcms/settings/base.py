@@ -26,10 +26,10 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_vite",
     # NotCMS apps
-    "core",
-    "blog",
-    "photo",
-    "music",
+    "notcms.core",
+    "notcms.blog",
+    "notcms.photo",
+    "notcms.music",
 ]
 
 MIDDLEWARE = [
@@ -51,7 +51,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, "blog/templates/"),
+            os.path.join(BASE_DIR, "notcms/blog/templates/"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -60,7 +60,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "music.context_processors.last_played",
+                "notcms.music.context_processors.last_played",
             ],
         },
     },

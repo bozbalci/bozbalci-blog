@@ -1,0 +1,24 @@
+{% extends "../base.html" %}
+
+{% load date_formats %}
+
+{% block title %}
+  Category '{{ category.name }}'
+{% endblock %}
+
+{% block main %}
+  <article class="wrapper">
+    <div class="prose mx-auto">
+      <h1>All posts in category '{{ category.name }}'</h1>
+      <div class="divide-y-1 divide-gray-5">
+        {% for post in posts %}
+          <div class="flex items-center justify-between py-s">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            <time class="text-gray-11"
+                  datetime="{{ post.created|format_iso_date }}">{{ post.created|format_date }}</time>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </article>
+{% endblock %}

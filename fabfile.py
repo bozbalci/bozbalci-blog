@@ -220,6 +220,7 @@ def deploy_incremental(c, dependencies=True, collectstatic=True, migrate=True):
     with get_remote() as conn:
         with conn.cd(CURRENT_RELEASE):
             git_pull(conn)
+            inject_secrets(conn)
             if dependencies:
                 install_node_dependencies(conn)
                 install_python_dependencies(conn)
@@ -250,7 +251,10 @@ def deploy(c, release=True):
             django_migrate_db(conn)
 
         # If there is NO release-current already, prepare it for the gunicorn systemd service
-        conn.run(f"[ ! -L {CURRENT_RELEASE} ] && ln -sfn {version} {CURRENT_RELEASE}")
+        conn.run(
+            f"[ ! -L {CURRENT_RELEASE} ] && ln -sfn {version} {CURRENT_RELEASE}",
+            warn=True,
+        )
 
         if release:
             promote_version(conn, version)
@@ -301,7 +305,7 @@ def shell(c):
 
 
 @task
-def configure_remote(c, reload: bool = False):
+def provision(c):
     print("Rendering configuration file templates...")
 
     template_context = {
@@ -337,22 +341,24 @@ def configure_remote(c, reload: bool = False):
         conn.sudo(
             f"mv nginx.conf /etc/nginx/sites-available/{NGINX_SERVER_NAME}", hide=True
         )
+        conn.sudo("systemctl daemon-reload", hide=True)
 
-        if reload:
-            print("Reloading services...")
-            conn.sudo("systemctl daemon-reload", hide=True)
-            conn.sudo("systemctl restart gunicorn.socket", hide=True)
-            conn.sudo("systemctl restart gunicorn", hide=True)
-            conn.sudo("systemctl reload nginx", hide=True)
-
-        print("OK")
-
-
-@task
-def start_and_enable_gunicorn_socket(c):
-    with get_remote_superuser() as conn:
         print("Starting and enabling gunicorn socket...")
-        conn.sudo("systemctl start gunicorn.socket", hide=True)
+        conn.sudo("systemctl restart gunicorn.socket", hide=True)
         conn.sudo("systemctl enable gunicorn.socket", hide=True)
-        result = conn.sudo("systemctl status gunicorn.socket", hide=True)
-        print(result.stdout)
+
+        print("Starting gunicorn through socket activation...")
+        conn.run("curl --unix-socket /run/gunicorn.sock localhost", hide=True)
+        print("Restarting gunicorn service...")
+        conn.sudo("systemctl restart gunicorn", hide=True)
+
+        print("Enabling nginx site...")
+        conn.sudo(
+            f"ln -sfn /etc/nginx/sites-available/{NGINX_SERVER_NAME} /etc/nginx/sites-enabled"
+        )
+
+        print("Allowing Nginx in ufw firewall...")
+        conn.sudo("ufw allow 'Nginx Full'", hide=True)
+
+        print("Restarting nginx service...")
+        conn.sudo("systemctl restart nginx", hide=True)

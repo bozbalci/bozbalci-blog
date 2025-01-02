@@ -106,6 +106,8 @@ p + p {
   }
 
   pre {
+    margin-top: 1em;
+    margin-bottom: 1em;
     line-height: var(--leading-snug);
     background-color: var(--color-gray-4);
     padding: var(--spacing-xs);

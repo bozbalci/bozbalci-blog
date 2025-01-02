@@ -1,24 +1,85 @@
+import getpass
 import os
+import sys
 from contextlib import contextmanager
 from datetime import datetime
+from pathlib import Path
 
+from colorama import Fore, Style
+from django.template import Context, Engine
 from dotenv import load_dotenv
-from fabric import Connection, task
+from fabric import Connection, task, Config
 
 load_dotenv()
 
 HOST = os.getenv("PROD_HOST")
 USER = os.getenv("PROD_USER")
+NGINX_SERVER_NAME = os.getenv("PROD_NGINX_SERVER_NAME")
+
+if not HOST or not USER or not NGINX_SERVER_NAME:
+    print(
+        "Please set PROD_HOST, PROD_USER, PROD_NGINX_SERVER_NAME environment variables."
+    )
+    sys.exit(1)
 
 HOME = f"/home/{USER}"
 
-CURRENT_RELEASE_DIRECTORY = f"{HOME}/release-current"
+CURRENT_RELEASE = "release-current"
 
 ENV = {"DJANGO_SETTINGS_MODULE": "notcms.settings.prod"}
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+def query_yes_no(question, default="yes"):
+    """Ask a yes/no question via raw_input() and return their answer.
+
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+            It must be "yes" (the default), "no" or None (meaning
+            an answer is required of the user).
+
+    The "answer" return value is True for "yes" or False for "no".
+    """
+    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+        if default is not None and choice == "":
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' " "(or 'y' or 'n').\n")
+
+
+def render_template(template_path, context):
+    engine = Engine()
+
+    with open(template_path, "r") as file:
+        template_content = file.read()
+
+    template = engine.from_string(template_content)
+    return template.render(Context(context))
 
 
 def get_remote():
     return Connection(HOST)
+
+
+def get_remote_superuser():
+    sudo_pass = getpass.getpass("[sudo] password: ")
+    config = Config(overrides={"sudo": {"password": sudo_pass}})
+    return Connection(HOST, config=config)
 
 
 def get_timestamp():
@@ -38,13 +99,26 @@ def npm(c):
             yield
 
 
-@task
+def get_releases(c):
+    return c.run(
+        f'ls -d release-* | grep -E "release-[0-9]+" | sort -r', hide=True
+    ).stdout.split()
+
+
+def get_current_release_version(conn):
+    result = conn.run(f"readlink {CURRENT_RELEASE}", warn=True, hide=True)
+
+    if result.ok:
+        return result.stdout.strip()
+    else:
+        return None
+
+
 def git_pull(c):
     print("Pulling from latest master")
     c.run("git pull")
 
 
-@task
 def git_clone(c):
     print("Cloning repository")
     c.run(
@@ -52,40 +126,34 @@ def git_clone(c):
     )
 
 
-@task
 def create_virtualenv(c):
     print("Creating virtual environment")
     c.run("python3 -m venv .venv")
 
 
-@task
 def inject_secrets(c):
     print("Injecting secrets")
-    c.run(f"mv {HOME}/secrets/prod.env .env")
+    c.run(f"cp {HOME}/secrets/prod.env .env")
 
 
-@task
 def install_node_dependencies(c):
     with npm(c):
         print("Installing Node dependencies...")
         c.run("npm install")
 
 
-@task
 def build_frontend(c):
     with npm(c):
         print("Building frontend...")
         c.run("npm run build")
 
 
-@task
 def install_python_dependencies(c):
     with virtualenv(c):
         print("Installing Python dependencies...")
         c.run("pip install -r requirements.txt")
 
 
-@task
 def django_collectstatic(c):
     with virtualenv(c):
         print("Collecting static assets...")
@@ -93,23 +161,64 @@ def django_collectstatic(c):
         c.run("python manage.py collectstatic", env=ENV, pty=True)
 
 
-@task
 def django_migrate_db(c):
     with virtualenv(c):
         print("Running database migrations...")
         c.run("python manage.py migrate", env=ENV)
 
 
-@task
 def restart_wsgi(c):
     print("Restarting WSGI server")
     c.run("sudo systemctl restart gunicorn", pty=True)
 
 
+def promote_version(c, release_directory):
+    if query_yes_no(f"Promote version {release_directory} to current?", default="no"):
+        c.run(f"ln -sfn {release_directory} {CURRENT_RELEASE}")
+        restart_wsgi(c)
+
+
+@task
+def show(c):
+    with get_remote() as conn:
+        current_release_version = get_current_release_version(conn)
+
+        for i, release in enumerate(get_releases(conn)):
+            print(Fore.BLUE, end="")
+            if i == 0:
+                print(f"[{i}, release", end="")
+            elif i == 1:
+                print(f"[{i}, rollback", end="")
+            else:
+                print(f"[{i}", end="")
+
+            if release == current_release_version:
+                print(f", {Style.BRIGHT}current{Style.NORMAL}", end="")
+
+            print(f"]{Fore.RESET} ", end="")
+
+            with conn.cd(release):
+                try:
+                    commit_hash, commit_message = (
+                        conn.run("git log -1 --pretty=format:'%h::::%s'", hide=True)
+                        .stdout.strip()
+                        .split("::::")
+                    )
+
+                    print(f"{Fore.YELLOW}{commit_hash}{Fore.RESET} {release}")
+                    print(commit_message)
+                    print()
+
+                except Exception as e:
+                    print(
+                        f"{release}: Not a git repository or error occurred: {str(e)}"
+                    )
+
+
 @task
 def deploy_incremental(c, dependencies=True, collectstatic=True, migrate=True):
     with get_remote() as conn:
-        with conn.cd(CURRENT_RELEASE_DIRECTORY):
+        with conn.cd(CURRENT_RELEASE):
             git_pull(conn)
             if dependencies:
                 install_node_dependencies(conn)
@@ -123,11 +232,13 @@ def deploy_incremental(c, dependencies=True, collectstatic=True, migrate=True):
 
 
 @task
-def deploy(c):
+def deploy(c, release=True):
     with get_remote() as conn:
         current_ts = get_timestamp()
-        release_directory = f"{HOME}/release-{current_ts}"
+        version = f"release-{current_ts}"
+        release_directory = f"{HOME}/{version}"
         conn.run(f"mkdir -p {release_directory}")
+
         with conn.cd(release_directory):
             git_clone(conn)
             inject_secrets(conn)
@@ -137,7 +248,45 @@ def deploy(c):
             build_frontend(conn)
             django_collectstatic(conn)
             django_migrate_db(conn)
-        # conn.run(f"ln -sf {release_directory} {CURRENT_RELEASE_DIRECTORY}")
+
+        # If there is NO release-current already, prepare it for the gunicorn systemd service
+        conn.run(f"[ ! -L {CURRENT_RELEASE} ] && ln -sfn {version} {CURRENT_RELEASE}")
+
+        if release:
+            promote_version(conn, version)
+
+
+@task
+def release(c):
+    with get_remote() as conn:
+        releases = get_releases(conn)
+        to_version = releases[0]
+        promote_version(conn, to_version)
+
+
+@task
+def rollback(c, to_version=None):
+    with get_remote() as conn:
+        releases = get_releases(conn)
+
+        if to_version and to_version in releases:
+            promote_version(conn, to_version)
+        elif to_version.isdigit():
+            to_version = releases[int(to_version)]
+            promote_version(conn, to_version)
+        elif len(releases) > 1:
+            to_version = releases[1]
+            promote_version(conn, to_version)
+        else:
+            print("No previous release to rollback to")
+
+
+@task
+def push_secrets(c):
+    with get_remote() as conn:
+        conn.run(f"mkdir -p secrets")
+        conn.put(BASE_DIR / "secrets" / "prod.env", "secrets")
+        print("Secrets pushed to remote. Future deployments will use these secrets.")
 
 
 @task
@@ -149,3 +298,61 @@ def shell(c):
                 env=ENV,
                 pty=True,
             )
+
+
+@task
+def configure_remote(c, reload: bool = False):
+    print("Rendering configuration file templates...")
+
+    template_context = {
+        "user": USER,
+        "django_settings_module": ENV["DJANGO_SETTINGS_MODULE"],
+        "server_name": NGINX_SERVER_NAME,
+    }
+
+    files = {
+        "gunicorn.service": BASE_DIR / "config" / "gunicorn.service",
+        "gunicorn.socket": BASE_DIR / "config" / "gunicorn.socket",
+        "nginx.conf": BASE_DIR / "config" / "nginx.conf",
+    }
+
+    temp_files = {}
+    for name, template_path in files.items():
+        rendered_content = render_template(template_path, template_context)
+        temp_file_path = f"/tmp/{name}"
+        with open(temp_file_path, "w") as temp_file:
+            temp_file.write(rendered_content)
+        temp_files[name] = temp_file_path
+
+    with get_remote() as conn:
+        print("Copying files to remote...")
+        for name, local_path in temp_files.items():
+            conn.put(local_path, name)
+            c.run(f"rm {local_path}")  # delete from local
+
+    print("Moving files under /etc...")
+    with get_remote_superuser() as conn:
+        conn.sudo("mv gunicorn.socket /etc/systemd/system/gunicorn.socket", hide=True)
+        conn.sudo("mv gunicorn.service /etc/systemd/system/gunicorn.service", hide=True)
+        conn.sudo(
+            f"mv nginx.conf /etc/nginx/sites-available/{NGINX_SERVER_NAME}", hide=True
+        )
+
+        if reload:
+            print("Reloading services...")
+            conn.sudo("systemctl daemon-reload", hide=True)
+            conn.sudo("systemctl restart gunicorn.socket", hide=True)
+            conn.sudo("systemctl restart gunicorn", hide=True)
+            conn.sudo("systemctl reload nginx", hide=True)
+
+        print("OK")
+
+
+@task
+def start_and_enable_gunicorn_socket(c):
+    with get_remote_superuser() as conn:
+        print("Starting and enabling gunicorn socket...")
+        conn.sudo("systemctl start gunicorn.socket", hide=True)
+        conn.sudo("systemctl enable gunicorn.socket", hide=True)
+        result = conn.sudo("systemctl status gunicorn.socket", hide=True)
+        print(result.stdout)

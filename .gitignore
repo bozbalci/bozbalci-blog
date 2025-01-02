@@ -97,3 +97,6 @@ pyrightconfig.json
 
 # Node modules
 node_modules/
+
+# Secrets
+secrets/

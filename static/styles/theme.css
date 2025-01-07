@@ -66,6 +66,19 @@
   --color-accent-11: var(--jade-11);
   --color-accent-12: var(--jade-12);
 
+  --color-accent-dark-1: var(--jade-dark-1);
+  --color-accent-dark-2: var(--jade-dark-2);
+  --color-accent-dark-3: var(--jade-dark-3);
+  --color-accent-dark-4: var(--jade-dark-4);
+  --color-accent-dark-5: var(--jade-dark-5);
+  --color-accent-dark-6: var(--jade-dark-6);
+  --color-accent-dark-7: var(--jade-dark-7);
+  --color-accent-dark-8: var(--jade-dark-8);
+  --color-accent-dark-9: var(--jade-dark-9);
+  --color-accent-dark-10: var(--jade-dark-10);
+  --color-accent-dark-11: var(--jade-dark-11);
+  --color-accent-dark-12: var(--jade-dark-12);
+
   --color-gray-1: var(--olive-1);
   --color-gray-2: var(--olive-2);
   --color-gray-3: var(--olive-3);
@@ -78,6 +91,19 @@
   --color-gray-10: var(--olive-10);
   --color-gray-11: var(--olive-11);
   --color-gray-12: var(--olive-12);
+
+  --color-gray-dark-1: var(--olive-dark-1);
+  --color-gray-dark-2: var(--olive-dark-2);
+  --color-gray-dark-3: var(--olive-dark-3);
+  --color-gray-dark-4: var(--olive-dark-4);
+  --color-gray-dark-5: var(--olive-dark-5);
+  --color-gray-dark-6: var(--olive-dark-6);
+  --color-gray-dark-7: var(--olive-dark-7);
+  --color-gray-dark-8: var(--olive-dark-8);
+  --color-gray-dark-9: var(--olive-dark-9);
+  --color-gray-dark-10: var(--olive-dark-10);
+  --color-gray-dark-11: var(--olive-dark-11);
+  --color-gray-dark-12: var(--olive-dark-12);
 
   /*  Non-Tailwind variables */
   --wrapper-width: clamp(16rem, 93vw, 77.5rem);

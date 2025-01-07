@@ -1,4 +1,4 @@
-import os
+import posixpath
 from datetime import datetime
 
 from django.db import models

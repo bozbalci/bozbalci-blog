@@ -1,10 +1,12 @@
 /* Done is better than perfect. */
 
+/**
+ * Specificity hack for lightGallery
+ * https://stackoverflow.com/questions/19399625/what-is-the-most-character-efficient-way-to-increase-css-specificity
+ */
 .e-label,
-.e-permalink {
-  /* Need !important here because lightgallery has higher-specificity styles
-   * for anchor tags within captions. */
-  color: var(--color-gray-9) !important;
+.e-permalink:not(#\9) {
+  @apply text-gray-9 dark:text-gray-dark-9;
 }
 
 .grid-gutter-3xs {

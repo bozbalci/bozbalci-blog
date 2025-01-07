@@ -1,15 +1,10 @@
 @import "tailwindcss";
 
-@import "@radix-ui/colors/jade.css";
-@import "@radix-ui/colors/jade-dark.css";
-@import "@radix-ui/colors/olive.css";
-@import "@radix-ui/colors/olive-dark.css";
-
 @import "lightgallery/css/lightgallery.css";
 
+@import "./global/colors.css";
 @import "./global/fonts.css";
 @import "./global/global-styles.css";
-
 
 @import "./compositions/repel.css";
 @import "./compositions/grid.css";
@@ -23,6 +18,6 @@
 
 @import "./theme.css";
 
-/* Tailwind directives */
-@variant dark (&:where(.dark, .dark *));
 @source "../../**/templates/**";
+
+@config "../../tailwind.config.js";

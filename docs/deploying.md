@@ -116,6 +116,7 @@ include the following lines:
 ```dotenv
 PROD_HOST="<hostname>"
 PROD_USER="webmaster"
+NGINX_SERVER_NAME="example.com"
 ```
 
 This enables [Fabric](https://www.fabfile.org) to SSH into the production server.

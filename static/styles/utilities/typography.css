@@ -82,10 +82,10 @@ p + p {
    * Blockquote
    */
   blockquote {
+    @apply text-gray-11 dark:text-gray-dark-11 border-s-gray-7 dark:border-s-gray-dark-7;
+
     font-style: italic;
-    color: var(--color-gray-11);
     border-inline-start-width: 0.25rem;
-    border-inline-start-color: var(--color-gray-7);
     margin-block: 1.6em;
     padding-inline-start: 1rem;
   }
@@ -106,18 +106,20 @@ p + p {
   }
 
   pre {
+    @apply bg-gray-4 dark:bg-gray-dark-4;
+
     margin-top: 1em;
     margin-bottom: 1em;
     line-height: var(--leading-snug);
-    background-color: var(--color-gray-4);
     padding: var(--spacing-xs);
     border-radius: 8px;
     white-space: pre;
   }
 
   :not(pre) > code {
+    @apply bg-gray-4 dark:bg-gray-dark-4;
+
     font-size: var(--text-step--1);
-    background-color: var(--color-gray-4);
     padding-inline: 0.25rem;
     padding-block: 0.125rem;
     border-radius: 4px;

@@ -10,8 +10,6 @@ const theme = (() => {
 
 // Toggling the dark mode class on the body has been inlined to <head>
 // to avoid FOUC.
-//
-// TODO Implement a progressively-enhanced dark mode with CSS as well
 
 window.localStorage.setItem("theme", theme);
 
@@ -20,6 +18,8 @@ const handleToggleClick = () => {
   element.classList.toggle("dark");
 
   const isDark = element.classList.contains("dark");
+  element.classList.toggle("light", !isDark);
+
   localStorage.setItem("theme", isDark ? "dark" : "light");
 };
 

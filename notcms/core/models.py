@@ -1,4 +1,4 @@
-import os
+import posixpath
 from datetime import datetime
 
 from django.db import models
@@ -12,11 +12,14 @@ def year_month_directory(instance, filename):
     current_date = datetime.now()
     year = current_date.strftime("%Y")
     month = current_date.strftime("%m")
-    return os.path.join(year, month, filename)
+    return posixpath.join(year, month, filename)
 
 
 def year_month_directory_thumb(instance, filename):
-    return os.path.join(year_month_directory(instance, filename), "thumb")
+    current_date = datetime.now()
+    year = current_date.strftime("%Y")
+    month = current_date.strftime("%m")
+    return posixpath.join(year, month, "thumb", filename)
 
 
 class ImageUpload(models.Model):

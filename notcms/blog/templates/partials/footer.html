@@ -1,6 +1,6 @@
 {% load humanize %}
 
-<footer class="mt-2xl border-t border-gray-6 py-m">
+<footer class="mt-2xl border-t border-gray-6 dark:border-gray-dark-6 py-m">
   <div class="wrapper text-step--1">
     <div class="flex items-start repel" data-wrap-reverse>
       <div class="max-w-[60ch] text-step--2">
@@ -20,7 +20,7 @@
                 {{ last_played.artist }} - {{ last_played.title }}
               </a>
             </span>
-            <span class="block text-gray-11">
+            <span class="block text-gray-11 dark:text-gray-dark-11">
               {% if not last_played.now_playing %}
                 scrobbled {{ last_played.scrobbled_at|naturaltime }}
               {% else %}

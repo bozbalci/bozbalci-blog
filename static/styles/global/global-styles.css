@@ -3,56 +3,50 @@
  */
 html,
 body {
-  font-size: var(--text-step-0);
+  @apply text-step-0;
 }
 
 /**
  * Sticky footer
  * https://css-tricks.com/couple-takes-sticky-footer/
  */
-
 html,
 body {
-  height: 100%;
+  @apply h-full;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
 #main-content {
-  flex: 1 0 auto;
+  @apply flex-1;
 }
 
 /**
- * General UI color
+ * Body colors
  */
 body {
-  background-color: var(--color-gray-1);
-  color: var(--color-gray-12);
+  @apply bg-gray-1 text-gray-12 dark:bg-gray-dark-1 dark:text-gray-dark-12;
+
+  @apply selection:bg-accent-7 dark:selection:bg-accent-dark-7 selection:text-gray-12 dark:selection:text-gray-dark-12;
 }
 
-::selection {
-  background-color: var(--color-accent-7);
-  color: var(--color-gray-12);
-}
-
-
+/**
+ * Global styling for links
+ */
 @layer base {
   a {
-    text-decoration-line: underline;
-    text-decoration-color: var(--color-gray-8);
-    text-underline-offset: max(0.1em, 2.5px);
+    @apply underline underline-offset-[max(0.1em,2.5px)] decoration-gray-8 dark:decoration-gray-dark-8;
   }
 
   a:hover {
-    text-decoration-line: none;
+    @apply no-underline;
   }
 }
 
 @layer utilities {
   a.no-underline:hover {
-    text-decoration: underline;
+    @apply underline;
   }
 }

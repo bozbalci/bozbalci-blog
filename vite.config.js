@@ -1,11 +1,10 @@
-import {defineConfig} from 'vite';
-import {resolve} from 'path';
+import { defineConfig } from "vite";
+import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite";
+import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
-  plugins: [
-      tailwindcss()
-  ],
+  plugins: [tailwindcss(), vue()],
   base: "/static",
   build: {
     manifest: "manifest.json",
@@ -15,12 +14,19 @@ export default defineConfig({
         "static/styles/main.css",
         "static/scripts/lightbox-single.js",
         "static/scripts/lightbox-multi.js",
-        "static/scripts/theme-toggle.js"
+        "static/scripts/theme-toggle.js",
+        "static/scripts/mount-theme-toggle.js",
       ],
       output: {
         entryFileNames: "[hash].js",
         assetFileNames: "[hash].[ext]",
-      }
+      },
     },
   },
-})
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "static/scripts"),
+      vue: "vue/dist/vue.esm-bundler",
+    },
+  },
+});

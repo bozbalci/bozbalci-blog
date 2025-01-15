@@ -1,6 +1,6 @@
 from django.urls import path
 
-from notcms.blog import views, feeds
+from notcms.blog import feeds, views
 
 app_name = "blog"
 

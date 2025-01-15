@@ -2,12 +2,11 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 from ninja import NinjaAPI
 
 import notcms.blog.views as blog_views
 from notcms.blog.views import custom_flatpage
-
 
 api = NinjaAPI()
 

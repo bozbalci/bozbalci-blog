@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 
 from notcms.core.helpers import markdown
-from notcms.core.models import Tag, Category
+from notcms.core.models import Category, Tag
 
 
 # Create your models here.
@@ -29,7 +29,8 @@ class Post(models.Model):
     categories = models.ManyToManyField(Category, blank=True, related_name="posts")
     is_draft = models.BooleanField(
         default=False,
-        help_text="Draft entries do not show in index pages but can be visited directly if you know the URL.",
+        help_text="Draft entries do not show in index pages but can be visited directly"
+        "if you know the URL.",
     )
 
     @property

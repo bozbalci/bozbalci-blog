@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.flatpages.views import render_flatpage
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import Http404, HttpResponsePermanentRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from notcms.blog.models import CustomFlatPage, Post
 from notcms.core.models import Category
@@ -56,7 +56,7 @@ def custom_flatpage(request, url):
         if not url.endswith("/") and settings.APPEND_SLASH:
             url += "/"
             f = get_object_or_404(CustomFlatPage, url=url, sites=site_id)
-            return HttpResponsePermanentRedirect("%s/" % request.path)
+            return HttpResponsePermanentRedirect(f"{request.path}/")
         else:
             raise
     return render_flatpage(request, f)

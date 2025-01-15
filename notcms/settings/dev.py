@@ -1,4 +1,6 @@
-from .base import *
+from .base import *  # noqa: F403
+
+# ruff: noqa: F405
 
 SECRET_KEY = "django-insecure-3ef#by+9v1wpn^m)-3nxou2pfr5b$iz#jz7+qw+on@$nfg$89%"
 

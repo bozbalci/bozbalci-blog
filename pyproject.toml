@@ -26,4 +26,21 @@ dependencies = [
 dev = [
     "colorama>=0.4.6",
     "fabric>=3.2.2",
+    "ruff>=0.9.1",
+]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
 ]

@@ -1,8 +1,8 @@
 import io
 import os
 
-from PIL import Image
 from django.core.files.base import ContentFile
+from PIL import Image
 
 
 def resize_image_to_width(image: Image, max_width: int = 1600):

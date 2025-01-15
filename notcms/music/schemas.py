@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from ninja import ModelSchema, Schema
 
@@ -11,12 +10,12 @@ class LastfmTrack(Schema):
     title: str
     lastfm_url: str
     image_url: str
-    scrobbled_at: Optional[datetime]
+    scrobbled_at: datetime | None
     now_playing: bool
 
 
 class AlbumSchema(ModelSchema):
-    cover_image_url: Optional[str] = None
+    cover_image_url: str | None = None
 
     @staticmethod
     def resolve_cover_image_url(obj):

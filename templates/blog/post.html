@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
-  <meta property="og:url" content="https://bozbalci.me{{ request.path }}"/>
-  <meta property="og:title" content="{{ post.title }} - Berk Özbalcı"/>
-  <meta property="og:type" content="article"/>
-  <meta property="og:description" content="{{ post.summary }}"/>
+  <meta property="og:url" content="https://bozbalci.me{{ request.path }}" />
+  <meta property="og:title" content="{{ post.title }} - Berk Özbalcı" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="{{ post.summary }}" />
   {% if post.is_draft %}
-    <meta name="robots" content="noindex">
+    <meta name="robots" content="noindex" />
   {% endif %}
 {% endblock %}
 
@@ -22,12 +22,19 @@
         <div class="entry-meta">
           Posted on
           <a href="#" rel="bookmark">
-            <time class="entry-date published" datetime={{ post.created|format_iso_date }}>
-              {{ post.created|format_date }}</time>
+            <time
+              class="entry-date published"
+              datetime="{{ post.created|format_iso_date }}"
+            >
+              {{ post.created|format_date }}</time
+            >
           </a>
           {% if post.modified.date != post.created.date %}
             &middot; last updated
-            <time class="updated" datetime={{ post.modified|format_iso_date }}>
+            <time
+              class="updated"
+              datetime="{{ post.modified|format_iso_date }}"
+            >
               {{ post.modified|format_date }}
             </time>
           {% endif %}
@@ -36,8 +43,9 @@
       {% if post.has_now_category %}
         <div class="bg-gray-3 dark:bg-gray-dark-3 p-m mb-s">
           <p>
-            (This is a <a href="https://nownownow.com/about">now page</a>, inspired by <a href="https://sive.rs/">Derek
-            Sivers</a> and many other people who have one on their personal websites.)
+            (This is a <a href="https://nownownow.com/about">now page</a>,
+            inspired by <a href="https://sive.rs/">Derek Sivers</a> and many
+            other people who have one on their personal websites.)
           </p>
           <p>
             See past updates on the <a href="{{ url("then") }}">archive</a>.
@@ -49,7 +57,6 @@
         <a href="{{ url("home") }}">Back to the home page</a>
       </p>
     </div>
-    <div>
-    </div>
+    <div></div>
   </article>
 {% endblock %}

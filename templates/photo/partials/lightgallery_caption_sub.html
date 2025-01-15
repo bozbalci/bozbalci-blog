@@ -32,6 +32,10 @@
     <time class="e-taken" datetime="{{ photo.exif.shot_at|format_iso_date }}">
       {{ photo.exif.shot_at|format_date }}
     </time>
-    <a href="{{ url("photo:details", kwargs={"pk": photo.pk}) }}" class="e-permalink">Permalink</a>
+    <a
+      href="{{ url("photo:details", kwargs={"pk": photo.pk}) }}"
+      class="e-permalink"
+      >Permalink</a
+    >
   </div>
 </div>

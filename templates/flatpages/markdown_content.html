@@ -12,11 +12,19 @@
         <div class="entry-meta">
           Posted on
           <a href="#" rel="bookmark">
-            <time class="entry-date published" datetime={{ flatpage.published_at|format_iso_date }}>
-              {{ flatpage.published_at|format_date }}</time></a>
+            <time
+              class="entry-date published"
+              datetime="{{ flatpage.published_at|format_iso_date }}"
+            >
+              {{ flatpage.published_at|format_date }}</time
+            ></a
+          >
           {% if flatpage.modified_at.date != flatpage.published_at.date %}
             &middot; last updated
-            <time class="updated" datetime={{ flatpage.modified_at|format_iso_date }}>
+            <time
+              class="updated"
+              datetime="{{ flatpage.modified_at|format_iso_date }}"
+            >
               {{ flatpage.modified_at|format_date }}
             </time>
           {% endif %}

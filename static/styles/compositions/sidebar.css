@@ -50,7 +50,6 @@ A flipped version where the sidebar is on the right
   min-inline-size: var(--sidebar-content-min-width, 50%);
 }
 
-
 .sidebar[data-has-navigation] {
   --sidebar-target-width: 14.5rem;
 }

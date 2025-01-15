@@ -1,9 +1,5 @@
 {% extends "base.html" %}
 
-{% load date_formats %}
-
-{% load render_markdown %}
-
 {% block extrahead %}
   <meta property="og:url" content="https://bozbalci.me{{ request.path }}"/>
   <meta property="og:title" content="{{ post.title }} - Berk Özbalcı"/>
@@ -44,13 +40,13 @@
             Sivers</a> and many other people who have one on their personal websites.)
           </p>
           <p>
-            See past updates on the <a href="{% url "then" %}">archive</a>.
+            See past updates on the <a href="{{ url("then") }}">archive</a>.
           </p>
         </div>
       {% endif %}
       {{ post.body|render_markdown|safe }}
       <p>
-        <a href="{% url "home" %}">Back to the home page</a>
+        <a href="{{ url("home") }}">Back to the home page</a>
       </p>
     </div>
     <div>

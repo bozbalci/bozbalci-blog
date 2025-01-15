@@ -1,8 +1,5 @@
 {% extends "base_with_sidebar.html" %}
 
-{% load lightgallery %}
-{% load django_vite %}
-
 {% block title %}
   Gallery
 {% endblock %}
@@ -12,7 +9,7 @@
 {% endblock %}
 
 {% block scripts %}
-  {% vite_asset "static/scripts/lightbox-multi.js" %}
+  {{ vite_asset("static/scripts/lightbox-multi.js") }}
 {% endblock %}
 
 {% block content %}

@@ -1,8 +1,5 @@
 {% extends "base_with_sidebar.html" %}
 
-{% load date_formats %}
-{% load django_vite %}
-
 {% block title %}
   {% if photo.title %}
     {{ photo.title }}
@@ -16,7 +13,7 @@
 {% endblock %}
 
 {% block scripts %}
-  {% vite_asset "static/scripts/lightbox-single.js" %}
+  {{ vite_asset("static/scripts/lightbox-single.js") }}
 {% endblock %}
 
 {% block content %}
@@ -70,7 +67,7 @@
           <li>
             <a href="/gallery">Back to the gallery</a>
           </li>
-          {% for album in photo.albums.all %}
+          {% for album in photo.albums.all() %}
             <li>
               <a href="/gallery/album/{{ album.slug }}">
                 Back to the album &lsquo;{{ album.name }}&rsquo;

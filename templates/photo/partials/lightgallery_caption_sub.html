@@ -1,5 +1,3 @@
-{% load date_formats %}
-
 <div class="font-mono text-step--2">
   <div class="e-textbg">
     {% if photo.title %}
@@ -34,6 +32,6 @@
     <time class="e-taken" datetime="{{ photo.exif.shot_at|format_iso_date }}">
       {{ photo.exif.shot_at|format_date }}
     </time>
-    <a href="{% url "photo:details" pk=photo.pk %}" class="e-permalink">Permalink</a>
+    <a href="{{ url("photo:details", kwargs={"pk": photo.pk}) }}" class="e-permalink">Permalink</a>
   </div>
 </div>

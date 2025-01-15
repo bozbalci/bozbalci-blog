@@ -15,7 +15,6 @@ export default defineConfig({
         "static/scripts/lightbox-single.js",
         "static/scripts/lightbox-multi.js",
         "static/scripts/theme-toggle.js",
-        "static/scripts/mount-theme-toggle.js",
       ],
       output: {
         entryFileNames: "[hash].js",

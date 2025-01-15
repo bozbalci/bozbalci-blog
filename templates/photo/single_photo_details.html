@@ -1,8 +1,5 @@
 {% extends "base_with_sidebar.html" %}
 
-{% load date_formats %}
-{% load django_vite %}
-
 {% block title %}
   {% if photo.title %}
     {{ photo.title }}
@@ -16,17 +13,19 @@
 {% endblock %}
 
 {% block scripts %}
-  {% vite_asset "static/scripts/lightbox-single.js" %}
+  {{ vite_asset("static/scripts/lightbox-single.js") }}
 {% endblock %}
 
 {% block content %}
   <article class="h-entry">
     <div id="article-container" class="prose mx-auto">
       <div id="lg-single">
-        <img src="{{ photo.image_url }}" alt="{{ photo.title }}"/>
+        <img src="{{ photo.image_url }}" alt="{{ photo.title }}" />
       </div>
 
-      <div class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight">
+      <div
+        class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight"
+      >
         <div class="text-left">
           <div class="e-camera">
             <span class="e-make">{{ photo.exif.make }}</span>
@@ -52,14 +51,18 @@
 
           <div>
             <span class="e-uploaded">
-              Uploaded on <time
-                datetime={{ photo.uploaded_at|format_iso_date }}>{{ photo.uploaded_at|format_date }}</time>
+              Uploaded on
+              <time datetime="{{ photo.uploaded_at|format_iso_date }}"
+                >{{ photo.uploaded_at|format_date }}</time
+              >
             </span>
           </div>
           <div>
             <span class="e-taken text-gray-10 dark:text-gray-dark-10">
-              Taken on <time
-                datetime={{ photo.exif.shot_at|format_iso_date }}>{{ photo.exif.shot_at|format_date }}</time>
+              Taken on
+              <time datetime="{{ photo.exif.shot_at|format_iso_date }}"
+                >{{ photo.exif.shot_at|format_date }}</time
+              >
             </span>
           </div>
         </div>
@@ -70,7 +73,7 @@
           <li>
             <a href="/gallery">Back to the gallery</a>
           </li>
-          {% for album in photo.albums.all %}
+          {% for album in photo.albums.all() %}
             <li>
               <a href="/gallery/album/{{ album.slug }}">
                 Back to the album &lsquo;{{ album.name }}&rsquo;

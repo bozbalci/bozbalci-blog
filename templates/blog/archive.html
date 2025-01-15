@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load date_formats %}
-
 {% block title %}
   Writing
 {% endblock %}
@@ -13,10 +11,16 @@
       <div class="divide-y-1 divide-gray-5 dark:divide-gray-dark-5">
         {% for post in posts %}
           <div class="flex items-start justify-between py-s gap-x-s">
-            <a class="whitespace-nowrap overflow-hidden overflow-ellipsis"
-               href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-            <time class="text-gray-11 dark:text-gray-dark-11 flex-shrink-0"
-                  datetime="{{ post.created|format_iso_date }}">{{ post.created|format_date }}</time>
+            <a
+              class="whitespace-nowrap overflow-hidden overflow-ellipsis"
+              href="{{ post.get_absolute_url() }}"
+              >{{ post.title }}</a
+            >
+            <time
+              class="text-gray-11 dark:text-gray-dark-11 flex-shrink-0"
+              datetime="{{ post.created|format_iso_date }}"
+              >{{ post.created|format_date }}</time
+            >
           </div>
         {% endfor %}
       </div>

@@ -1,8 +1,5 @@
 {% extends "base_with_sidebar.html" %}
 
-{% load music_tags %}
-{% load render_markdown %}
-
 {% block title %}
   {{ album.title }}
 {% endblock %}
@@ -15,9 +12,11 @@
   <div class="flow">
     <div class="a-album sidebar">
       <div class="a-cover-art">
-        <img src="{{ album.cover_image.original.url }}"
-             alt="Cover art for {{ album.artist }} - {{ album.title }}"
-             class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6">
+        <img
+          src="{{ album.cover_image.original.url }}"
+          alt="Cover art for {{ album.artist }} - {{ album.title }}"
+          class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6"
+        />
       </div>
       <div class="a-meta font-mono text-step--1">
         <h1 class="a-title text-step-1 font-bold mb-s">{{ album.title }}</h1>
@@ -26,7 +25,7 @@
           <dd class="a-artist">{{ album.artist }}</dd>
           <dt class="a-year font-bold">Release year</dt>
           <dd class="a-release-year">{{ album.year }}</dd>
-          {% if album.rating is not None %}
+          {% if album.rating is integer %}
             <dt class="font-bold">Berk's rating</dt>
             <dd class="a-rating flex items-center">{{ album.rating|stars }}</dd>
           {% endif %}
@@ -34,10 +33,14 @@
         {% if album.discogs_url or album.openscrobbler_url %}
           <ul>
             {% if album.discogs_url %}
-              <li><a href="{{ album.discogs_url }}">View release on Discogs</a></li>
+              <li>
+                <a href="{{ album.discogs_url }}">View release on Discogs</a>
+              </li>
             {% endif %}
             {% if album.openscrobbler_url %}
-              <li><a href="{{ album.openscrobbler_url }}">Scrobble this album</a></li>
+              <li>
+                <a href="{{ album.openscrobbler_url }}">Scrobble this album</a>
+              </li>
             {% endif %}
           </ul>
         {% endif %}
@@ -52,13 +55,26 @@
         <ul class="auto-grid grid-min-item-[12rem]">
           {% for album in related_albums %}
             <li>
-              <a href="{% url "music:album" slug=album.slug %}" class="no-underline">
-                <img src="{{ album.cover_image.original.url }}"
-                     alt="Cover art for {{ album.artist }} - {{ album.title }}"
-                     class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6"
-                     loading="lazy"/>
-                <div class="a-title font-bold text-gray-12 dark:text-gray-dark-12 mt-3xs">{{ album.title }}</div>
-                <div class="a-artist text-gray-11 dark:text-gray-dark-11 text-step--1">{{ album.artist }}</div>
+              <a
+                href="{{ url("music:album", kwargs={"slug": album.slug}) }}"
+                class="no-underline"
+              >
+                <img
+                  src="{{ album.cover_image.original.url }}"
+                  alt="Cover art for {{ album.artist }} - {{ album.title }}"
+                  class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6"
+                  loading="lazy"
+                />
+                <div
+                  class="a-title font-bold text-gray-12 dark:text-gray-dark-12 mt-3xs"
+                >
+                  {{ album.title }}
+                </div>
+                <div
+                  class="a-artist text-gray-11 dark:text-gray-dark-11 text-step--1"
+                >
+                  {{ album.artist }}
+                </div>
               </a>
             </li>
           {% endfor %}

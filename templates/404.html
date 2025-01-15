@@ -1,18 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-	Not Found
+  Not Found
 {% endblock %}
 
 {% block main %}
   <section class="wrapper">
     <div class="prose mx-auto">
       <h1>404</h1>
+      <p>The page is not found.</p>
       <p>
-        The page is not found.
-      </p>
-      <p>
-        <a href="{% url "home" %}">Back to the home page</a>
+        <a href="{{ url("home") }}">Back to the home page</a>
       </p>
     </div>
   </section>

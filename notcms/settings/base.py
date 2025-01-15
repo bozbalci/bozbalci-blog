@@ -50,9 +50,7 @@ ROOT_URLCONF = "notcms.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(BASE_DIR, "templates"),
-        ],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -64,6 +62,13 @@ TEMPLATES = [
                 "notcms.music.context_processors.last_played",
             ],
         },
+    },
+    {
+        "BACKEND": "django.template.backends.jinja2.Jinja2",
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+        ],
+        "OPTIONS": {"environment": "notcms.jinja2.environment"},
     },
 ]
 
@@ -105,10 +110,8 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = (BASE_DIR / "static" / "assets", BASE_DIR / "static" / "dist")
 
 
-# http://whitenoise.evans.io/en/stable/django.html#WHITENOISE_IMMUTABLE_FILE_TEST
-
-
 def immutable_file_test(path, url):
+    # http://whitenoise.evans.io/en/stable/django.html#WHITENOISE_IMMUTABLE_FILE_TEST
     # Match vite (rollup)-generated hashes, à la, `some_file-CSliV9zW.js`
     return re.match(r"^.+[.-][0-9a-zA-Z_-]{8,12}\..+$", url)
 

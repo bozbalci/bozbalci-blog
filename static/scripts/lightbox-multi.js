@@ -1,6 +1,6 @@
 import lightGallery from "lightgallery";
 
-import { LIGHTGALLERY_LICENSE_KEY } from "./constants.js";
+import { LIGHTGALLERY_LICENSE_KEY } from "@/constants";
 
 function registerLightbox(element) {
   const options = {

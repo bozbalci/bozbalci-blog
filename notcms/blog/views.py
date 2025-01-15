@@ -93,4 +93,4 @@ def index(request):
         .exclude(categories__slug="now")
         .order_by("-created")
     )
-    return render(request, "../../templates/blog/archive.html", {"posts": posts})
+    return render(request, "blog/archive.html", {"posts": posts})

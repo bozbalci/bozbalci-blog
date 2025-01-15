@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load date_formats %}
-
 {% block fulltitle %}
   Berk Özbalcı
 {% endblock %}
@@ -10,15 +8,16 @@
   <article class="wrapper">
     <div class="prose mx-auto">
       <p>
-        Hello!
-        My name is Berk and I'm a software engineer, coffee enthusiast, amateur photographer and musician living in
-        London.
+        Hello! My name is Berk and I'm a software engineer, coffee enthusiast,
+        amateur photographer and musician living in London.
       </p>
       <p>
-        I'm currently working for Apple, making Apple Pay work for billions of customers around the world.
+        I'm currently working for Apple, making Apple Pay work for billions of
+        customers around the world.
       </p>
       <p>
-        This is my little home on the internet, my online presence outside social media.
+        This is my little home on the internet, my online presence outside
+        social media.
       </p>
 
       {% if posts %}
@@ -26,10 +25,16 @@
         <div class="divide-y-1 divide-gray-5 dark:divide-gray-dark-5">
           {% for post in posts %}
             <div class="flex items-start justify-between py-s gap-x-s">
-              <a class="whitespace-nowrap overflow-hidden overflow-ellipsis"
-                 href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-              <time class="text-gray-11 dark:text-gray-dark-11 flex-shrink-0"
-                    datetime="{{ post.created|format_iso_date }}">{{ post.created|format_date }}</time>
+              <a
+                class="whitespace-nowrap overflow-hidden overflow-ellipsis"
+                href="{{ post.get_absolute_url() }}"
+                >{{ post.title }}</a
+              >
+              <time
+                class="text-gray-11 dark:text-gray-dark-11 flex-shrink-0"
+                datetime="{{ post.created|format_iso_date }}"
+                >{{ post.created|format_date }}</time
+              >
             </div>
           {% endfor %}
         </div>

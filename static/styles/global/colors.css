@@ -4,7 +4,9 @@
  * TODO: Could this be generated from the npm package somehow?
  */
 
-:root, .light, .light-theme {
+:root,
+.light,
+.light-theme {
   --jade-1: #fbfefd;
   --jade-2: #f4fbf7;
   --jade-3: #e6f7ed;
@@ -60,7 +62,9 @@
 
 @supports (color: color(display-p3 1 1 1)) {
   @media (color-gamut: p3) {
-    :root, .light, .light-theme {
+    :root,
+    .light,
+    .light-theme {
       --jade-1: color(display-p3 0.986 0.996 0.992);
       --jade-2: color(display-p3 0.962 0.983 0.969);
       --jade-3: color(display-p3 0.912 0.965 0.932);

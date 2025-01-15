@@ -25,23 +25,22 @@ I followed these tutorials to set up the production environment (minus the Postg
 - [How To Install Node.js on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-22-04)
 - [How To Set Up Django with Postgres, Nginx, and Gunicorn on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu)
 
-
 ---
-
 
 **Table of contents**
 
 <!-- TOC -->
-* [Deploying to production](#deploying-to-production)
-  * [Prerequisites](#prerequisites)
-    * [Host machine configuration](#host-machine-configuration)
-    * [Secrets management](#secrets-management)
-  * [Provisioning](#provisioning)
-  * [Deploying a new version](#deploying-a-new-version)
-  * [Deploying incrementally](#deploying-incrementally)
-  * [Rolling back](#rolling-back)
-  * [Production shell access (firefighting mode!)](#production-shell-access-firefighting-mode)
-<!-- TOC -->
+
+- [Deploying to production](#deploying-to-production)
+  - [Prerequisites](#prerequisites)
+    - [Host machine configuration](#host-machine-configuration)
+    - [Secrets management](#secrets-management)
+  - [Provisioning](#provisioning)
+  - [Deploying a new version](#deploying-a-new-version)
+  - [Deploying incrementally](#deploying-incrementally)
+  - [Rolling back](#rolling-back)
+  - [Production shell access (firefighting mode!)](#production-shell-access-firefighting-mode)
+  <!-- TOC -->
 
 ---
 

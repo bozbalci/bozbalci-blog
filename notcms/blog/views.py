@@ -11,19 +11,19 @@ POSTS_ON_HOMEPAGE = 5
 
 
 def handler400(request, exception):
-    return render(request, "errors/400.html", status=400)
+    return render(request, "400.html", status=400)
 
 
 def handler403(request, exception):
-    return render(request, "errors/403.html", status=403)
+    return render(request, "403.html", status=403)
 
 
 def handler404(request, exception):
-    return render(request, "errors/404.html", status=404)
+    return render(request, "404.html", status=404)
 
 
 def handler500(request):
-    return render(request, "errors/500.html", status=500)
+    return render(request, "500.html", status=500)
 
 
 def home(request):
@@ -93,4 +93,4 @@ def index(request):
         .exclude(categories__slug="now")
         .order_by("-created")
     )
-    return render(request, "blog/archive.html", {"posts": posts})
+    return render(request, "../../templates/blog/archive.html", {"posts": posts})

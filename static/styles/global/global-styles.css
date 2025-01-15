@@ -3,7 +3,7 @@
  */
 html,
 body {
-  @apply text-step-0;
+  @apply antialiased text-step-0;
 }
 
 /**
@@ -30,6 +30,8 @@ body {
   @apply bg-gray-1 text-gray-12 dark:bg-gray-dark-1 dark:text-gray-dark-12;
 
   @apply selection:bg-accent-7 dark:selection:bg-accent-dark-7 selection:text-gray-12 dark:selection:text-gray-dark-12;
+
+  @apply scheme-light dark:scheme-dark;
 }
 
 /**

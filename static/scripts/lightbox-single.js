@@ -1,6 +1,6 @@
 import lightGallery from "lightgallery";
 
-import {LIGHTGALLERY_LICENSE_KEY} from "./constants.js";
+import { LIGHTGALLERY_LICENSE_KEY } from "./constants.js";
 
 function registerLightbox(element) {
   const options = {
@@ -18,4 +18,4 @@ window.onload = function () {
   if (element) {
     registerLightbox(element);
   }
-}
+};

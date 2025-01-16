@@ -25,7 +25,7 @@ server.
 Here are the instructions for macOS:
 
 ```shell
-$ brew install postgresqlp
+$ brew install postgresql
 $ brew services start postgresql
 ```
 

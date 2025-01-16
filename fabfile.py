@@ -46,6 +46,8 @@ TEMPLATE_CONTEXT = {
     "domain": DOMAIN,
 }
 
+MAX_DEPLOYMENTS_TO_KEEP = 5
+
 
 def query_yes_no(question, default="yes"):
     """Ask a yes/no question via raw_input() and return their answer.
@@ -198,6 +200,19 @@ class Remote:
         info("Restarting WSGI server...")
         self.conn.run("sudo systemctl restart gunicorn", pty=True)
 
+    def _delete_release(self, version, prompt=True):
+        info(f"Deleting release {version}...")
+        if not prompt or query_yes_no("Proceed?", default="no"):
+            self.conn.run(f"rm -rf {version}")
+
+    def _keep_max_n_releases(self):
+        info("Deleting old releases...")
+
+        all_versions = self._get_all_releases()
+        old_versions = all_versions[MAX_DEPLOYMENTS_TO_KEEP:]
+        for version in old_versions:
+            self._delete_release(version, prompt=False)
+
     def _ensure_current_release_exists(self, initial_version):
         """
         The gunicorn systemd service needs to point at the release-current
@@ -214,7 +229,7 @@ class Remote:
             self.conn.run(f"ln -sfn {version} release-current")
             self._restart_wsgi_server()
 
-    def _resolve_rollback_version(self, target) -> str | None:
+    def _resolve_rollback_version(self, target, for_delete=False) -> str | None:
         """
         Attempt to resolve `target` into a deployment version.
 
@@ -227,6 +242,9 @@ class Remote:
 
         If `target` is not specified, then it matches the second most recent
         deployment, provided that it exists.
+
+        If `for_delete` is True, the "second most recent" semantics for
+        unspecified targets do not apply.
         """
 
         releases = self._get_all_releases()
@@ -235,7 +253,7 @@ class Remote:
             return target
         if isinstance(target, str) and target.isdigit():
             return releases[int(target)]
-        elif len(releases) > 1:
+        elif not for_delete and len(releases) > 1:
             return releases[1]
         else:
             return None
@@ -283,6 +301,8 @@ class Remote:
 
         if release_after_complete:
             self._promote_version(new_version)
+
+        self._keep_max_n_releases()
 
     def deploy_incremental(
         self,
@@ -372,6 +392,10 @@ class Remote:
         for config in configs:
             config.upload_to_remote(self)
 
+    def delete(self, target):
+        version = self._resolve_rollback_version(target, for_delete=True)
+        self._delete_release(version, prompt=True)
+
 
 class RemoteWithSuperuser(Remote):
     def __init__(self, *, connection=None):
@@ -442,8 +466,8 @@ def release(c):
 
 
 @task
-def rollback(c, to_version=None):
-    Remote().rollback(to_version)
+def rollback(c, version_identifier):
+    Remote().rollback(version_identifier)
 
 
 @task
@@ -454,3 +478,8 @@ def shell(c):
 @task
 def show(c):
     Remote().pretty_print_all_deployments()
+
+
+@task
+def delete(c, version_identifier):
+    Remote().delete(version_identifier)

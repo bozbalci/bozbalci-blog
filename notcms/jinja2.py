@@ -12,6 +12,7 @@ from django_vite.templatetags.django_vite import (
 )
 from jinja2 import Environment
 
+from notcms.blog import templatetags as blog_tags
 from notcms.core import templatetags as core_tags
 from notcms.music import templatetags as music_tags
 from notcms.photo import templatetags as photo_tags
@@ -34,6 +35,10 @@ def environment(**options):
             "vite_react_refresh": vite_react_refresh,
             # Core
             "now": core_tags.now,
+            # Blog
+            "naked_css": blog_tags.naked_css,
+            # Music
+            "get_last_played": music_tags.get_last_played,
         }
     )
 

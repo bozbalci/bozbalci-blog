@@ -3,11 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>
-      {% block fulltitle %}
-        {% block title %}
-        {% endblock %}
-        – Berk Özbalcı
-      {% endblock %}
+      {% block fulltitle %}{% block title %}{% endblock %} – Berk Özbalcı{% endblock %}
     </title>
 
     <meta name="description" content="Personal home page of Berk Özbalcı" />
@@ -54,6 +50,7 @@
     {% block extrahead %}
     {% endblock %}
 
+    {% set no_css = naked_css(request) %}
     {% if not no_css %}
       <link
         rel="stylesheet"

@@ -22,7 +22,10 @@ CACHES = {
 }
 
 DJANGO_VITE = {
-    "default": {"dev_mode": True, "dev_server_host": os.getenv("VITE_DEV_SERVER_HOST")}
+    "default": {
+        "dev_mode": True,
+        "dev_server_host": os.getenv("VITE_DEV_SERVER_HOST") or "localhost",
+    }
 }
 
 DATABASES = {

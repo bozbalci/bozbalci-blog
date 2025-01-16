@@ -58,8 +58,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "notcms.blog.context_processors.naked_css",
-                "notcms.music.context_processors.last_played",
             ],
         },
     },

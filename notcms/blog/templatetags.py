@@ -27,4 +27,4 @@ def naked_css(request):
         request.session.pop("nocss", None)
 
     no_css = request.session.get("nocss", False) or is_naked_day()
-    return {"no_css": no_css}
+    return no_css

@@ -4,6 +4,9 @@ from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
+from notcms.core.constants import SiteFeature
+from notcms.core.helpers import is_feature_enabled
+
 register = template.Library()
 
 
@@ -27,3 +30,11 @@ def stars(value: int):
             },
         )
     )
+
+
+def get_last_played(request):
+    from .lastfm import lastfm_api
+
+    if is_feature_enabled(SiteFeature.LAST_PLAYED):
+        return lastfm_api.get_last_played()
+    return None

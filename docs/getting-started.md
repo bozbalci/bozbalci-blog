@@ -2,10 +2,20 @@
 
 This application was tested on the following setup:
 
-- Python 3.12
+- Python 3.13
 - node v23.4.0
 - npm 10.9.2
 - PostgreSQL 14.15
+
+## Python setup
+
+Install uv and Python 3.13:
+
+```shell
+$ brew install uv
+$ uv python install 3.13
+$ uv sync
+```
 
 ## Database setup
 
@@ -15,7 +25,7 @@ server.
 Here are the instructions for macOS:
 
 ```shell
-$ brew install postgresql
+$ brew install postgresqlp
 $ brew services start postgresql
 ```
 
@@ -78,22 +88,10 @@ $ npm run build
 $ npm run dev
 ```
 
-Create a Python virtual environment, and activate it:
-
-```shell
-$ python --version
-Python 3.12.8  # Make sure you have at least 3.12
-$ python -mvenv .venv
-$ source ~/.venvs/not-cms/bin/activate
-```
-
 Start the Django development server:
 
 ```shell
-# This is equal to the default value, but explicit is better:
-(not-cms) $ export DJANGO_SETTINGS_MODULE=notcms.settings.dev_postgres
-(not-cms) $ python manage.py makemigrations
-(not-cms) $ python manage.py migrate
-(not-cms) $ python manage.py collectstatic
-(not-cms) $ python manage.py runserver
+$ uv run manage.py migrate
+$ uv run manage.py collectstatic
+$ uv run manage.py runserver
 ```

@@ -271,7 +271,7 @@ class Remote:
         info(f"Deploying new version {new_version}...")
 
         with self.release_directory(new_version, create_missing=True):
-            self._fetch_code_from_vcs()
+            self._fetch_code_from_vcs(clone=True)
             self._inject_secrets()
             self._install_python_dependencies()
             self._install_node_dependencies()

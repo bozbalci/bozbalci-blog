@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0001_initial"),
         ("photo", "0003_remove_photo_image_url_remove_photo_thumbnail_url_and_more"),

@@ -1,4 +1,6 @@
-from .dev import *
+from .dev import *  # noqa: F403
+
+# ruff: noqa: F405
 
 DATABASES = {
     "default": {

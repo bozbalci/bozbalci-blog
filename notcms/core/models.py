@@ -1,8 +1,8 @@
 import posixpath
 from datetime import datetime
 
-from django.db import models
 from django.core.files.storage import default_storage
+from django.db import models
 
 
 def year_month_directory(instance, filename):

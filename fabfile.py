@@ -8,7 +8,7 @@ from pathlib import Path
 from colorama import Fore, Style
 from django.template import Context, Engine
 from dotenv import load_dotenv
-from fabric import Connection, task, Config
+from fabric import Config, Connection, task
 
 load_dotenv()
 
@@ -49,7 +49,7 @@ def query_yes_no(question, default="yes"):
     elif default == "no":
         prompt = " [y/N] "
     else:
-        raise ValueError("invalid default answer: '%s'" % default)
+        raise ValueError(f"invalid default answer: '{default}'")
 
     while True:
         sys.stdout.write(question + prompt)
@@ -59,13 +59,13 @@ def query_yes_no(question, default="yes"):
         elif choice in valid:
             return valid[choice]
         else:
-            sys.stdout.write("Please respond with 'yes' or 'no' " "(or 'y' or 'n').\n")
+            sys.stdout.write("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
 
 
 def render_template(template_path, context):
     engine = Engine()
 
-    with open(template_path, "r") as file:
+    with open(template_path) as file:
         template_content = file.read()
 
     template = engine.from_string(template_content)
@@ -88,20 +88,20 @@ def get_timestamp():
 
 @contextmanager
 def virtualenv(c):
-    with c.prefix(f"source .venv/bin/activate"):
+    with c.prefix("source .venv/bin/activate"):
         yield
 
 
 @contextmanager
 def npm(c):
-    with c.prefix(f'export NVM_DIR="/home/{USER}/.nvm"'):
-        with c.prefix(f'source "$NVM_DIR/nvm.sh"'):
+    with c.prefix(f'export NVM_DIR="/home/{USER}/.nvm"'):  # noqa: SIM117
+        with c.prefix('source "$NVM_DIR/nvm.sh"'):
             yield
 
 
 def get_releases(c):
     return c.run(
-        f'ls -d release-* | grep -E "release-[0-9]+" | sort -r', hide=True
+        'ls -d release-* | grep -E "release-[0-9]+" | sort -r', hide=True
     ).stdout.split()
 
 
@@ -122,7 +122,8 @@ def git_pull(c):
 def git_clone(c):
     print("Cloning repository")
     c.run(
-        "git clone --depth 1 --branch master git@github.com:bozbalci/bozbalci-blog.git ."
+        "git clone --depth 1 --branch master "
+        "git@github.com:bozbalci/bozbalci-blog.git ."
     )
 
 
@@ -217,7 +218,7 @@ def show(c):
 
 @task
 def deploy_incremental(c, dependencies=True, collectstatic=True, migrate=True):
-    with get_remote() as conn:
+    with get_remote() as conn:  # noqa: SIM117
         with conn.cd(CURRENT_RELEASE):
             git_pull(conn)
             inject_secrets(conn)
@@ -250,7 +251,8 @@ def deploy(c, release=True):
             django_collectstatic(conn)
             django_migrate_db(conn)
 
-        # If there is NO release-current already, prepare it for the gunicorn systemd service
+        # If there is NO release-current already, prepare it for the gunicorn systemd
+        # service
         conn.run(
             f"[ ! -L {CURRENT_RELEASE} ] && ln -sfn {version} {CURRENT_RELEASE}",
             warn=True,
@@ -288,14 +290,14 @@ def rollback(c, to_version=None):
 @task
 def push_secrets(c):
     with get_remote() as conn:
-        conn.run(f"mkdir -p secrets")
+        conn.run("mkdir -p secrets")
         conn.put(BASE_DIR / "secrets" / "prod.env", "secrets")
         print("Secrets pushed to remote. Future deployments will use these secrets.")
 
 
 @task
 def shell(c):
-    with get_remote() as conn:
+    with get_remote() as conn:  # noqa: SIM117
         with virtualenv(conn):
             conn.run(
                 "python manage.py shell",
@@ -354,7 +356,8 @@ def provision(c):
 
         print("Enabling nginx site...")
         conn.sudo(
-            f"ln -sfn /etc/nginx/sites-available/{NGINX_SERVER_NAME} /etc/nginx/sites-enabled"
+            f"ln -sfn /etc/nginx/sites-available/{NGINX_SERVER_NAME} "
+            f"/etc/nginx/sites-enabled"
         )
 
         print("Allowing Nginx in ufw firewall...")

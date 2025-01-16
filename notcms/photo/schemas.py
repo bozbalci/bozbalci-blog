@@ -1,5 +1,3 @@
-from typing import Optional, List
-
 from ninja import ModelSchema
 
 from notcms.photo.models import Photo, PhotoAlbum
@@ -15,9 +13,9 @@ class PhotoAlbumSchema(ModelSchema):
 
 
 class PhotoSchema(ModelSchema):
-    image_url: Optional[str] = None
-    thumbnail_url: Optional[str] = None
-    albums: Optional[List[PhotoAlbumSchema]] = []
+    image_url: str | None = None
+    thumbnail_url: str | None = None
+    albums: list[PhotoAlbumSchema] | None = []
 
     @staticmethod
     def resolve_image_url(obj: Photo):

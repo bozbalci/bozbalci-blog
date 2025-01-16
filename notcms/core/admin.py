@@ -1,9 +1,9 @@
-from django.contrib import admin
 from django import forms
+from django.contrib import admin
 from django.utils.html import format_html
 
 from notcms.core.images import compress_image, generate_thumbnail
-from notcms.core.models import ImageUpload, Tag, Category, Feature
+from notcms.core.models import Category, Feature, ImageUpload, Tag
 
 admin.site.register(Category)
 admin.site.register(Tag)

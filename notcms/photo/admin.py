@@ -1,11 +1,11 @@
 import exifread
-from django.contrib import admin
 from django import forms
+from django.contrib import admin
 from django.utils.html import format_html
 
-from notcms.core.images import generate_thumbnail, compress_image
+from notcms.core.images import compress_image, generate_thumbnail
 from notcms.core.models import ImageUpload
-from notcms.photo.helpers import filter_exif, AdminExifMixin
+from notcms.photo.helpers import AdminExifMixin, filter_exif
 from notcms.photo.models import Photo, PhotoAlbum
 
 

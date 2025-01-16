@@ -1,4 +1,6 @@
-from .base import *
+from .base import *  # noqa: F403
+
+# ruff: noqa: F405
 
 DEBUG = False
 

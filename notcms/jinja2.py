@@ -1,8 +1,6 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.templatetags.static import static
 from django.urls import reverse
-
-
 from django_vite.templatetags.django_vite import (
     vite_asset,
     vite_asset_url,
@@ -12,7 +10,6 @@ from django_vite.templatetags.django_vite import (
     vite_preload_asset,
     vite_react_refresh,
 )
-
 from jinja2 import Environment
 
 from notcms.core import templatetags as core_tags

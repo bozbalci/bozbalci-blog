@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from django.shortcuts import get_object_or_404
 from ninja import Router
@@ -10,12 +10,12 @@ from notcms.music.schemas import AlbumSchema, LastfmTrack
 router = Router()
 
 
-@router.get("/last-played", response=Optional[LastfmTrack])
+@router.get("/last-played", response=Optional[LastfmTrack])  # noqa: UP007
 def get_last_played(request):
     return lastfm_api.get_last_played()
 
 
-@router.get("/albums", response=List[AlbumSchema])
+@router.get("/albums", response=list[AlbumSchema])
 def get_albums(request, year: int = 0, rating: int = None, shuffled: bool = False):
     queryset = Album.objects.all()
 

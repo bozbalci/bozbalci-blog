@@ -1,6 +1,6 @@
 from django.db import models
 
-from notcms.core.models import ImageUpload, Category, Tag
+from notcms.core.models import Category, ImageUpload, Tag
 
 
 class PhotoAlbum(models.Model):

@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("blog", "0001_initial"),
         ("core", "0005_alter_imageupload_original_and_more"),
@@ -37,7 +36,8 @@ class Migration(migrations.Migration):
                     "is_draft",
                     models.BooleanField(
                         default=False,
-                        help_text="Draft entries do not show in index pages but can be visited directly if you know the URL.",
+                        help_text="Draft entries do not show in index pages but can be"
+                        "visited directly if you know the URL.",
                     ),
                 ),
                 (

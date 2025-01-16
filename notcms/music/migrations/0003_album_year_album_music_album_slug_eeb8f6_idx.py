@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0003_tag_alter_imageupload_original_category"),
         ("music", "0002_album_slug"),

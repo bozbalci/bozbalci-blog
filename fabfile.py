@@ -158,7 +158,7 @@ class Remote:
     def _npm(self, cmd):
         with self.conn.prefix(f'export NVM_DIR="/home/{USER}/.nvm"'):  # noqa: SIM117
             with self.conn.prefix('source "$NVM_DIR/nvm.sh"'):
-                self.conn.run(f"{HOME}/bin/npm {cmd}", pty=True)
+                self.conn.run(f"npm {cmd}", pty=True)
 
     def _fetch_code_from_vcs(self, clone=False):
         info("Retrieving code from Git repository...")

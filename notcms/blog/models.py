@@ -30,7 +30,7 @@ class Post(models.Model):
     is_draft = models.BooleanField(
         default=False,
         help_text="Draft entries do not show in index pages but can be visited directly"
-        "if you know the URL.",
+        " if you know the URL.",
     )
 
     @property

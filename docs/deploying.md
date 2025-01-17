@@ -7,6 +7,7 @@
 - Deploy: `fab deploy` or `fab deploy-incremental`
 - Release: `fab release`
 - Rollback: `fab rollback`
+- Delete deployment: `fab delete`
 - Show all versions: `fab show`
 - Show all available Fabric commands: `fab --list`
 
@@ -115,7 +116,7 @@ include the following lines:
 ```dotenv
 PROD_HOST="<hostname>"
 PROD_USER="webmaster"
-PROD_NGINX_SERVER_NAME="example.com"
+DOMAIN="example.com"
 ```
 
 This enables [Fabric](https://www.fabfile.org) to SSH into the production server.
@@ -158,7 +159,7 @@ If you need to generate a secret key, you can use Django's builtin
 `django.core.management.utils.get_random_secret_key` from an interactive Python
 shell.
 
-Activate your virtualenv and run `python manage.py shell`, then type:
+Run `uv run manage.py shell`, then type:
 
 ```python
 from django.core.management.utils import get_random_secret_key
@@ -171,13 +172,13 @@ print(get_random_secret_key())
 Once you're finished setting up `secrets/prod.env`, push the secrets to the remote:
 
 ```shell
-$ fab push-secrets
+$ uv run fab push-secrets
 ```
 
 Deploy without releasing:
 
 ```shell
-$ fab deploy --no-release
+$ uv run fab deploy --no-release
 ```
 
 This command will create a new directory on the remote machine, clone the
@@ -187,7 +188,7 @@ build the frontend, run `manage.py` commands for Django, and exit.
 You can view the status of your remote deployments using `fab show`.
 
 ```shell
-$ fab show
+$ uv run fab show
 [0, release, current] 59c39e0 release-1735776433
 split documentation and reorganize some settings
 ```
@@ -198,7 +199,7 @@ version once the web server is started.
 In order to configure the systemd services for gunicorn and nginx, run the following:
 
 ```shell
-$ fab provision
+$ uv run fab provision
 ```
 
 You should run this command every time you update any of the configuration files under
@@ -211,28 +212,28 @@ All done! Your production server is now ready for future deployments.
 Once you've merged your new feature into master, deploy to production as follows:
 
 ```shell
-$ fab deploy
+$ uv run fab deploy
 ```
 
 This command will prompt you for promoting the release to current. If you say
-no, you can run `fab release` later to complete the release. This command will
+no, you can run `uv run fab release` later to complete the release. This command will
 pick up the most recent deployment for promotion.
 
 > [!Tip]
-> TODO: This command always keeps at most 5 versions on the remote server. (Not yet implemented!)
+> This command always keeps at most 5 versions on the remote server.
 
 ## Deploying incrementally
 
 If you do not wish to make a clean slate deployment, a quicker version of the script can be run as follows:
 
 ```shell
-$ fab deploy-incremental
+$ uv run fab deploy-incremental
 ```
 
 Quicker still is the stripped version, where the deployment only pulls the repository and restarts the WSGI server:
 
 ```shell
-$ fab deploy-incremental --no-collectstatic --no-dependencies --no-migrate
+$ uv run fab deploy-incremental --no-collectstatic --no-dependencies --no-migrate
 ```
 
 > [!WARNING]
@@ -246,7 +247,7 @@ arguments are provided, this command will attempt to restore the **second** most
 recent version. This is indicated on `fab show`:
 
 ```
-# fab show
+$ uv run fab show
 
 [0, release, current] 59c39e0 release-1735776433
 split documentation and reorganize some settings
@@ -263,12 +264,12 @@ test draft version of atomic deployment script
 How to interpret this output:
 
 - The numbers (0,1,2...) on each deployment are shortcuts, you can run e.g.
-  `fab rollback 2` to rollback to an even earlier version.
+  `uv run fab rollback 2` to rollback to an even earlier version.
 - `release` indicates that this version is the release candidate, e.g.
-  `fab release` will attempt to promote this version to current.
-- `rollback` indicates the rollback candidate, the target of `fab rollback` .
+  `uv run fab release` will attempt to promote this version to current.
+- `rollback` indicates the rollback candidate, the target of `uv run fab rollback`.
 - `current` indicates the currently served version.
 
 ## Production shell access (firefighting mode!)
 
-You can run `fab shell` to jump into a production Django shell.
+You can run `uv run fab shell` to jump into a production Django shell.

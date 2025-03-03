@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "notcms.blog",
     "notcms.photo",
     "notcms.music",
+    "notcms.toys",
 ]
 
 MIDDLEWARE = [

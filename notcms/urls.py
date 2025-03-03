@@ -28,6 +28,7 @@ urlpatterns = (
         path("blog/", include("notcms.blog.urls", namespace="blog")),
         path("gallery/", include("notcms.photo.urls", namespace="photo")),
         path("music-collection/", include("notcms.music.urls", namespace="music")),
+        path("toys/", include("notcms.toys.urls", namespace="toys")),
         # Uncomment to test error pages on local
         # path("400/", lambda r: blog_views.handler400(r, None)),
         # path("403/", lambda r: blog_views.handler403(r, None)),

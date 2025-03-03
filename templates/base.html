@@ -49,7 +49,6 @@
 
     {% block extrahead %}
     {% endblock %}
-
     {% set no_css = naked_css(request) %}
     {% if not no_css %}
       <link
@@ -72,12 +71,16 @@
         <a href="{{ url("home") }}?css">Revert to normal</a>
       </p>
     {% endif %}
-    {% include "partials/header.html" %}
+    {% block header %}
+      {% include "partials/header.html" %}
+    {% endblock %}
     <main id="main-content" class="main">
       {% block main %}
       {% endblock %}
     </main>
-    {% include "partials/footer.html" %}
+    {% block footer %}
+      {% include "partials/footer.html" %}
+    {% endblock %}
     {{ vite_asset("static/scripts/theme-toggle.js") }}
     {% block scripts %}
     {% endblock %}

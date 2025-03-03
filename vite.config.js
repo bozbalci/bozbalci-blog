@@ -15,6 +15,7 @@ export default defineConfig({
         "static/scripts/lightbox-single.js",
         "static/scripts/lightbox-multi.js",
         "static/scripts/theme-toggle.js",
+        "static/scripts/apps/barbell/app.js",
       ],
       output: {
         entryFileNames: "[hash].js",

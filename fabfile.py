@@ -157,10 +157,10 @@ class Remote:
             pty=True,
         )
 
-    def _npm(self, cmd):
+    def _pnpm(self, cmd):
         with self.conn.prefix(f'export NVM_DIR="/home/{USER}/.nvm"'):  # noqa: SIM117
             with self.conn.prefix('source "$NVM_DIR/nvm.sh"'):
-                self.conn.run(f"npm {cmd}", pty=True)
+                self.conn.run(f"pnpm {cmd}", pty=True)
 
     def _fetch_code_from_vcs(self, clone=False):
         info("Retrieving code from Git repository...")
@@ -181,12 +181,12 @@ class Remote:
         self._uv("sync")
 
     def _install_node_dependencies(self):
-        info("Running `npm install`...")
-        self._npm("install")
+        info("Running `pnpm install`...")
+        self._pnpm("install")
 
     def _build_frontend(self):
-        info("Running `npm run build`...")
-        self._npm("run build")
+        info("Running `pnpm run build`...")
+        self._pnpm("run build")
 
     def _django_collectstatic(self):
         info("Collecting static files...")

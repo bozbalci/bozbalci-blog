@@ -4,7 +4,7 @@ This application was tested on the following setup:
 
 - Python 3.13
 - node v23.4.0
-- npm 10.9.2
+- pnpm 10.5.2
 - PostgreSQL 14.15
 
 ## Python setup
@@ -82,10 +82,10 @@ LASTFM_USERNAME=
 Install node dependencies and build the frontend:
 
 ```shell
-$ npm install
-$ npm run build
+$ pnpm install
+$ pnpm run build
 # Optionally, start the Vite development server (continue on a separate terminal)
-$ npm run dev
+$ pnpm run dev
 ```
 
 Start the Django development server:

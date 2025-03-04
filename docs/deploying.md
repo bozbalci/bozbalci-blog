@@ -107,6 +107,7 @@ $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bas
 $ source ~/.bashrc
 $ nvm install v23.5.0
 $ nvm use v23.5.0
+$ npm install -g pnpm
 ```
 
 Assuming that you were able to run the app locally before attempting to deploy,
@@ -114,7 +115,7 @@ you should have a `.env` file at the project root already. Amend the file to
 include the following lines:
 
 ```dotenv
-PROD_HOST="<hostname>"
+PROD_HOST="<hostname in your ssh config>"
 PROD_USER="webmaster"
 DOMAIN="example.com"
 ```

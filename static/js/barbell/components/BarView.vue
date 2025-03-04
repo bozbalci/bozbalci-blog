@@ -1,5 +1,5 @@
 <script setup>
-import { useBarbellStore } from "@/apps/barbell/stores/barbell.js";
+import { useBarbellStore } from "@/barbell/stores/barbell.js";
 import { storeToRefs } from "pinia";
 
 const store = useBarbellStore();

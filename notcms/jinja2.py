@@ -1,6 +1,7 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.templatetags.static import static
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django_vite.templatetags.django_vite import (
     vite_asset,
     vite_asset_url,
@@ -16,6 +17,17 @@ from notcms.blog import templatetags as blog_tags
 from notcms.core import templatetags as core_tags
 from notcms.music import templatetags as music_tags
 from notcms.photo import templatetags as photo_tags
+
+# Vite helpers
+
+
+def enqueue_script(path):
+    return vite_asset(f"static/js/{path}")
+
+
+def enqueue_style(path):
+    asset_url = vite_asset_url(f"static/css/{path}")
+    return mark_safe(f'<link rel="stylesheet" type="text/css" href="{asset_url}">')
 
 
 def environment(**options):
@@ -33,6 +45,9 @@ def environment(**options):
             "vite_legacy_polyfills": vite_legacy_polyfills,
             "vite_preload_asset": vite_preload_asset,
             "vite_react_refresh": vite_react_refresh,
+            # Vite helpers
+            "enqueue_script": enqueue_script,
+            "enqueue_style": enqueue_style,
             # Core
             "now": core_tags.now,
             # Blog

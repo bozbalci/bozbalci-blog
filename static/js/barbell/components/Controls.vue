@@ -1,9 +1,9 @@
 <script setup>
-import { useBarbellStore } from "@/apps/barbell/stores/barbell.js";
+import { useBarbellStore } from "@/barbell/stores/barbell.js";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
-import Plate from "@/apps/barbell/components/Plate.vue";
-import Button from "@/apps/barbell/components/Button.vue";
+import Plate from "@/barbell/components/Plate.vue";
+import Button from "@/barbell/components/Button.vue";
 
 const store = useBarbellStore();
 

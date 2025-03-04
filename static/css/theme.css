@@ -1,13 +1,15 @@
 @theme {
   /* Fonts */
-  --font-sans: intervariable, -apple-system, blinkmacsystemfont, avenir next,
-    avenir, segoe ui, helvetica neue, helvetica, cantarell, ubuntu, roboto,
-    noto, arial, sans-serif;
-  --font-serif: charter, iowan old style, apple garamond, baskerville,
-    times new roman, droid serif, times, source serif pro, serif,
-    apple color emoji, segoe ui emoji, segoe ui symbol;
-  --font-mono: ml, menlo, consolas, monaco, liberation mono, lucida console,
-    monospace;
+  --font-sans:
+    intervariable, -apple-system, blinkmacsystemfont, avenir next, avenir,
+    segoe ui, helvetica neue, helvetica, cantarell, ubuntu, roboto, noto, arial,
+    sans-serif;
+  --font-serif:
+    charter, iowan old style, apple garamond, baskerville, times new roman,
+    droid serif, times, source serif pro, serif, apple color emoji,
+    segoe ui emoji, segoe ui symbol;
+  --font-mono:
+    ml, menlo, consolas, monaco, liberation mono, lucida console, monospace;
 
   /* Fluid type scale */
   /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1200,18,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */

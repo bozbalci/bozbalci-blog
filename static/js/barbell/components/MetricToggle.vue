@@ -5,8 +5,9 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
-import { useBarbellStore } from "@/apps/barbell/stores/barbell.js";
+import { useBarbellStore } from "@/barbell/stores/barbell.js";
 import { storeToRefs } from "pinia";
+import { unitSettings } from "@/barbell/constants.js";
 
 const store = useBarbellStore();
 
@@ -40,7 +41,7 @@ const { selectedUnitSetting } = storeToRefs(store);
       class="absolute z-50 top-full bg-gray-3 dark:bg-gray-dark-3 rounded-lg shadow-lg overflow-hidden py-2 ring-1 ring-gray-6 dark:ring-0 dark:highlight-white/5 text-step--1"
     >
       <ListboxOption
-        v-for="setting in store.unitSettings"
+        v-for="setting in unitSettings"
         :key="setting.value"
         :value="setting"
         v-slot="{ active, selected }"

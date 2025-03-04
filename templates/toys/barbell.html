@@ -7,9 +7,12 @@
 {% block header %}
 {% endblock %}
 
+{% block scripts %}
+  {{ enqueue_script("barbell/app.js") }}
+{% endblock %}
+
 {% block main %}
-  <div id="barbell-app"></div>
-  {{ vite_asset("static/scripts/apps/barbell/app.js") }}
+  <div id="barbell"></div>
 {% endblock %}
 
 {% block footer %}
@@ -21,7 +24,7 @@
         </div>
         <div>🏋</div>
         <div>
-          <a href="https://github.com/bozbalci/bozbalci-blog">View source</a>
+          <a href="https://github.com/bozbalci/bozbalci-blog/tree/master/static/js/barbell">View source</a>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block scripts %}
-  {{ vite_asset("static/scripts/lightbox-single.js") }}
+    {{ enqueue_script("lightbox/app.js") }}
 {% endblock %}
 
 {% block content %}

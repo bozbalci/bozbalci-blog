@@ -59,9 +59,9 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
-import SunIcon from "@/components/SunIcon.vue";
-import MoonIcon from "@/components/MoonIcon.vue";
-import PcIcon from "@/components/PcIcon.vue";
+import SunIcon from "@/theme-toggle/components/SunIcon.vue";
+import MoonIcon from "@/theme-toggle/components/MoonIcon.vue";
+import PcIcon from "@/theme-toggle/components/PcIcon.vue";
 import { ref, watch } from "vue";
 
 const settings = [

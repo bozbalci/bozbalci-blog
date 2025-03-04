@@ -1,11 +1,9 @@
-<footer class="mt-2xl border-t border-gray-6 dark:border-gray-dark-6 py-m">
+<footer
+  class="mt-2xl bg-gray-2 dark:bg-gray-dark-2 border-t border-gray-6 dark:border-gray-dark-6 py-m"
+>
   <div class="wrapper text-step--1">
-    <div class="flex items-start repel" data-wrap-reverse>
+    <div class="flex items-end justify-between flex-wrap-reverse gap-s-l">
       <div class="max-w-[60ch] text-step--2">
-        <p>
-          &copy;&nbsp;2014–{{ now("Y") }} Berk Özbalcı. Proudly powered by
-          <a href="https://www.djangoproject.com">Django</a>.
-        </p>
         {% set last_played = get_last_played(request) %}
         {% if last_played %}
           <p>
@@ -74,20 +72,10 @@
             </span>
           </p>
         {% endif %}
-        <p>
-          No large language models were used in the production of this site.
-          (Inspired by <a href="https://tantek.com">tantek.com</a>, which in
-          turn was inspired by
-          <a href="https://www.rfc-editor.org/rfc/rfc9518.html#appendix-A-4"
-            >RFC 9518 Appendix A ¶&nbsp;4</a
-          >.)
-        </p>
-        <p>
-          <a href="https://github.com/bozbalci/bozbalci-blog">View source</a>
-        </p>
+        {{ markdown_snippet("footer") }}
       </div>
       <div class="flex space-x-m">
-        <ul>
+        <ul class="space-y-3xs">
           <li><a href="{{ url("about") }}">About</a></li>
           <li><a href="{{ url("blog:index") }}">Writing</a></li>
           <li><a href="{{ url("photo:index") }}">Photos</a></li>
@@ -95,7 +83,7 @@
           <li><a href="{{ url("colophon") }}">Colophon</a></li>
           <li><a href="{{ url("blog:feed") }}">Atom</a></li>
         </ul>
-        <ul>
+        <ul class="space-y-3xs">
           <li><a href="{{ url("social") }}">Social</a></li>
           <li><a href="https://github.com/bozbalci" rel="me">GitHub</a></li>
           <li>

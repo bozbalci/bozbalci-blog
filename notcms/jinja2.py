@@ -50,6 +50,7 @@ def environment(**options):
             "enqueue_style": enqueue_style,
             # Core
             "now": core_tags.now,
+            "markdown_snippet": core_tags.get_markdown_snippet,
             # Blog
             "naked_css": blog_tags.naked_css,
             # Music

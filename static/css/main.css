@@ -6,7 +6,6 @@
 @import "./global/fonts.css";
 @import "./global/global-styles.css";
 
-@import "./compositions/repel.css";
 @import "./compositions/grid.css";
 @import "./compositions/sidebar.css";
 

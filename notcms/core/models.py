@@ -3,6 +3,9 @@ from datetime import datetime
 
 from django.core.files.storage import default_storage
 from django.db import models
+from django.utils.safestring import mark_safe
+
+from notcms.core.helpers import markdown
 
 
 def year_month_directory(instance, filename):
@@ -88,3 +91,11 @@ class Feature(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class MarkdownSnippet(models.Model):
+    slug = models.SlugField(max_length=255, unique=True)
+    content = models.TextField(blank=True, null=True)
+
+    def content_rendered(self):
+        return mark_safe(markdown(self.content))

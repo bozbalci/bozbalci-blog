@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from notcms.core.images import compress_image, generate_thumbnail
-from notcms.core.models import Category, Feature, ImageUpload, Tag
+from notcms.core.models import Category, Feature, ImageUpload, MarkdownSnippet, Tag
 
 admin.site.register(Category)
 admin.site.register(Tag)
@@ -114,3 +114,10 @@ class FeatureAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Feature, FeatureAdmin)
+
+
+class MarkdownSnippetAdmin(admin.ModelAdmin):
+    list_display = ("slug",)
+
+
+admin.site.register(MarkdownSnippet, MarkdownSnippetAdmin)

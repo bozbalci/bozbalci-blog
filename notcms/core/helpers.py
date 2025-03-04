@@ -4,7 +4,6 @@ import mistune
 from django.core.cache import cache
 
 from notcms.core.constants import SiteFeature
-from notcms.core.models import Feature
 
 
 def cache_response(cache_key, timeout):
@@ -24,7 +23,9 @@ def cache_response(cache_key, timeout):
 
 
 @cache_response("core_feature_enabled", timeout=60)
-def is_feature_enabled(site_feature: SiteFeature):
+def is_feature_enabled(site_feature: "SiteFeature"):
+    from notcms.core.models import Feature
+
     try:
         feature = Feature.objects.get(slug=site_feature.value)
         return feature.enabled

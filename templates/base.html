@@ -5,17 +5,14 @@
     <title>
       {% block fulltitle %}{% block title %}{% endblock %} – Berk Özbalcı{% endblock %}
     </title>
-
     <meta name="description" content="Personal home page of Berk Özbalcı" />
     <meta
       name="keywords"
       content="blog, software, music, photography, coffee, django, indieweb"
     />
     <meta name="author" content="Berk Özbalcı" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content="Django 5.1" />
-
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#fcfdfc" />
     <script>
@@ -31,7 +28,6 @@
         .setAttribute("content", isDark ? "#111210" : "#fcfdfc");
       document.documentElement.classList.remove("no-js");
     </script>
-
     <link
       rel="icon"
       type="image/png"
@@ -46,7 +42,6 @@
       href="{{ static("apple-touch-icon.png") }}"
     />
     <meta name="apple-mobile-web-app-title" content="bozbalci" />
-
     {% block extrahead %}
     {% endblock %}
     {% set no_css = naked_css(request) %}
@@ -54,6 +49,7 @@
       {{ enqueue_style("main.css") }}
       {{ vite_hmr_client() }}
     {% endif %}
+    <script src="https://cdn.usefathom.com/script.js" data-site="NCNLPAKL" defer></script>
   </head>
   <body>
     <a href="#main-content" class="sr-only focus:not-sr-only">

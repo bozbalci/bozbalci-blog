@@ -26,7 +26,12 @@ class LastfmAPI:
             "api_key": self.api_key,
             "format": "json",
         }
-        r = httpx.get(API_URL, params=params)
+
+        try:
+            r = httpx.get(API_URL, params=params)
+        except Exception:
+            # TODO log the error here maybe
+            return None
 
         # Returning None doesn't put the response in the cache
         if r.status_code != 200:

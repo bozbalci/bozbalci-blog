@@ -38,15 +38,13 @@ def format_shutter_speed(shutter_speed: str) -> str:
 
 
 def reformat_exif_datetime(exif_shot_at: str) -> str:
+    if not exif_shot_at:
+        return "N/A"
     parsed_datetime = datetime.strptime(exif_shot_at, "%Y:%m:%d %H:%M:%S")
     return parsed_datetime.isoformat()
 
 
 def filter_exif(tags):
-    exif_datetime = tags.get("EXIF DateTimeOriginal")
-    if exif_datetime:
-        exif_datetime = reformat_exif_datetime(exif_datetime)
-
     return {
         "make": tags.get("Image Make"),
         "model": tags.get("Image Model"),
@@ -55,7 +53,7 @@ def filter_exif(tags):
         "aperture": format_aperture(tags.get("EXIF FNumber")),
         "shutter": format_shutter_speed(tags.get("EXIF ExposureTime")),
         "iso": tags.get("EXIF ISOSpeedRatings"),
-        **{"shot_at": exif_datetime if exif_datetime else ""},
+        "shot_at": reformat_exif_datetime(tags.get("EXIF DateTimeOriginal")),
     }
 
 

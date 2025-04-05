@@ -24,7 +24,10 @@ def coerce_datetime(obj):
         return obj
     elif isinstance(obj, str):
         # Assume ISO format
-        return datetime.fromisoformat(obj)
+        try:
+            return datetime.fromisoformat(obj)
+        except ValueError:
+            return None
 
 
 @register.filter

@@ -43,6 +43,10 @@ def reformat_exif_datetime(exif_shot_at: str) -> str:
 
 
 def filter_exif(tags):
+    exif_datetime = tags.get("EXIF DateTimeOriginal")
+    if exif_datetime:
+        exif_datetime = reformat_exif_datetime(exif_datetime)
+
     return {
         "make": tags.get("Image Make"),
         "model": tags.get("Image Model"),
@@ -51,7 +55,7 @@ def filter_exif(tags):
         "aperture": format_aperture(tags.get("EXIF FNumber")),
         "shutter": format_shutter_speed(tags.get("EXIF ExposureTime")),
         "iso": tags.get("EXIF ISOSpeedRatings"),
-        "shot_at": reformat_exif_datetime(tags.get("EXIF DateTimeOriginal")),
+        **{"shot_at": exif_datetime if exif_datetime else ""},
     }
 
 
@@ -106,8 +110,7 @@ class AdminExifMixin:
     exif_iso.short_description = "ISO"
 
     def exif_shot_at(self, obj):
-        if obj.exif:
-            shot_at = obj.exif.get("shot_at")
+        if obj.exif and (shot_at := obj.exif.get("shot_at")):
             return date_format(datetime.fromisoformat(shot_at), "DATETIME_FORMAT")
         return "-"
 

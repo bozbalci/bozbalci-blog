@@ -100,6 +100,8 @@ class PhotoAdminForm(forms.ModelForm):
                     file_format=compression_format,
                 )
                 image_upload.original = compressed_image
+            else:
+                image_upload.original = image_file
             if should_generate_thumbnail:
                 thumbnail = generate_thumbnail(image_file, max_width=thumbnail_width)
                 image_upload.thumbnail = thumbnail

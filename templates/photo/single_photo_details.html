@@ -42,6 +42,9 @@
               <span class="e-iso">ISO {{ photo.exif.iso }}</span>
             </div>
           </div>
+        {% else %}
+          {# Placeholder for flex justify-between #}
+          <div></div>
         {% endif %}
 
         <div class="text-right">
@@ -59,7 +62,7 @@
               >
             </span>
           </div>
-          {% if photo.exif.shot_at %}
+          {% if photo.exif.shot_at != 'N/A' %}
             <div>
               <span class="e-taken text-gray-10 dark:text-gray-dark-10">
                 Taken on

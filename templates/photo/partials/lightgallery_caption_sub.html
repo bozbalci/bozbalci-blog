@@ -31,7 +31,7 @@
     <time class="e-uploaded" datetime="{{ photo.uploaded_at|format_iso_date }}">
       {{ photo.uploaded_at|format_date }}
     </time>
-    {% if photo.exif.shot_at %}
+    {% if photo.exif.shot_at != 'N/A' %}
       <span class="e-label">Taken</span>
       <time class="e-taken" datetime="{{ photo.exif.shot_at|format_iso_date }}">
         {{ photo.exif.shot_at|format_date }}

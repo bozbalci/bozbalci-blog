@@ -18,6 +18,7 @@
                 height="16"
                 class="inline-block"
                 alt="Cover image for {{ last_played.artist }} - {{ last_played.title }}"
+                onerror="this.style.display='none'; this.onerror=null;"
               />
               <a
                 href="{{ last_played.lastfm_url }}"

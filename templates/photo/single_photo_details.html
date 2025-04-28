@@ -26,21 +26,23 @@
       <div
         class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight"
       >
-        <div class="text-left">
-          <div class="e-camera">
-            <span class="e-make">{{ photo.exif.make }}</span>
-            <span class="e-model">{{ photo.exif.model }}</span>
+        {% if photo.exif.make %}
+          <div class="text-left">
+            <div class="e-camera">
+              <span class="e-make">{{ photo.exif.make }}</span>
+              <span class="e-model">{{ photo.exif.model }}</span>
+            </div>
+            <div>
+              <span class="e-lens">{{ photo.exif.lens }}</span>
+            </div>
+            <div>
+              <span class="e-focal-length">{{ photo.exif.focal_length }}</span>,
+              <span class="e-aperture">&fnof;/{{ photo.exif.aperture }}</span>,
+              <span class="e-shutter">{{ photo.exif.shutter }}</span>,
+              <span class="e-iso">ISO {{ photo.exif.iso }}</span>
+            </div>
           </div>
-          <div>
-            <span class="e-lens">{{ photo.exif.lens }}</span>
-          </div>
-          <div>
-            <span class="e-focal-length">{{ photo.exif.focal_length }}</span>,
-            <span class="e-aperture">&fnof;/{{ photo.exif.aperture }}</span>,
-            <span class="e-shutter">{{ photo.exif.shutter }}</span>,
-            <span class="e-iso">ISO {{ photo.exif.iso }}</span>
-          </div>
-        </div>
+        {% endif %}
 
         <div class="text-right">
           {% if photo.title %}
@@ -57,14 +59,16 @@
               >
             </span>
           </div>
-          <div>
-            <span class="e-taken text-gray-10 dark:text-gray-dark-10">
-              Taken on
-              <time datetime="{{ photo.exif.shot_at|format_iso_date }}"
-                >{{ photo.exif.shot_at|format_date }}</time
-              >
-            </span>
-          </div>
+          {% if photo.exif.shot_at %}
+            <div>
+              <span class="e-taken text-gray-10 dark:text-gray-dark-10">
+                Taken on
+                <time datetime="{{ photo.exif.shot_at|format_iso_date }}"
+                  >{{ photo.exif.shot_at|format_date }}</time
+                >
+              </span>
+            </div>
+          {% endif %}
         </div>
       </div>
 

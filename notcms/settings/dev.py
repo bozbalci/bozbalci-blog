@@ -40,6 +40,3 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
-MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "/media/"

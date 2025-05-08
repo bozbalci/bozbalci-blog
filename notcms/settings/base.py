@@ -25,6 +25,21 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "django_vite",
+    # Wagtail
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail.contrib.settings",
+    "wagtail",
+    "modelcluster",
+    "taggit",
     # NotCMS apps
     "notcms.core",
     "notcms.blog",
@@ -44,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = "notcms.urls"
@@ -67,7 +83,15 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
         ],
-        "OPTIONS": {"environment": "notcms.jinja2.environment"},
+        "OPTIONS": {
+            "environment": "notcms.jinja2.environment",
+            "extensions": [
+                "wagtail.jinja2tags.core",
+                "wagtail.admin.jinja2tags.userbar",
+                "wagtail.images.jinja2tags.images",
+                "wagtail.contrib.settings.jinja2tags.settings",
+            ],
+        },
     },
 ]
 
@@ -106,7 +130,11 @@ LASTFM = {
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
+
 STATICFILES_DIRS = (BASE_DIR / "static" / "assets", BASE_DIR / "static" / "dist")
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 
 def immutable_file_test(path, url):

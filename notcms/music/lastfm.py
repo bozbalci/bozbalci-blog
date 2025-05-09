@@ -1,22 +1,35 @@
 from datetime import datetime
 
 import httpx
-from django.conf import settings
 from django.utils.timezone import make_aware
 
 from notcms.core.helpers import cache_response
+from notcms.music.models import LastfmSettings
 from notcms.music.schemas import LastfmTrack
-
-API_URL = "https://ws.audioscrobbler.com/2.0/"
 
 
 class LastfmAPI:
-    def __init__(self):
-        self.api_key = settings.LASTFM["api_key"]
-        self.api_secret = settings.LASTFM["secret"]
-        self.username = settings.LASTFM["username"]
+    @property
+    def settings(self):
+        return LastfmSettings.load()
 
-    @cache_response("lastfm_last_played", timeout=180)
+    @property
+    def api_url(self):
+        return "https://ws.audioscrobbler.com/2.0/"
+
+    @property
+    def api_key(self):
+        return self.settings.api_key
+
+    @property
+    def api_secret(self):
+        return self.settings.api_secret
+
+    @property
+    def username(self):
+        return self.settings.username
+
+    @cache_response("music_lastfm_get_last_played", timeout=180)
     def get_last_played(self):
         # Get the recent tracks from Last.fm API
         params = {
@@ -28,7 +41,7 @@ class LastfmAPI:
         }
 
         try:
-            r = httpx.get(API_URL, params=params)
+            r = httpx.get(self.api_url, params=params)
         except Exception:
             # TODO log the error here maybe
             return None

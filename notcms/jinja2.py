@@ -53,6 +53,8 @@ def environment(**options):
             "markdown_snippet": core_tags.get_markdown_snippet,
             # Blog
             "naked_css": blog_tags.naked_css,
+            "get_menu": blog_tags.get_menu,
+            "get_footer_text": blog_tags.get_footer_text,
             # Music
             "get_last_played": music_tags.get_last_played,
         }

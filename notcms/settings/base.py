@@ -122,12 +122,6 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LASTFM = {
-    "api_key": os.getenv("LASTFM_API_KEY"),
-    "secret": os.getenv("LASTFM_API_SECRET"),
-    "username": os.getenv("LASTFM_USERNAME"),
-}
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 
@@ -144,3 +138,21 @@ def immutable_file_test(path, url):
 
 
 WHITENOISE_IMMUTABLE_FILE_TEST = immutable_file_test
+
+# Wagtail
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
+WAGTAIL_SITE_NAME = "bozbalci blog"
+
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]

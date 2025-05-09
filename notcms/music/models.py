@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.functions import Random
+from wagtail.contrib.settings.models import BaseGenericSetting
+from wagtail.contrib.settings.registry import register_setting
 
 from notcms.core.models import ImageUpload, Tag
 
@@ -39,3 +41,11 @@ class Album(models.Model):
             models.Index(fields=["rating"]),
             models.Index(fields=["slug"]),
         ]
+
+
+@register_setting
+class LastfmSettings(BaseGenericSetting):
+    api_key = models.CharField(max_length=255)
+    api_secret = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
+    show_widget_in_footer = models.BooleanField(default=False)

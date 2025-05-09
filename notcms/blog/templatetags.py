@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta
 
+from django.core.cache import cache
+
+from notcms.blog.models import FooterText, Menu
 from notcms.core.helpers import cache_response
 
 
@@ -28,3 +31,21 @@ def naked_css(request):
 
     no_css = request.session.get("nocss", False) or is_naked_day()
     return no_css
+
+
+def get_menu(key):
+    cache_key = f"blog_menu:{key}"
+    menu = cache.get(cache_key)
+    if not menu:
+        try:
+            menu = Menu.objects.prefetch_related("items").get(key=key)
+            cache.set(cache_key, menu, timeout=3600)
+        except Menu.DoesNotExist:
+            return None
+    return menu.items.all()
+
+
+def get_footer_text():
+    instance = FooterText.objects.filter(live=True).first()
+
+    return instance.body if instance else ""

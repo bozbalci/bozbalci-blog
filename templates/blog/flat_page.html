@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ page.title }}
+{% endblock %}
+
+{% block main %}
+  <article class="h-entry wrapper">
+    <div id="article-container" class="prose mx-auto">
+      <header class="post-header">
+        <h1 class="entry-title">{{ page.title }}</h1>
+        <div class="entry-meta">
+          Posted on
+          <a href="#" rel="bookmark">
+            <time
+                class="entry-date published"
+                datetime="{{ page.last_published_at|format_iso_date }}"
+            >
+              {{ page.last_published_at|format_date }}</time
+            ></a
+          >
+          {% if page.last_published_at.date != page.latest_revision_created_at.date %}
+            &middot; last updated
+            <time
+                class="updated"
+                datetime="{{ page.latest_revision_created_at|format_iso_date }}"
+            >
+              {{ page.latest_revision_created_at|format_date }}
+            </time>
+          {% endif %}
+        </div>
+      </header>
+      {{ page.body|richtext }}
+    </div>
+  </article>
+{% endblock %}

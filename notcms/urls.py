@@ -1,45 +1,29 @@
-from debug_toolbar.toolbar import debug_toolbar_urls
+import debug_toolbar
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from ninja import NinjaAPI
+from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.documents import urls as wagtaildocs_urls
 
 import notcms.blog.views as blog_views
-from notcms.blog.views import custom_flatpage
 
 api = NinjaAPI()
 
 api.add_router("/photos/", "notcms.photo.api.router")
 api.add_router("/music/", "notcms.music.api.router")
 
-urlpatterns = (
-    [
-        path("", blog_views.home, name="home"),
-        # Flat pages
-        path("about/", custom_flatpage, {"url": "/about/"}, name="about"),
-        path("colophon/", custom_flatpage, {"url": "/colophon/"}, name="colophon"),
-        path("contact/", custom_flatpage, {"url": "/contact/"}, name="contact"),
-        path("social/", custom_flatpage, {"url": "/social/"}, name="social"),
-        # Special cases
-        path("now/", blog_views.now, name="now"),
-        path("then/", blog_views.then, name="then"),
-        # Apps
-        path("blog/", include("notcms.blog.urls", namespace="blog")),
-        path("gallery/", include("notcms.photo.urls", namespace="photo")),
-        path("music-collection/", include("notcms.music.urls", namespace="music")),
-        path("toys/", include("notcms.toys.urls", namespace="toys")),
-        # Uncomment to test error pages on local
-        # path("400/", lambda r: blog_views.handler400(r, None)),
-        # path("403/", lambda r: blog_views.handler403(r, None)),
-        # path("404/", lambda r: blog_views.handler404(r, None)),
-        # path("500/", blog_views.handler500),
-        path("tapen/", admin.site.urls),
-        path("api/", api.urls),
-    ]
-    + debug_toolbar_urls()
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-)
+urlpatterns = [
+    path("tapen/", admin.site.urls),
+    path("api/", api.urls),
+    path("cms/", include(wagtailadmin_urls)),
+    path("documents/", include(wagtaildocs_urls)),
+    # TODO debug
+    path("__debug__/", include(debug_toolbar.urls)),
+    path("", include(wagtail_urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler400 = blog_views.handler400
 handler403 = blog_views.handler403

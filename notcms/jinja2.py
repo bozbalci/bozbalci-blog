@@ -50,7 +50,7 @@ def environment(**options):
             "enqueue_style": enqueue_style,
             # Core
             "now": core_tags.now,
-            "markdown_snippet": core_tags.get_markdown_snippet,
+            "routablepageurl": core_tags.routablepageurl,
             # Blog
             "naked_css": blog_tags.naked_css,
             "get_menu": blog_tags.get_menu,

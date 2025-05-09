@@ -33,8 +33,19 @@ DATABASES = {
 }
 
 STORAGES = {
+    # "default": {
+    #     "BACKEND": "django.core.files.storage.FileSystemStorage",
+    # },
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": os.getenv("AWS_STORAGE_BUCKET_NAME"),
+            "region_name": os.getenv("AWS_S3_REGION_NAME"),
+            "access_key": os.getenv("AWS_ACCESS_KEY_ID"),
+            "secret_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
+            "querystring_auth": False,
+            "custom_domain": os.getenv("AWS_S3_CUSTOM_DOMAIN"),
+        },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

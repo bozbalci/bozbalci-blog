@@ -34,7 +34,7 @@ def single_album_details(request, slug: str):
 def gallery_from_queryset(request, queryset):
     return render(
         request,
-        "music/gallery.html",
+        "music/index.html",
         {
             "albums": queryset.prefetch_related("cover_image"),
         },

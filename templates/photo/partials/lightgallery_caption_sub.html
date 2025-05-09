@@ -28,8 +28,8 @@
   {% endif %}
   <div>
     <span class="e-label">Uploaded</span>
-    <time class="e-uploaded" datetime="{{ photo.uploaded_at|format_iso_date }}">
-      {{ photo.uploaded_at|format_date }}
+    <time class="e-uploaded" datetime="{{ photo.last_published_at|format_iso_date }}">
+      {{ photo.last_published_at|format_date }}
     </time>
     {% if photo.exif.shot_at != 'N/A' %}
       <span class="e-label">Taken</span>
@@ -38,7 +38,7 @@
       </time>
     {% endif %}
     <a
-      href="{{ url("photo:details", kwargs={"pk": photo.pk}) }}"
+      href="{{ pageurl(photo) }}"
       class="e-permalink"
       >Permalink</a
     >

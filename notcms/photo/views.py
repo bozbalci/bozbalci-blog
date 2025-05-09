@@ -20,7 +20,7 @@ def gallery_photo_details(request, pk: int):
 def gallery_from_queryset(request, queryset):
     return render(
         request,
-        "photo/gallery.html",
+        "photo/index.html",
         {
             "photos": queryset.prefetch_related("image"),
         },

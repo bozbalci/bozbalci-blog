@@ -1,12 +1,7 @@
 <nav class="lg:sticky lg:top-gutter">
   <ul>
     <li>
-      <a href="{{ url("photo:index") }}">Camera roll</a>
-    </li>
-    <li>
-      <a href="{{ url("photo:album", kwargs={"slug": "latte-art"}) }}"
-        >Latte art</a
-      >
+      <a href="{{ pageurl(gallery_index) }}">Camera roll</a>
     </li>
   </ul>
 </nav>

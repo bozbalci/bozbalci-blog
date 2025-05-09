@@ -1,13 +1,9 @@
-from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from notcms.photo.models import Photo
 
-register = template.Library()
 
-
-@register.filter
 def lg_caption(photo: Photo):
     """
     Converts a `Photo` into the appropriate `data-sub-html=` attribute

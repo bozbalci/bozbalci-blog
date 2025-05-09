@@ -66,7 +66,6 @@ def environment(**options):
             # Core
             "format_date": core_tags.format_date,
             "format_iso_date": core_tags.format_iso_date,
-            "render_markdown": core_tags.render_markdown,
             # Music
             "stars": music_tags.stars,
             # Photo

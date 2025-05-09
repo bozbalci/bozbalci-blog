@@ -1,11 +1,15 @@
 from django.contrib.flatpages.models import FlatPage as DjangoFlatPage
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
+from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel, PublishingPanel
-from wagtail.fields import RichTextField
+from wagtail.contrib.routable_page.models import RoutablePageMixin, path
+from wagtail.fields import RichTextField, StreamField
+from wagtail.images.blocks import ImageBlock
 from wagtail.models import (
     DraftStateMixin,
     Orderable,
@@ -16,6 +20,7 @@ from wagtail.models import (
 )
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtailcodeblock.blocks import CodeBlock
 
 from notcms.core.helpers import markdown
 from notcms.core.models import Category, Tag
@@ -63,19 +68,59 @@ class Post(models.Model):
 
 
 class HomePage(Page):
+    MAX_ENTRIES_IN_HOME_PAGE = 5
+
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + ["body"]
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
 
-class BlogIndexPage(Page):
-    pass
+        posts = BlogPostPage.objects.live().order_by("-first_published_at")[
+            : self.MAX_ENTRIES_IN_HOME_PAGE
+        ]
+
+        return {
+            **context,
+            "posts": posts,
+        }
+
+
+class BlogIndexPage(RoutablePageMixin, Page):
+    subpage_types = ["BlogPostPage"]
+    template = "blog/archive.html"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        return {
+            **context,
+            "archive_title": "Writing",
+            "posts": BlogPostPage.objects.live().order_by("-first_published_at"),
+        }
+
+    @path(r"<int:year>/<int:month>/<slug:slug>/")
+    def blog_post_by_slug(self, request, year, month, slug):
+        post = get_object_or_404(
+            BlogPostPage.objects.live(),
+            date__year=year,
+            date__month=month,
+            slug=slug,
+        )
+        return post.specific.serve(request)
 
 
 class BlogPostPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = RichTextField(blank=True)
+    body = StreamField(
+        [
+            ("blockquote", blocks.BlockQuoteBlock()),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageBlock()),
+            ("code", CodeBlock()),
+        ]
+    )
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
@@ -84,11 +129,88 @@ class BlogPostPage(Page):
 
     content_panels = Page.content_panels + ["date", "intro", "body"]
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        return {
+            **context,
+            "post": self,
+        }
+
+    @property
+    def permalink(self):
+        return f"/blog/{self.date:%Y/%m}/{self.slug}"
+
 
 class FlatPage(Page):
-    body = RichTextField(blank=True)
+    body = StreamField(
+        [
+            ("blockquote", blocks.BlockQuoteBlock()),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageBlock()),
+            ("code", CodeBlock()),
+        ],
+        null=True,
+    )
 
     content_panels = Page.content_panels + ["body"]
+
+
+class NowIndexPage(Page):
+    subpage_types = []
+    template = "blog/blog_post_page.html"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        return {
+            **context,
+            "post": NowPostPage.objects.live().order_by("-first_published_at").first(),
+            "is_now_post": True,
+        }
+
+
+class ThenIndexPage(Page):
+    subpage_types = ["NowPostPage"]
+    template = "blog/archive.html"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        return {
+            **context,
+            "archive_title": "Then",
+            "posts": NowPostPage.objects.live().order_by("-first_published_at"),
+        }
+
+
+class NowPostPage(Page):
+    date = models.DateField("Post date")
+    intro = models.CharField(max_length=250)
+    body = StreamField(
+        [
+            ("blockquote", blocks.BlockQuoteBlock()),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageBlock()),
+            ("code", CodeBlock()),
+        ],
+        null=True,
+    )
+
+    search_fields = Page.search_fields + [
+        index.SearchField("intro"),
+        index.SearchField("body"),
+    ]
+
+    content_panels = Page.content_panels + ["date", "intro", "body"]
+
+    template = "blog/blog_post_page.html"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        return {
+            **context,
+            "post": self,
+        }
 
 
 @register_snippet

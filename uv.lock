@@ -134,6 +134,7 @@ dependencies = [
     { name = "python-dotenv" },
     { name = "sentry-sdk", extra = ["django"] },
     { name = "wagtail" },
+    { name = "wagtailcodeblock" },
     { name = "whitenoise" },
 ]
 
@@ -162,6 +163,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "sentry-sdk", extras = ["django"], specifier = ">=2.27.0" },
     { name = "wagtail", specifier = ">=7.0" },
+    { name = "wagtailcodeblock", specifier = ">=1.29.0.2" },
     { name = "whitenoise", specifier = "==6.9.0" },
 ]
 
@@ -1027,6 +1029,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c3/54/8702c72fa14c8da1a96cf0542b10cc755b62d0f885e8f11b4ee88b4ff316/wagtail-7.0.tar.gz", hash = "sha256:7c267ead43da3aa9469f233b111624aa1a508a5840f1ddda72d104957fdb3426", size = 6670098 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/98/cf/426b073612fc36aa9a921ff5ca15635b5fc40fabccbfc0345e50cdb09000/wagtail-7.0-py3-none-any.whl", hash = "sha256:6a254ef84a740689dd844aabc5254828ecb62840257721e639929cb0e1a2b3c1", size = 9148023 },
+]
+
+[[package]]
+name = "wagtailcodeblock"
+version = "1.29.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "wagtail" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/18/3d/8966a61fce51095dce11f46f80f8041a026e31f12dd550727ed38ec6be3f/wagtailcodeblock-1.29.0.2.tar.gz", hash = "sha256:4e20a30ff007f1558259b1e16a757aa8a89f72fbbae5dc62f264bc84af467954", size = 99293 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/87/49/2a8451de415ce1ae356f42cbf0f295abc5f851ed3cef8578b7c9422e49e5/wagtailcodeblock-1.29.0.2-py3-none-any.whl", hash = "sha256:c6bfe8be08f5e5968d7f25747f0a90f6e717159c62936a6732307382e8b2a8f5", size = 14127 },
 ]
 
 [[package]]

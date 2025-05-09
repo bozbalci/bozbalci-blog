@@ -47,7 +47,9 @@ class PhotoGalleryIndexPage(RoutablePageMixin, Page):
     template = "photo/index.html"
 
     def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
         return {
+            **context,
             "gallery_index": self,
             "photos": PhotoPage.objects.all(),
         }
@@ -55,12 +57,19 @@ class PhotoGalleryIndexPage(RoutablePageMixin, Page):
 
 class PhotoPage(Page):
     caption = models.CharField(max_length=255, blank=True)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, null=False)
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
     exif = models.JSONField(blank=True, null=True)
 
     content_panels = Page.content_panels + [
         FieldPanel("image"),
     ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        return {
+            **context,
+            "gallery_index": self,
+        }
 
     def extract_exif(self):
         image_file = self.image.file

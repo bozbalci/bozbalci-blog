@@ -51,3 +51,5 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+WAGTAILADMIN_BASE_URL = "http://localhost:8080"

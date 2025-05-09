@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    # Wagtail plugins
+    "wagtailcodeblock",
     # NotCMS apps
     "notcms.core",
     "notcms.blog",
@@ -143,6 +145,7 @@ WHITENOISE_IMMUTABLE_FILE_TEST = immutable_file_test
 # Wagtail
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
+
 WAGTAIL_SITE_NAME = "bozbalci blog"
 
 WAGTAILDOCS_EXTENSIONS = [

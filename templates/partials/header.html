@@ -2,7 +2,7 @@
   <div class="wrapper flex items-center justify-between">
     <h1>
       <a
-        href="{{ url("home") }}"
+        href="/"
         class="flex items-center no-underline font-semibold"
       >
         <svg
@@ -21,12 +21,13 @@
     </h1>
     <nav>
       <ul class="flex items-center gap-x-2xs">
-        <li class="py-2xs px-xs">
-          <a href="{{ url("about") }}" class="no-underline">About</a>
-        </li>
-        <li class="py-2xs px-xs">
-          <a href="{{ url("now") }}" class="no-underline">Now</a>
-        </li>
+        {% for item in get_menu("header") %}
+          <li class="py-2xs px-xs">
+            <a href="{{ item.url }}" class="no-underline" rel="{{ item.rel }}">
+              {{ item.title }}
+            </a>
+          </li>
+        {% endfor %}
         <li class="py-2xs px-xs hide-no-js" id="theme-toggle">
           <div class="size-6"></div>
         </li>

@@ -109,3 +109,5 @@ sentry_sdk.init(
         "continuous_profiling_auto_start": True,
     },
 )
+
+WAGTAILADMIN_BASE_URL = "https://bozbalci.me"

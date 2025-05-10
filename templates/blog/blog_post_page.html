@@ -21,25 +21,25 @@
         <h1 class="entry-title">{{ post.title }}</h1>
         <div class="entry-meta">
           Posted on
-          <a href="#" rel="bookmark">
+          <a href="{{ pageurl(post) }}" rel="bookmark">
             <time
               class="entry-date published"
-              datetime="{{ post.created|format_iso_date }}"
-              >{{ post.created|format_date }}</time
+              datetime="{{ post.first_published_at|format_iso_date }}"
+              >{{ post.first_published_at|format_date }}</time
             ></a
           >
-          {% if post.modified.date != post.created.date %}
+          {% if post.latest_revision_created_at.date() != post.first_published_at.date() %}
             &middot; last updated
             <time
               class="updated"
-              datetime="{{ post.modified|format_iso_date }}"
+              datetime="{{ post.latest_revision_created_at|format_iso_date }}"
             >
-              {{ post.modified|format_date }}
+              {{ post.latest_revision_created_at|format_date }}
             </time>
           {% endif %}
         </div>
       </header>
-      {% if post.has_now_category %}
+      {% if is_now_post %}
         <div class="bg-gray-3 dark:bg-gray-dark-3 p-m mb-s">
           <p>
             (This is a <a href="https://nownownow.com/about">now page</a>,
@@ -47,13 +47,13 @@
             other people who have one on their personal websites.)
           </p>
           <p>
-            See past updates on the <a href="{{ url("then") }}">archive</a>.
+            See past updates on the <a href="{{ slugurl("then") }}">archive</a>.
           </p>
         </div>
       {% endif %}
-      {{ post.body|render_markdown|safe }}
+      {{ post.body }}
       <p>
-        <a href="{{ url("home") }}">Back to the home page</a>
+        <a href="/">Back to the home page</a>
       </p>
     </div>
     <div></div>

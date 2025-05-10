@@ -7,38 +7,38 @@
     {% endif %}
   </div>
   {# Skip EXIF fields if not present #}
-  {% if photo.exif.make %}
+  {% if photo.exif_make %}
     <div>
       <span class="e-label">Camera</span>
-      <span class="e-make">{{ photo.exif.make }}</span>
-      <span class="e-model">{{ photo.exif.model }}</span>
+      <span class="e-make">{{ photo.exif_make }}</span>
+      <span class="e-model">{{ photo.exif_model }}</span>
       <span class="e-label">Lens</span>
-      <span class="e-lens">{{ photo.exif.lens }}</span>
+      <span class="e-lens">{{ photo.exif_lens }}</span>
     </div>
     <div>
       <span class="e-label">Focal length</span>
-      <span class="e-focal-length">{{ photo.exif.focal_length }}</span>
+      <span class="e-focal-length">{{ photo.exif_focal_length }}</span>
       <span class="e-label">Aperture</span>
-      <span class="e-aperture">&fnof;/{{ photo.exif.aperture }}</span>
+      <span class="e-aperture">&fnof;/{{ photo.exif_aperture }}</span>
       <span class="e-label">Shutter speed</span>
-      <span class="e-shutter">{{ photo.exif.shutter }}</span>
+      <span class="e-shutter">{{ photo.exif_shutter_speed }}</span>
       <span class="e-label">ISO</span>
-      <span class="e-iso">{{ photo.exif.iso }}</span>
+      <span class="e-iso">{{ photo.exif_iso }}</span>
     </div>
   {% endif %}
   <div>
     <span class="e-label">Uploaded</span>
-    <time class="e-uploaded" datetime="{{ photo.uploaded_at|format_iso_date }}">
-      {{ photo.uploaded_at|format_date }}
+    <time class="e-uploaded" datetime="{{ photo.first_published_at|format_iso_date }}">
+      {{ photo.last_published_at|format_date }}
     </time>
-    {% if photo.exif.shot_at != 'N/A' %}
+    {% if photo.exif_shot_at %}
       <span class="e-label">Taken</span>
-      <time class="e-taken" datetime="{{ photo.exif.shot_at|format_iso_date }}">
-        {{ photo.exif.shot_at|format_date }}
+      <time class="e-taken" datetime="{{ photo.exif_shot_at|format_iso_date }}">
+        {{ photo.exif_shot_at|format_date }}
       </time>
     {% endif %}
     <a
-      href="{{ url("photo:details", kwargs={"pk": photo.pk}) }}"
+      href="{{ pageurl(photo) }}"
       class="e-permalink"
       >Permalink</a
     >

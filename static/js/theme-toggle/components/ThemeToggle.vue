@@ -1,6 +1,6 @@
 <template>
   <Listbox v-model="selectedTheme" as="div">
-    <ListboxButton class="align-text-top">
+    <ListboxButton class="align-text-top" aria-label="Theme toggle">
       <div
         class="relative cursor-pointer text-gray-10 dark:text-gray-dark-10 hover:text-accent-10 dark:hover:text-accent-dark-10"
       >

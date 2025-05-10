@@ -1,12 +1,23 @@
 <nav class="lg:sticky lg:top-gutter">
   <ul>
     <li>
-      <a href="{{ url("photo:index") }}">Camera roll</a>
+      <a href="{{ pageurl(gallery_index) }}">Camera roll</a>
     </li>
-    <li>
-      <a href="{{ url("photo:album", kwargs={"slug": "latte-art"}) }}"
-        >Latte art</a
-      >
+    <li class="mt-xs text-gray-9 dark:text-gray-dark-9">
+      Albums
     </li>
+    {% for album in albums %}
+      <li>
+        {% if album.title == page.title %}
+          <span class="text-gray-10 dark:text-gray-dark-10">
+          {{ album.title }}
+        </span>
+        {% else %}
+          <a href="{{ pageurl(album) }}">
+            {{ album.title }}
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
   </ul>
 </nav>

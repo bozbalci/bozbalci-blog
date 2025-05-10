@@ -16,7 +16,7 @@
   <div class="auto-grid grid-gutter-3xs" id="lightbox-gallery">
     {% for photo in photos %}
       {% set original_url = image(photo.image, "original").url %}
-      <a href="/gallery/photo/{{ photo.id }}">
+      <a href="{{ pageurl(photo) }}">
         <div
           class="photo-thumbnail"
           data-src="{{ original_url }}"

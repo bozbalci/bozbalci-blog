@@ -28,20 +28,20 @@
         class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight"
       >
       {% set photo = page %}
-        {% if photo.exif.make %}
+        {% if photo.exif_make %}
           <div class="text-left">
             <div class="e-camera">
-              <span class="e-make">{{ photo.exif.make }}</span>
-              <span class="e-model">{{ photo.exif.model }}</span>
+              <span class="e-make">{{ photo.exif_make }}</span>
+              <span class="e-model">{{ photo.exif_model }}</span>
             </div>
             <div>
-              <span class="e-lens">{{ photo.exif.lens }}</span>
+              <span class="e-lens">{{ photo.exif_lens }}</span>
             </div>
             <div>
-              <span class="e-focal-length">{{ photo.exif.focal_length }}</span>,
-              <span class="e-aperture">&fnof;/{{ photo.exif.aperture }}</span>,
-              <span class="e-shutter">{{ photo.exif.shutter }}</span>,
-              <span class="e-iso">ISO {{ photo.exif.iso }}</span>
+              <span class="e-focal-length">{{ photo.exif_focal_length }}</span>,
+              <span class="e-aperture">&fnof;/{{ photo.exif_aperture }}</span>,
+              <span class="e-shutter">{{ photo.exif_shutter_speed }}</span>,
+              <span class="e-iso">ISO {{ photo.exif_iso }}</span>
             </div>
           </div>
         {% else %}
@@ -64,12 +64,12 @@
               >
             </span>
           </div>
-          {% if photo.exif.shot_at != 'N/A' %}
+          {% if photo.exif_shot_at %}
             <div>
               <span class="e-taken text-gray-10 dark:text-gray-dark-10">
                 Taken on
-                <time datetime="{{ photo.exif.shot_at|format_iso_date }}"
-                  >{{ photo.exif.shot_at|format_date }}</time
+                <time datetime="{{ photo.exif_shot_at|format_iso_date }}"
+                  >{{ photo.exif_shot_at|format_date }}</time
                 >
               </span>
             </div>
@@ -82,13 +82,13 @@
           <li>
             <a href="/gallery">Back to the gallery</a>
           </li>
-{#          {% for album in photo.albums.all() %}#}
-{#            <li>#}
-{#              <a href="/gallery/album/{{ album.slug }}">#}
-{#                Back to the album &lsquo;{{ album.name }}&rsquo;#}
-{#              </a>#}
-{#            </li>#}
-{#          {% endfor %}#}
+          {% for album in photo.albums.all() %}
+            <li>
+              <a href="{{ pageurl(album) }}">
+                Back to the album &lsquo;{{ album.title }}&rsquo;
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

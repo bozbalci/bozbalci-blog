@@ -1,16 +1,18 @@
 import re
 from datetime import datetime, timedelta
 
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db.models import Prefetch
 from django.utils.safestring import mark_safe
 from jinja2 import pass_context
 from wagtail.models import Page
 
-from notcms.blog.models import FooterText, Menu
+from notcms.blog.models import FooterText, Menu, MenuItem
 from notcms.core.helpers import cache_response
 
 
-@cache_response("is_naked_day", timeout=3600)
+@cache_response("is_naked_day", timeout=60 * 10)
 def is_naked_day(month=4, day=9):
     current_year = datetime.now().year
     base_time = datetime(current_year, month, day)
@@ -38,13 +40,26 @@ def naked_css(request):
 
 
 def get_menu(key):
-    try:
-        menu = Menu.objects.prefetch_related("items").get(key=key)
-        return menu.items.all()
-    except Menu.DoesNotExist:
-        return None
+    cache_key = f"blog_menu_{key}"
+
+    def fetch_menu_items():
+        try:
+            menu = Menu.objects.prefetch_related(
+                Prefetch(
+                    "items",
+                    queryset=MenuItem.objects.select_related("link_page").order_by(
+                        "sort_order"
+                    ),
+                )
+            ).get(key=key)
+            return list(menu.items.all())
+        except Menu.DoesNotExist:
+            return None
+
+    return cache.get_or_set(cache_key, fetch_menu_items, timeout=60 * 10)
 
 
+@cache_response("blog_footer_text", timeout=60 * 10)
 def get_footer_text():
     instance = FooterText.objects.filter(live=True).first()
 

@@ -58,10 +58,25 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
     max_count = 1
 
     def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
         return {
+            **context,
             "music_index": self,
-            "albums": AlbumPage.objects.all(),
+            "albums": self.get_queryset().order_by("-first_published_at"),
         }
+
+    @staticmethod
+    def get_queryset():
+        return AlbumPage.objects.live().select_related("cover_image")
+
+    def render_with_albums(self, request, albums):
+        return self.render(
+            request,
+            context_overrides={
+                "albums": albums,
+            },
+        )
 
     @path("year/<int:year>/")
     @path("year/current/")
@@ -69,14 +84,7 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
         if year is None:
             year = datetime.now().year
 
-        albums = AlbumPage.objects.filter(year=year)
-
-        return self.render(
-            request,
-            context_overrides={
-                "albums": albums,
-            },
-        )
+        return self.render_with_albums(request, self.get_queryset().filter(year=year))
 
     @path("rated/<int:rating>/")
     @path("rated/perfect/")
@@ -84,25 +92,13 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
         if rating is None:
             rating = 10
 
-        albums = AlbumPage.objects.filter(rating=rating)
-
-        return self.render(
-            request,
-            context_overrides={
-                "albums": albums,
-            },
+        return self.render_with_albums(
+            request, self.get_queryset().filter(rating=rating)
         )
 
     @path("shuffled/")
     def shuffled(self, request):
-        albums = AlbumPage.objects.order_by(Random())
-
-        return self.render(
-            request,
-            context_overrides={
-                "albums": albums,
-            },
-        )
+        return self.render_with_albums(request, self.get_queryset().order_by(Random()))
 
 
 class AlbumPage(Page):

@@ -4,7 +4,7 @@ from datetime import datetime
 import httpx
 from django.utils.timezone import make_aware
 
-from notcms.core.helpers import cache_response
+from notcms.blog.helpers import cache_response
 from notcms.music.models import LastfmSettings
 
 

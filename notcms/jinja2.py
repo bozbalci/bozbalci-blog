@@ -14,7 +14,6 @@ from django_vite.templatetags.django_vite import (
 from jinja2 import Environment
 
 from notcms.blog import templatetags as blog_tags
-from notcms.core import templatetags as core_tags
 from notcms.music import templatetags as music_tags
 from notcms.photo import templatetags as photo_tags
 
@@ -48,10 +47,9 @@ def environment(**options):
             # Vite helpers
             "enqueue_script": enqueue_script,
             "enqueue_style": enqueue_style,
-            # Core
-            "now": core_tags.now,
-            "routablepageurl": core_tags.routablepageurl,
             # Blog
+            "now": blog_tags.now,
+            "routablepageurl": blog_tags.routablepageurl,
             "naked_css": blog_tags.naked_css,
             "get_menu": blog_tags.get_menu,
             "get_footer_text": blog_tags.get_footer_text,
@@ -64,10 +62,9 @@ def environment(**options):
     env.filters.update(
         {
             "naturaltime": naturaltime,
-            # Core
-            "format_date": core_tags.format_date,
-            "format_iso_date": core_tags.format_iso_date,
             # Blog
+            "format_date": blog_tags.format_date,
+            "format_iso_date": blog_tags.format_iso_date,
             "strip_outer_p": blog_tags.strip_outer_p,
             # Music
             "stars": music_tags.stars,

@@ -3,8 +3,6 @@ from functools import wraps
 import mistune
 from django.core.cache import cache
 
-from notcms.core.constants import SiteFeature
-
 
 def cache_response(cache_key, timeout):
     def decorator(func):
@@ -20,17 +18,6 @@ def cache_response(cache_key, timeout):
         return wrapper
 
     return decorator
-
-
-@cache_response("core_feature_enabled", timeout=60)
-def is_feature_enabled(site_feature: "SiteFeature"):
-    from notcms.core.models import Feature
-
-    try:
-        feature = Feature.objects.get(slug=site_feature.value)
-        return feature.enabled
-    except Feature.DoesNotExist:
-        return False
 
 
 markdown = mistune.create_markdown(plugins=["footnotes"], escape=False)

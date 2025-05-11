@@ -9,6 +9,7 @@ dependencies = [
     "django-cors-headers==4.7.0",
     "django-debug-toolbar==5.1.0",
     "django-ninja==1.4.1",
+    "django-redis>=5.4.0",
     "django-storages[s3]==1.14.6",
     "django-vite==3.1.0",
     "exifread==3.2.0",
@@ -20,6 +21,8 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "python-dotenv>=1.1.0",
     "sentry-sdk[django]>=2.27.0",
+    "wagtail>=7.0",
+    "wagtail-footnotes>=0.13.0",
     "whitenoise==6.9.0",
 ]
 

@@ -4,9 +4,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from ninja import NinjaAPI
+from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.documents import urls as wagtaildocs_urls
+from wagtail_footnotes import urls as footnotes_urls
 
-import notcms.blog.views as blog_views
-from notcms.blog.views import custom_flatpage
+from notcms.blog.feeds import BlogFeed
+from notcms.toys import urls as toys_urls
 
 api = NinjaAPI()
 
@@ -15,33 +19,22 @@ api.add_router("/music/", "notcms.music.api.router")
 
 urlpatterns = (
     [
-        path("", blog_views.home, name="home"),
-        # Flat pages
-        path("about/", custom_flatpage, {"url": "/about/"}, name="about"),
-        path("colophon/", custom_flatpage, {"url": "/colophon/"}, name="colophon"),
-        path("contact/", custom_flatpage, {"url": "/contact/"}, name="contact"),
-        path("social/", custom_flatpage, {"url": "/social/"}, name="social"),
-        # Special cases
-        path("now/", blog_views.now, name="now"),
-        path("then/", blog_views.then, name="then"),
-        # Apps
-        path("blog/", include("notcms.blog.urls", namespace="blog")),
-        path("gallery/", include("notcms.photo.urls", namespace="photo")),
-        path("music-collection/", include("notcms.music.urls", namespace="music")),
-        path("toys/", include("notcms.toys.urls", namespace="toys")),
-        # Uncomment to test error pages on local
-        # path("400/", lambda r: blog_views.handler400(r, None)),
-        # path("403/", lambda r: blog_views.handler403(r, None)),
-        # path("404/", lambda r: blog_views.handler404(r, None)),
-        # path("500/", blog_views.handler500),
+        # Public URLs
+        path("toys/", include(toys_urls)),
+        path("feed/", BlogFeed(), name="feed"),
+        # Misc. URLs
         path("tapen/", admin.site.urls),
         path("api/", api.urls),
+        # Wagtail URLs
+        path("cms/", include(wagtailadmin_urls)),
+        path("documents/", include(wagtaildocs_urls)),
+        # Admin-only URL, required for wagtail_footnotes
+        path("footnotes/", include(footnotes_urls)),
     ]
-    + debug_toolbar_urls()
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    + debug_toolbar_urls()
+    + [
+        # All other URLs route to Wagtail
+        path("", include(wagtail_urls)),
+    ]
 )
-
-handler400 = blog_views.handler400
-handler403 = blog_views.handler403
-handler404 = blog_views.handler404
-handler500 = blog_views.handler500

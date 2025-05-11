@@ -1,0 +1,96 @@
+{% extends "base_with_sidebar.html" %}
+
+{% block title %}
+  {% if page.title %}
+    {{ page.title }}
+  {% else %}
+    Untitled Photo
+  {% endif %}
+{% endblock %}
+
+{% block navigation %}
+  {% include "photo/partials/navigation.html" %}
+{% endblock %}
+
+{% block scripts %}
+  {{ enqueue_script("lightbox/app.js") }}
+{% endblock %}
+
+{% block content %}
+  <article class="h-entry">
+    <div id="article-container" class="prose mx-auto">
+      <div id="lightbox">
+        {% set original = image(page.image, "original") %}
+        <img src="{{ original.url }}" alt="{{ page.title }}" />
+      </div>
+
+      <div
+        class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight"
+      >
+      {% set photo = page %}
+        {% if photo.exif_make %}
+          <div class="text-left">
+            <div class="e-camera">
+              <span class="e-make">{{ photo.exif_make }}</span>
+              <span class="e-model">{{ photo.exif_model }}</span>
+            </div>
+            <div>
+              <span class="e-lens">{{ photo.exif_lens }}</span>
+            </div>
+            <div>
+              <span class="e-focal-length">{{ photo.exif_focal_length }}</span>,
+              <span class="e-aperture">&fnof;/{{ photo.exif_aperture }}</span>,
+              <span class="e-shutter">{{ photo.exif_shutter_speed }}</span>,
+              <span class="e-iso">ISO {{ photo.exif_iso }}</span>
+            </div>
+          </div>
+        {% else %}
+           Placeholder for flex justify-between
+          <div></div>
+        {% endif %}
+
+        <div class="text-right">
+          {% if page.title %}
+            <div>
+              <span class="e-title italic double-quote">{{ page.title }}</span>
+            </div>
+          {% endif %}
+
+          <div>
+            <span class="e-uploaded">
+              Uploaded on
+              <time datetime="{{ page.first_published_at|format_iso_date }}"
+                >{{ page.first_published_at|format_date }}</time
+              >
+            </span>
+          </div>
+          {% if photo.exif_shot_at %}
+            <div>
+              <span class="e-taken text-gray-10 dark:text-gray-dark-10">
+                Taken on
+                <time datetime="{{ photo.exif_shot_at|format_iso_date }}"
+                  >{{ photo.exif_shot_at|format_date }}</time
+                >
+              </span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="mx-auto font-serif mt-s">
+        <ul>
+          <li>
+            <a href="/gallery">Back to the gallery</a>
+          </li>
+          {% for album in photo.albums.all() %}
+            <li>
+              <a href="{{ pageurl(album) }}">
+                Back to the album &lsquo;{{ album.title }}&rsquo;
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </article>
+{% endblock %}

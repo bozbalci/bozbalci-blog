@@ -25,6 +25,24 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "django_vite",
+    # Wagtail
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail.contrib.settings",
+    "wagtail.contrib.routable_page",
+    "wagtail",
+    "modelcluster",
+    "taggit",
+    # Wagtail plugins
+    "wagtail_footnotes",
     # NotCMS apps
     "notcms.core",
     "notcms.blog",
@@ -44,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = "notcms.urls"
@@ -67,7 +86,15 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
         ],
-        "OPTIONS": {"environment": "notcms.jinja2.environment"},
+        "OPTIONS": {
+            "environment": "notcms.jinja2.environment",
+            "extensions": [
+                "wagtail.jinja2tags.core",
+                "wagtail.admin.jinja2tags.userbar",
+                "wagtail.images.jinja2tags.images",
+                "wagtail.contrib.settings.jinja2tags.settings",
+            ],
+        },
     },
 ]
 
@@ -98,15 +125,13 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LASTFM = {
-    "api_key": os.getenv("LASTFM_API_KEY"),
-    "secret": os.getenv("LASTFM_API_SECRET"),
-    "username": os.getenv("LASTFM_USERNAME"),
-}
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
+
 STATICFILES_DIRS = (BASE_DIR / "static" / "assets", BASE_DIR / "static" / "dist")
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 
 def immutable_file_test(path, url):
@@ -116,3 +141,73 @@ def immutable_file_test(path, url):
 
 
 WHITENOISE_IMMUTABLE_FILE_TEST = immutable_file_test
+
+# Wagtail
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
+
+WAGTAIL_SITE_NAME = "bozbalci blog"
+
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]
+
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    "default": {
+        "WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea",
+        "OPTIONS": {
+            "features": [
+                # Heading elements
+                "h2",
+                "h3",
+                "h4",  # 'h1', 'h5', 'h6',
+                # Bold / italic text
+                "bold",
+                "italic",
+                # Ordered / unordered lists
+                "ol",
+                "ul",
+                # Page, external and email links
+                "link",
+                # Links to documents
+                "document-link",
+                # (disabled) Embedded images
+                # 'image',
+                # (disabled) Embedded media
+                # 'embed',
+                # Inline code
+                "code",
+                # Text formatting
+                "superscript",
+                "subscript",
+                "strikethrough",
+                # Blockquote
+                "blockquote",
+                # Wagtail Footnotes
+            ]
+        },
+    },
+}
+
+WAGTAIL_FOOTNOTES_TEXT_FEATURES = [
+    "bold",
+    "italic",
+    "link",
+    "code",
+    "superscript",
+    "subscript",
+    "strikethrough",
+]
+
+# TODO Wagtail's footnote rendering is fucked up atm
+# See: https://github.com/torchbox/wagtail-footnotes/issues/59
+# WAGTAIL_FOOTNOTES_REFERENCE_TEMPLATE = "blog/partials/wagtail_footnote_reference.html"

@@ -1,6 +1,5 @@
 from functools import wraps
 
-import mistune
 from django.core.cache import cache
 
 
@@ -18,6 +17,3 @@ def cache_response(cache_key, timeout):
         return wrapper
 
     return decorator
-
-
-markdown = mistune.create_markdown(plugins=["footnotes"], escape=False)

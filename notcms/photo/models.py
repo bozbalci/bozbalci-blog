@@ -9,8 +9,6 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.images.models import Image
 from wagtail.models import Page
 
-from notcms.core.models import Category, ImageUpload, Tag
-
 
 def get_fractional_value(formatted: str) -> float:
     if "/" in formatted:
@@ -24,40 +22,6 @@ def get_sidebar_navigation_context():
         "gallery_index": PhotoGalleryIndexPage.objects.first(),
         "albums": PhotoAlbumPage.objects.order_by("title"),
     }
-
-
-class PhotoAlbum(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Photo(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    image = models.OneToOneField(
-        ImageUpload, on_delete=models.CASCADE, null=True, blank=True
-    )
-    title = models.CharField(
-        max_length=255, blank=True, help_text="Optional title for the photo."
-    )
-    exif = models.JSONField(blank=True, null=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    categories = models.ManyToManyField(Category, blank=True)
-    tags = models.ManyToManyField(Tag, blank=True)
-    albums = models.ManyToManyField(PhotoAlbum, blank=True)
-
-    def __str__(self):
-        return self.title or f"Photo {self.id}"
-
-    @property
-    def image_url(self):
-        return self.image.original.url
-
-    @property
-    def thumbnail_url(self):
-        return self.image.thumbnail.url
 
 
 class PhotoGalleryIndexPage(RoutablePageMixin, Page):

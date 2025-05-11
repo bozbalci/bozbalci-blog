@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "django_vite",
+    "rest_framework",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    "wagtail.api.v2",
     # Wagtail plugins
     "wagtail_footnotes",
     # NotCMS apps

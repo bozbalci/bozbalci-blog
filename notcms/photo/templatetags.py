@@ -1,12 +1,12 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
-from notcms.photo.models import Photo
+from notcms.photo.models import PhotoPage
 
 
-def lg_caption(photo: Photo):
+def lg_caption(photo: PhotoPage):
     """
-    Converts a `Photo` into the appropriate `data-sub-html=` attribute
+    Converts a `PhotoPage` into the appropriate `data-sub-html=` attribute
     to be used within a lightGallery thumbnail.
     """
     if not photo:

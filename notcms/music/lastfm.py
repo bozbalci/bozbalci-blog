@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from datetime import datetime
 
 import httpx
@@ -5,7 +6,16 @@ from django.utils.timezone import make_aware
 
 from notcms.core.helpers import cache_response
 from notcms.music.models import LastfmSettings
-from notcms.music.schemas import LastfmTrack
+
+
+@dataclass
+class LastfmTrack:
+    artist: str
+    title: str
+    lastfm_url: str
+    image_url: str
+    scrobbled_at: datetime | None
+    now_playing: bool
 
 
 class LastfmAPI:

@@ -129,6 +129,7 @@ class AlbumPage(Page):
     ]
 
     subpage_types = []
+    parent_page_types = ["MusicCollectionIndexPage"]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

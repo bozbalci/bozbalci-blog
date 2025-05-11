@@ -94,6 +94,9 @@ class PhotoPage(Page):
         FieldPanel("albums", widget=forms.CheckboxSelectMultiple),
     ]
 
+    parent_page_types = ["PhotoGalleryIndexPage"]
+    subpage_types = []
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         return {**context, **get_sidebar_navigation_context()}

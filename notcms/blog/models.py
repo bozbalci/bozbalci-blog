@@ -127,6 +127,9 @@ class BlogPostPage(Page):
         InlinePanel("footnotes", label="Footnotes"),
     ]
 
+    subpage_types = []
+    parent_page_types = ["BlogIndexPage"]
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
@@ -193,6 +196,9 @@ class NowPostPage(Page):
         "body",
         InlinePanel("footnotes", label="Footnotes"),
     ]
+
+    subpage_types = []
+    parent_page_types = ["ThenIndexPage"]
 
     template = "blog/blog_post_page.html"
 

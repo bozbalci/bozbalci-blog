@@ -67,16 +67,6 @@ POSTGRES_USER="django_notcms_owner"
 POSTGRES_PASSWORD="password"
 ```
 
-If you are interested in setting up the Last.fm integration, you will also need
-the following keys:
-
-```dotenv
-# Last.fm API
-LASTFM_API_KEY=
-LASTFM_API_SECRET=
-LASTFM_USERNAME=
-```
-
 ## Dependencies
 
 Install node dependencies and build the frontend:

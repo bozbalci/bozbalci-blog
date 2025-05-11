@@ -6,7 +6,11 @@ p + p {
   font-family: var(--font-serif);
   max-width: 65ch;
 
-  & h1,
+  figure {
+    margin-block: 1.6em;
+  }
+
+  h1,
   h2,
   h3,
   h4,

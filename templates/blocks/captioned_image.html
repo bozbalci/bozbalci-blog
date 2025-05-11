@@ -1,0 +1,8 @@
+<figure>
+  {{ image(value.image, "original", loading="lazy") }}
+  {% if value.caption %}
+  <figcaption class="text-step--1 mt-2xs text-center">
+    {{ value.caption|richtext }}
+  </figcaption>
+  {% endif %}
+</figure>

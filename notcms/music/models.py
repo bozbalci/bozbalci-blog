@@ -55,6 +55,7 @@ class Album(models.Model):
 class MusicCollectionIndexPage(RoutablePageMixin, Page):
     subpage_types = ["AlbumPage"]
     template = "music/index.html"
+    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         return {

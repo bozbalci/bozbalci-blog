@@ -40,9 +40,19 @@ class SummaryDetailsBlock(blocks.StructBlock):
         form_classname = "summary-details-block struct-block"
 
 
+class CaptionedImageBlock(blocks.StructBlock):
+    image = ImageBlock(required=True)
+    caption = blocks.RichTextBlock(required=False)
+
+    class Meta:
+        icon = "image"
+        template = "blocks/captioned_image.html"
+
+
 class CommonPostBodyBlock(blocks.StreamBlock):
     blockquote = blocks.BlockQuoteBlock()
     paragraph = RichTextBlockWithFootnotes(features=WAGTAIL_RICH_TEXT_EDITOR_FEATURES)
     image = ImageBlock()
+    captioned_image = CaptionedImageBlock()
     code = CodeBlock()
     details = SummaryDetailsBlock()

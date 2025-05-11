@@ -9,18 +9,23 @@
     <div id="article-container" class="prose mx-auto">
       <header class="post-header">
         <h1 class="entry-title">{{ page.title }}</h1>
-        {% if page.first_published_at %}
+        {% if page.date %}
+        {% set first_published_at = page.date %}
+        {% else %}
+        {% set first_published_at = page.first_published_at %}
+        {% endif %}
+        {% if first_published_at %}
         <div class="entry-meta">
           Posted on
           <a href="{{ pageurl(page) }}" rel="bookmark">
             <time
                 class="entry-date published"
-                datetime="{{ page.first_published_at|format_iso_date }}"
+                datetime="{{ first_published_at|format_iso_date }}"
             >
-              {{ page.first_published_at|format_date }}</time
+              {{ first_published_at|format_date }}</time
             ></a
           >
-          {% if page.last_published_at.date() != page.first_published_at.date() %}
+          {% if page.last_published_at.date() != first_published_at %}
             &middot; last updated
             <time
                 class="updated"

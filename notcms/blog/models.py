@@ -71,11 +71,12 @@ class HomePage(Page):
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + ["body"]
+    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        posts = BlogPostPage.objects.live().order_by("-first_published_at")[
+        posts = BlogPostPage.objects.live().order_by("-date")[
             : self.MAX_ENTRIES_IN_HOME_PAGE
         ]
 
@@ -88,13 +89,14 @@ class HomePage(Page):
 class BlogIndexPage(RoutablePageMixin, Page):
     subpage_types = ["BlogPostPage"]
     template = "blog/archive.html"
+    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
             "archive_title": "Writing",
-            "posts": BlogPostPage.objects.live().order_by("-first_published_at"),
+            "posts": BlogPostPage.objects.live().order_by("-date"),
         }
 
     @path(r"<int:year>/<int:month>/<slug:slug>/")
@@ -150,12 +152,16 @@ class FlatPage(Page):
 class NowIndexPage(Page):
     subpage_types = []
     template = "blog/blog_post_page.html"
+    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+
+        post = NowPostPage.objects.live().order_by("-date").first()
+
         return {
             **context,
-            "post": NowPostPage.objects.live().order_by("-first_published_at").first(),
+            "page": post,
             "is_now_post": True,
         }
 
@@ -163,29 +169,27 @@ class NowIndexPage(Page):
 class ThenIndexPage(Page):
     subpage_types = ["NowPostPage"]
     template = "blog/archive.html"
+    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
             "archive_title": "Then",
-            "posts": NowPostPage.objects.live().order_by("-first_published_at"),
+            "posts": NowPostPage.objects.live().order_by("-date"),
         }
 
 
 class NowPostPage(Page):
     date = models.DateField("Post date")
-    intro = models.CharField(max_length=250)
     body = StreamField(CommonPostBodyBlock(), null=True, blank=True)
 
     search_fields = Page.search_fields + [
-        index.SearchField("intro"),
         index.SearchField("body"),
     ]
 
     content_panels = Page.content_panels + [
         "date",
-        "intro",
         "body",
         InlinePanel("footnotes", label="Footnotes"),
     ]
@@ -197,7 +201,7 @@ class NowPostPage(Page):
 
         return {
             **context,
-            "post": self,
+            "is_now_post": True,
         }
 
 

@@ -2,10 +2,10 @@
 
 {% block extrahead %}
   <meta property="og:url" content="https://bozbalci.me{{ request.path }}" />
-  <meta property="og:title" content="{{ post.title }} - Berk Özbalcı" />
+  <meta property="og:title" content="{{ page.title }} - Berk Özbalcı" />
   <meta property="og:type" content="article" />
-  <meta property="og:description" content="{{ post.summary }}" />
-  {% if post.is_draft %}
+  <meta property="og:description" content="{{ page.summary }}" />
+  {% if page.is_draft %}
     <meta name="robots" content="noindex" />
   {% endif %}
 {% endblock %}

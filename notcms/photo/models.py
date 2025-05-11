@@ -63,6 +63,7 @@ class Photo(models.Model):
 class PhotoGalleryIndexPage(RoutablePageMixin, Page):
     subpage_types = ["PhotoPage", "PhotoAlbumPage"]
     template = "photo/gallery.html"
+    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

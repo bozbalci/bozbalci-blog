@@ -69,7 +69,9 @@ class PhotoGalleryIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "photos": PhotoPage.objects.order_by("-first_published_at"),
+            "photos": PhotoPage.objects.live()
+            .select_related("image")
+            .order_by("-first_published_at"),
             **get_sidebar_navigation_context(),
         }
 
@@ -157,8 +159,9 @@ class PhotoAlbumPage(Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "photos": PhotoPage.objects.filter(albums=self).order_by(
-                "-first_published_at"
-            ),
+            "photos": PhotoPage.objects.live()
+            .select_related("image")
+            .filter(albums=self)
+            .order_by("-first_published_at"),
             **get_sidebar_navigation_context(),
         }

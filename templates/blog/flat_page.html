@@ -9,9 +9,10 @@
     <div id="article-container" class="prose mx-auto">
       <header class="post-header">
         <h1 class="entry-title">{{ page.title }}</h1>
+        {% if page.first_published_at %}
         <div class="entry-meta">
           Posted on
-          <a href="#" rel="bookmark">
+          <a href="{{ pageurl(page) }}" rel="bookmark">
             <time
                 class="entry-date published"
                 datetime="{{ page.first_published_at|format_iso_date }}"
@@ -19,18 +20,37 @@
               {{ page.first_published_at|format_date }}</time
             ></a
           >
-          {% if page.latest_revision_created_at.date() != page.first_published_at.date() %}
+          {% if page.last_published_at.date() != page.first_published_at.date() %}
             &middot; last updated
             <time
                 class="updated"
-                datetime="{{ page.latest_revision_created_at|format_iso_date }}"
+                datetime="{{ page.last_published_at|format_iso_date }}"
             >
-              {{ page.latest_revision_created_at|format_date }}
+              {{ page.last_published_at|format_date }}
             </time>
           {% endif %}
         </div>
+      {% endif %}
       </header>
-      {{ page.body }}
+      {% if is_now_post %}
+        <div class="bg-gray-3 dark:bg-gray-dark-3 p-m mb-s">
+          <p>
+            (This is a <a href="https://nownownow.com/about">now page</a>,
+            inspired by <a href="https://sive.rs/">Derek Sivers</a> and many
+            other people who have one on their personal websites.)
+          </p>
+          <p>
+            See past updates on the <a href="{{ slugurl("then") }}">archive</a>.
+          </p>
+        </div>
+      {% endif %}
+      {{ unfuck_footnotes(page.body) }}
+      {% include "blog/partials/wagtail_footnotes.html" %}
+      <footer class="post-footer mt-m">
+        <p>
+          <a href="/">Back to the home page</a>
+        </p>
+      </footer>
     </div>
   </article>
 {% endblock %}

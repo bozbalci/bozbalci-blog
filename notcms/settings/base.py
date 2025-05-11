@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     # Wagtail plugins
-    "wagtailcodeblock",
+    "wagtail_footnotes",
     # NotCMS apps
     "notcms.core",
     "notcms.blog",
@@ -160,3 +160,54 @@ WAGTAILDOCS_EXTENSIONS = [
     "xlsx",
     "zip",
 ]
+
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    "default": {
+        "WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea",
+        "OPTIONS": {
+            "features": [
+                # Heading elements
+                "h2",
+                "h3",
+                "h4",  # 'h1', 'h5', 'h6',
+                # Bold / italic text
+                "bold",
+                "italic",
+                # Ordered / unordered lists
+                "ol",
+                "ul",
+                # Page, external and email links
+                "link",
+                # Links to documents
+                "document-link",
+                # (disabled) Embedded images
+                # 'image',
+                # (disabled) Embedded media
+                # 'embed',
+                # Inline code
+                "code",
+                # Text formatting
+                "superscript",
+                "subscript",
+                "strikethrough",
+                # Blockquote
+                "blockquote",
+                # Wagtail Footnotes
+            ]
+        },
+    },
+}
+
+WAGTAIL_FOOTNOTES_TEXT_FEATURES = [
+    "bold",
+    "italic",
+    "link",
+    "code",
+    "superscript",
+    "subscript",
+    "strikethrough",
+]
+
+# TODO Wagtail's footnote rendering is fucked up atm
+# See: https://github.com/torchbox/wagtail-footnotes/issues/59
+# WAGTAIL_FOOTNOTES_REFERENCE_TEMPLATE = "blog/partials/wagtail_footnote_reference.html"

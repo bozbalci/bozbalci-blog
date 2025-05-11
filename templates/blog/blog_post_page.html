@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "blog/flat_page.html" %}
 
 {% block extrahead %}
   <meta property="og:url" content="https://bozbalci.me{{ request.path }}" />
@@ -8,54 +8,4 @@
   {% if post.is_draft %}
     <meta name="robots" content="noindex" />
   {% endif %}
-{% endblock %}
-
-{% block title %}
-  {{ post.title }}
-{% endblock %}
-
-{% block main %}
-  <article class="h-entry wrapper">
-    <div id="article-container" class="prose mx-auto">
-      <header class="post-header">
-        <h1 class="entry-title">{{ post.title }}</h1>
-        <div class="entry-meta">
-          Posted on
-          <a href="{{ pageurl(post) }}" rel="bookmark">
-            <time
-              class="entry-date published"
-              datetime="{{ post.first_published_at|format_iso_date }}"
-              >{{ post.first_published_at|format_date }}</time
-            ></a
-          >
-          {% if post.latest_revision_created_at.date() != post.first_published_at.date() %}
-            &middot; last updated
-            <time
-              class="updated"
-              datetime="{{ post.latest_revision_created_at|format_iso_date }}"
-            >
-              {{ post.latest_revision_created_at|format_date }}
-            </time>
-          {% endif %}
-        </div>
-      </header>
-      {% if is_now_post %}
-        <div class="bg-gray-3 dark:bg-gray-dark-3 p-m mb-s">
-          <p>
-            (This is a <a href="https://nownownow.com/about">now page</a>,
-            inspired by <a href="https://sive.rs/">Derek Sivers</a> and many
-            other people who have one on their personal websites.)
-          </p>
-          <p>
-            See past updates on the <a href="{{ slugurl("then") }}">archive</a>.
-          </p>
-        </div>
-      {% endif %}
-      {{ post.body }}
-      <p>
-        <a href="/">Back to the home page</a>
-      </p>
-    </div>
-    <div></div>
-  </article>
 {% endblock %}

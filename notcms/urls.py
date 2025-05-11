@@ -7,6 +7,7 @@ from ninja import NinjaAPI
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail_footnotes import urls as footnotes_urls
 
 from notcms.blog.feeds import BlogFeed
 from notcms.toys import urls as toys_urls
@@ -24,6 +25,9 @@ urlpatterns = (
         path("documents/", include(wagtaildocs_urls)),
         path("toys/", include(toys_urls)),
         path("feed/", BlogFeed(), name="feed"),
+        # Admin-only URLs, required for wagtail_footnotes
+        path("footnotes/", include(footnotes_urls)),
+        # All URLs route to Wagtail except for the Django debug toolbar
         re_path(r"^(?!__debug__/)", include(wagtail_urls)),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,11 +5,9 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel, PublishingPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
-from wagtail.images.blocks import ImageBlock
 from wagtail.models import (
     DraftStateMixin,
     Orderable,
@@ -20,8 +18,8 @@ from wagtail.models import (
 )
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
-from wagtailcodeblock.blocks import CodeBlock
 
+from notcms.blog.blocks import CommonPostBodyBlock
 from notcms.core.helpers import markdown
 from notcms.core.models import Category, Tag
 
@@ -113,21 +111,19 @@ class BlogIndexPage(RoutablePageMixin, Page):
 class BlogPostPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = StreamField(
-        [
-            ("blockquote", blocks.BlockQuoteBlock()),
-            ("paragraph", blocks.RichTextBlock()),
-            ("image", ImageBlock()),
-            ("code", CodeBlock()),
-        ]
-    )
+    body = StreamField(CommonPostBodyBlock(), null=True, blank=True)
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("body"),
     ]
 
-    content_panels = Page.content_panels + ["date", "intro", "body"]
+    content_panels = Page.content_panels + [
+        "date",
+        "intro",
+        "body",
+        InlinePanel("footnotes", label="Footnotes"),
+    ]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -143,17 +139,12 @@ class BlogPostPage(Page):
 
 
 class FlatPage(Page):
-    body = StreamField(
-        [
-            ("blockquote", blocks.BlockQuoteBlock()),
-            ("paragraph", blocks.RichTextBlock()),
-            ("image", ImageBlock()),
-            ("code", CodeBlock()),
-        ],
-        null=True,
-    )
+    body = StreamField(CommonPostBodyBlock(), null=True, blank=True)
 
-    content_panels = Page.content_panels + ["body"]
+    content_panels = Page.content_panels + [
+        "body",
+        InlinePanel("footnotes", label="Footnotes"),
+    ]
 
 
 class NowIndexPage(Page):
@@ -185,22 +176,19 @@ class ThenIndexPage(Page):
 class NowPostPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = StreamField(
-        [
-            ("blockquote", blocks.BlockQuoteBlock()),
-            ("paragraph", blocks.RichTextBlock()),
-            ("image", ImageBlock()),
-            ("code", CodeBlock()),
-        ],
-        null=True,
-    )
+    body = StreamField(CommonPostBodyBlock(), null=True, blank=True)
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
         index.SearchField("body"),
     ]
 
-    content_panels = Page.content_panels + ["date", "intro", "body"]
+    content_panels = Page.content_panels + [
+        "date",
+        "intro",
+        "body",
+        InlinePanel("footnotes", label="Footnotes"),
+    ]
 
     template = "blog/blog_post_page.html"
 

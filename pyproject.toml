@@ -21,7 +21,7 @@ dependencies = [
     "python-dotenv>=1.1.0",
     "sentry-sdk[django]>=2.27.0",
     "wagtail>=7.0",
-    "wagtailcodeblock>=1.29.0.2",
+    "wagtail-footnotes>=0.13.0",
     "whitenoise==6.9.0",
 ]
 

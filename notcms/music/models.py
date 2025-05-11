@@ -105,6 +105,8 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
 
 
 class AlbumPage(Page):
+    MAX_RELATED_ALBUMS_SHOWN = 4
+
     artist = models.CharField(max_length=255)
     year = models.IntegerField(null=True, blank=True)
     cover_image = models.ForeignKey(
@@ -128,9 +130,16 @@ class AlbumPage(Page):
     subpage_types = []
 
     def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
         return {
+            **context,
             "album": self,
             "music_index": self.get_parent().specific,
+            "related_albums": AlbumPage.objects.live()
+            .filter(artist=self.artist)
+            .exclude(id=self.id)
+            .order_by("-first_published_at")[: self.MAX_RELATED_ALBUMS_SHOWN],
         }
 
     def __str__(self):

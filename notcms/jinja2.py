@@ -55,6 +55,7 @@ def environment(**options):
             "naked_css": blog_tags.naked_css,
             "get_menu": blog_tags.get_menu,
             "get_footer_text": blog_tags.get_footer_text,
+            "unfuck_footnotes": blog_tags.unfuck_footnotes,
             # Music
             "get_last_played": music_tags.get_last_played,
         }
@@ -66,6 +67,8 @@ def environment(**options):
             # Core
             "format_date": core_tags.format_date,
             "format_iso_date": core_tags.format_iso_date,
+            # Blog
+            "strip_outer_p": blog_tags.strip_outer_p,
             # Music
             "stars": music_tags.stars,
             # Photo

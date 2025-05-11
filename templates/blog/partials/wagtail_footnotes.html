@@ -1,0 +1,15 @@
+{% if page.footnotes %}
+    <div class="footnotes" id="footnotes">
+        <h2 id="footnote-label">Footnotes</h2>
+        <ol>
+            {% for footnote in page.footnotes.all() %}
+                <li id="footnote-{{ loop.index }}">
+                <p>
+                  {{ footnote.text|richtext|strip_outer_p }}
+                  <a href="#footnote-source-{{ loop.index }}" aria-label="Back to content">↩</a>
+                </p>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endif %}

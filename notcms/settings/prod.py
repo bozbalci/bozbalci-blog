@@ -15,6 +15,8 @@ if os.getenv("IP_ADDRESS"):
 
 CSRF_TRUSTED_ORIGINS = ["https://bozbalci.me", "https://www.bozbalci.me"]
 
+WAGTAILADMIN_BASE_URL = "https://bozbalci.me"
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -110,5 +112,3 @@ sentry_sdk.init(
     profile_session_sample_rate=1.0,
     profile_lifecycle="trace",
 )
-
-WAGTAILADMIN_BASE_URL = "https://bozbalci.me"

@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     # Wagtail plugins
     "wagtail_footnotes",
     # NotCMS apps
-    "notcms.core",
     "notcms.blog",
     "notcms.photo",
     "notcms.music",

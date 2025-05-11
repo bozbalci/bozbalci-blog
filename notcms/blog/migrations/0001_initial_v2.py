@@ -46,8 +46,6 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("core", "0005_alter_imageupload_original_and_more"),
-        ("flatpages", "0001_initial"),
         ("wagtailcore", "0094_alter_page_locale"),
     ]
 

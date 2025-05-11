@@ -156,5 +156,4 @@ def unfuck_footnotes(context, html):
 def strip_outer_p(html):
     stripped = re.sub(r"^<p[^>]*>(.*?)</p>$", r"\1", html.strip(), flags=re.DOTALL)
     res = mark_safe(stripped)
-    print(res)
     return res

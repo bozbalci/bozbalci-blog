@@ -18,8 +18,6 @@ class Migration(migrations.Migration):
     ]
 
     dependencies = [
-        ("core", "0003_tag_alter_imageupload_original_category"),
-        ("core", "0004_alter_imageupload_original_and_more"),
         ("wagtailcore", "0094_alter_page_locale"),
         ("wagtailimages", "0027_image_description"),
     ]

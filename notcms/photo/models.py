@@ -25,7 +25,7 @@ def get_sidebar_navigation_context():
 
 
 class PhotoGalleryIndexPage(RoutablePageMixin, Page):
-    subpage_types = ["PhotoPage", "PhotoAlbumsIndexPage", "PhotoAlbumPage"]
+    subpage_types = ["PhotoPage", "PhotoAlbumsIndexPage"]
     template = "photo/gallery.html"
     max_count = 1
 
@@ -109,6 +109,7 @@ class PhotoPage(Page):
 
 
 class PhotoAlbumsIndexPage(RoutablePageMixin, Page):
+    parent_page_types = ["PhotoGalleryIndexPage"]
     subpage_types = ["PhotoAlbumPage"]
     template = "photo/albums_index.html"
     max_count = 1
@@ -129,7 +130,7 @@ class PhotoAlbumPage(Page):
         FieldPanel("description"),
     ]
 
-    parent_page_types = ["PhotoGalleryIndexPage", "PhotoAlbumsIndexPage"]
+    parent_page_types = ["PhotoAlbumsIndexPage"]
     subpage_types = []
     template = "photo/gallery.html"
 

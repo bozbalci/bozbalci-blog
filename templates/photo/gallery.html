@@ -1,8 +1,6 @@
 {% extends "base_with_sidebar.html" %}
 
-{% block title %}
-  Gallery
-{% endblock %}
+{% block title %}Gallery{% endblock %}
 
 {% block navigation %}
   {% include "photo/partials/navigation.html" %}
@@ -13,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+  {% if photos %}
   <div class="auto-grid grid-gutter-3xs" id="lightbox-gallery">
     {% for photo in photos %}
       {% set original_url = image(photo.image, "original").url %}
@@ -29,4 +28,9 @@
       </a>
     {% endfor %}
   </div>
+    {% else %}
+    <div>
+      This album is currently empty. Please check back later!
+    </div>
+  {% endif %}
 {% endblock %}

@@ -1,12 +1,6 @@
 {% extends "base_with_sidebar.html" %}
 
-{% block title %}
-  {% if page.title %}
-    {{ page.title }}
-  {% else %}
-    Untitled Photo
-  {% endif %}
-{% endblock %}
+{% block title %}{% if page.title %}{{ page.title }}{% else %}Untitled Photo{% endif %}{% endblock %}
 
 {% block navigation %}
   {% include "photo/partials/navigation.html" %}

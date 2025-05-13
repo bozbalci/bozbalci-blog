@@ -25,7 +25,7 @@ def get_sidebar_navigation_context():
 
 
 class PhotoGalleryIndexPage(RoutablePageMixin, Page):
-    subpage_types = ["PhotoPage", "PhotoAlbumPage"]
+    subpage_types = ["PhotoPage", "PhotoAlbumsIndexPage", "PhotoAlbumPage"]
     template = "photo/gallery.html"
     max_count = 1
 
@@ -108,6 +108,20 @@ class PhotoPage(Page):
         super().save(*args, **kwargs)
 
 
+class PhotoAlbumsIndexPage(RoutablePageMixin, Page):
+    subpage_types = ["PhotoAlbumPage"]
+    template = "photo/albums_index.html"
+    max_count = 1
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        return {
+            **context,
+            "albums": PhotoAlbumPage.objects.order_by("title"),
+            **get_sidebar_navigation_context(),
+        }
+
+
 class PhotoAlbumPage(Page):
     description = models.TextField(blank=True)
 
@@ -119,13 +133,22 @@ class PhotoAlbumPage(Page):
     subpage_types = []
     template = "photo/gallery.html"
 
+    def get_photos(self):
+        return (
+            PhotoPage.objects.live()
+            .filter(albums=self)
+            .select_related("image")
+            .order_by("-first_published_at")
+        )
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "photos": PhotoPage.objects.live()
-            .select_related("image")
-            .filter(albums=self)
-            .order_by("-first_published_at"),
+            "photos": self.get_photos(),
             **get_sidebar_navigation_context(),
         }
+
+    @property
+    def cover_image(self):
+        return self.get_photos().first().image if self.get_photos() else None

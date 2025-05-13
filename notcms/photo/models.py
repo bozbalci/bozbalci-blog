@@ -129,7 +129,7 @@ class PhotoAlbumPage(Page):
         FieldPanel("description"),
     ]
 
-    parent_page_types = ["PhotoGalleryIndexPage"]
+    parent_page_types = ["PhotoGalleryIndexPage", "PhotoAlbumsIndexPage"]
     subpage_types = []
     template = "photo/gallery.html"
 

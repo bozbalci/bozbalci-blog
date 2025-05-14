@@ -13,6 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     "django.contrib.sites",
+    # TODO Uninstall flatpages
     "django.contrib.flatpages",
     "django.contrib.admin",
     "django.contrib.auth",

@@ -8,17 +8,15 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_footnotes import urls as footnotes_urls
 
-# from notcms.blog.feeds import BlogFeed
+from notcms.blog.feeds import BlogFeed
 from notcms.toys import urls as toys_urls
 
 from .api import api
 
 urlpatterns = (
     [
-        # Public URLs
         path("toys/", include(toys_urls)),
-        # path("feed/", BlogFeed(), name="feed"),
-        # Misc. URLs
+        path("blog/feed/", BlogFeed(), name="feed"),
         path("api/v2/", api.urls),
         path("tapen/", admin.site.urls),
         path("cms/", include(wagtailadmin_urls)),

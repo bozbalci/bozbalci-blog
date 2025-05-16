@@ -11,15 +11,16 @@ from wagtail_footnotes import urls as footnotes_urls
 # from notcms.blog.feeds import BlogFeed
 from notcms.toys import urls as toys_urls
 
+from .api import api
+
 urlpatterns = (
     [
         # Public URLs
         path("toys/", include(toys_urls)),
         # path("feed/", BlogFeed(), name="feed"),
         # Misc. URLs
+        path("api/v2/", api.urls),
         path("tapen/", admin.site.urls),
-        path("api/v2/", include("notcms.api_urls")),
-        # Wagtail URLs
         path("cms/", include(wagtailadmin_urls)),
         path("documents/", include(wagtaildocs_urls)),
         # Admin-only URL, required for wagtail_footnotes

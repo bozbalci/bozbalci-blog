@@ -13,8 +13,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     "django.contrib.sites",
-    # TODO Uninstall flatpages
-    "django.contrib.flatpages",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -26,7 +24,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "django_vite",
-    "rest_framework",
+    "ninja",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -43,7 +41,6 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
-    "wagtail.api.v2",
     # Wagtail plugins
     "wagtail_footnotes",
     # NotCMS apps

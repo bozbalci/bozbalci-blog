@@ -47,18 +47,6 @@ STORAGES = {
     },
 }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("POSTGRES_DATABASE"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
-        "CONN_MAX_AGE": 600,
-    }
-}
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

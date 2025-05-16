@@ -11,6 +11,30 @@ SITE_ID = 1
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+WSGI_APPLICATION = "notcms.wsgi.application"
+
+ROOT_URLCONF = "notcms.urls"
+
+LANGUAGE_CODE = "en-us"
+
+TIME_ZONE = "UTC"
+
+USE_I18N = True
+
+USE_TZ = True
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = (BASE_DIR / "static" / "assets", BASE_DIR / "static" / "dist")
+
+MEDIA_ROOT = BASE_DIR / "media"
+
+MEDIA_URL = "/media/"
+
 INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.admin",
@@ -76,7 +100,18 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = "notcms.urls"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
+}
 
 TEMPLATES = [
     {
@@ -109,9 +144,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "notcms.wsgi.application"
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -130,19 +162,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
-USE_I18N = True
-USE_TZ = True
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATIC_URL = "/static/"
-
-STATICFILES_DIRS = (BASE_DIR / "static" / "assets", BASE_DIR / "static" / "dist")
-
-MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "/media/"
+# ------------------------------------------------------------
+# Whitenoise
+# ------------------------------------------------------------
 
 
 def immutable_file_test(path, url):
@@ -153,7 +175,9 @@ def immutable_file_test(path, url):
 
 WHITENOISE_IMMUTABLE_FILE_TEST = immutable_file_test
 
+# ------------------------------------------------------------
 # Wagtail
+# ------------------------------------------------------------
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
@@ -222,3 +246,7 @@ WAGTAIL_FOOTNOTES_TEXT_FEATURES = [
 # TODO Wagtail's footnote rendering is fucked up atm
 # See: https://github.com/torchbox/wagtail-footnotes/issues/59
 # WAGTAIL_FOOTNOTES_REFERENCE_TEMPLATE = "blog/partials/wagtail_footnote_reference.html"
+
+# ------------------------------------------------------------
+# End of base.py
+# ------------------------------------------------------------

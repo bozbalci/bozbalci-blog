@@ -396,6 +396,25 @@ class Remote:
         version = self._resolve_rollback_version(target, for_delete=True)
         self._delete_release(version, prompt=True)
 
+    def get_prod_data_json(self):
+        version = "release-current"
+        remote_path = f"{HOME}/{version}/data.json"
+
+        with self.current_release_directory():
+            self._uv("""run manage.py dumpdata\
+            --natural-foreign \
+            --natural-primary \
+            --exclude contenttypes \
+            --exclude auth.permission \
+            --exclude sessions \
+            --exclude admin.logentry > data.json""")
+
+        # TODO Fabric's Transfer class does not inherit cwd for some reason
+        self.conn.get(remote_path, "data.json")
+
+        with self.current_release_directory():
+            self.conn.run("rm data.json")
+
 
 class RemoteWithSuperuser(Remote):
     def __init__(self, *, connection=None):
@@ -483,3 +502,15 @@ def show(c):
 @task
 def delete(c, version_identifier):
     Remote().delete(version_identifier)
+
+
+@task
+def sync_with_prod_db(c):
+    print("[Remote] Dumping production data...")
+    Remote().get_prod_data_json()
+    print("[Local] Flushing local DB...")
+    c.run("uv run manage.py flush --no-input")
+    print("[Local] Loading data.json")
+    c.run("uv run manage.py loaddata data.json")
+    print("[Local] Cleaning up...")
+    c.run("rm data.json")

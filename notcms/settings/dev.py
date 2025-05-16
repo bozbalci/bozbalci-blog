@@ -10,6 +10,8 @@ ALLOWED_HOSTS = ["*"]
 
 INTERNAL_IPS = ["127.0.0.1"]
 
+WAGTAILADMIN_BASE_URL = "http://localhost:8080"
+
 INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -28,13 +30,21 @@ DJANGO_VITE = {
     }
 }
 
-STORAGES = {
-    "default": {
+# noinspection DuplicatedCode
+if os.getenv("USE_PROD_AWS_IN_DEV"):
+    # noinspection DuplicatedCode
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": os.getenv("AWS_STORAGE_BUCKET_NAME"),
+            "region_name": os.getenv("AWS_S3_REGION_NAME"),
+            "access_key": os.getenv("AWS_ACCESS_KEY_ID"),
+            "secret_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
+            "querystring_auth": False,
+            "custom_domain": os.getenv("AWS_S3_CUSTOM_DOMAIN"),
+        },
+    }
+else:
+    STORAGES["default"] = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
-WAGTAILADMIN_BASE_URL = "http://localhost:8080"
+    }

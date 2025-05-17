@@ -96,6 +96,14 @@ class BlogPostPage(Page):
     def permalink(self):
         return f"/blog/{self.date:%Y/%m}/{self.slug}"
 
+    def get_sitemap_urls(self, request=None):
+        return [
+            {
+                "location": request.build_absolute_uri(self.permalink),
+                "lastmod": self.last_published_at,
+            }
+        ]
+
 
 class FlatPage(Page):
     body = StreamField(CommonPostBodyBlock(), null=True, blank=True)

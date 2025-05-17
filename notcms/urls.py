@@ -3,8 +3,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.views.generic import TemplateView
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_footnotes import urls as footnotes_urls
 
@@ -23,6 +25,11 @@ urlpatterns = (
         path("documents/", include(wagtaildocs_urls)),
         # Admin-only URL, required for wagtail_footnotes
         path("footnotes/", include(footnotes_urls)),
+        path("sitemap.xml", sitemap),
+        path(
+            "robots.txt",
+            TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        ),
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     + debug_toolbar_urls()

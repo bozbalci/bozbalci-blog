@@ -18,5 +18,3 @@
 @import "./theme.css";
 
 @source "../../templates/**";
-
-@config "../../tailwind.config.js";

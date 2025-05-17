@@ -111,3 +111,15 @@
   --wrapper-width: clamp(16rem, 93vw, 77.5rem);
   --gutter: var(--spacing-s-m);
 }
+
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:not(.light *) {
+      @slot;
+    }
+  }
+
+  &:is(.dark *) {
+    @slot;
+  }
+}

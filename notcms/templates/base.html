@@ -10,7 +10,7 @@
     />
     <meta name="author" content="Berk Özbalcı" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content="Django 5.1" />
+    <meta name="generator" content="Django 5.2.1" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#fcfdfc" />
     <script>
@@ -54,7 +54,6 @@
     ></script>
   </head>
   <body>
-    {{ wagtailuserbar() }}
     <a href="#main-content" class="sr-only focus:not-sr-only">
       Skip to main content
     </a>
@@ -80,5 +79,6 @@
     {{ enqueue_script("theme-toggle/app.js") }}
     {% block scripts %}
     {% endblock %}
+    {{ wagtailuserbar() }}
   </body>
 </html>

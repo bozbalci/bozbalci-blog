@@ -135,7 +135,10 @@ MIDDLEWARE = [
 # -----------------------------------------------------------------------------
 STATIC_ROOT = str(BASE_DIR / "staticfiles")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [str(APPS_DIR / "static" / "dist")]
+STATICFILES_DIRS = [
+    str(APPS_DIR / "static" / "dist"),
+    str(APPS_DIR / "static" / "images"),
+]
 
 
 def immutable_file_test(path, url):

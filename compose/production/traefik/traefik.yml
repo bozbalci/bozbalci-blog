@@ -3,16 +3,13 @@ log:
 
 entryPoints:
   web:
-    # http
     address: ':80'
     http:
-      # https://doc.traefik.io/traefik/routing/entrypoints/#entrypoint
       redirections:
         entryPoint:
           to: web-secure
 
   web-secure:
-    # https
     address: ':443'
 
   flower:
@@ -24,9 +21,7 @@ certificatesResolvers:
     acme:
       email: 'webmaster@bozbalci.me'
       storage: /etc/traefik/acme/acme.json
-      # https://doc.traefik.io/traefik/https/acme/#httpchallenge
-      httpChallenge:
-        entryPoint: web
+      tlsChallenge: {}
 
 http:
   routers:
@@ -47,7 +42,6 @@ http:
         - flower
       service: flower
       tls:
-        # https://doc.traefik.io/traefik/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
   middlewares:

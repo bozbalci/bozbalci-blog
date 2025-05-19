@@ -8,6 +8,8 @@ services:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
     image: notcms_production_traefik
+    cap_add:
+      - NET_BIND_SERVICE
     depends_on:
       - django
     volumes:

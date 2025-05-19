@@ -1,87 +1,74 @@
-# Getting started with "not-a-cms"
+# Getting started
 
-This application was tested on the following setup:
+I recommend using Docker for local development. This project is configured to use Postgres, Redis and Celery locally.
 
-- Python 3.13
-- node v23.4.0
-- pnpm 10.5.2
-- PostgreSQL 14.15
+1. [Get Docker](https://docs.docker.com/get-started/get-docker/)
+2. Run `docker compose -f docker-compose.local.yml up -d`
 
-## Python setup
+This will launch:
 
-Install uv and Python 3.13:
+- Postgres
+- Redis
+- Vite development server (with hot module replacement)
+- Django app
+- Celery (separate containers for [`celery.beat`](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html) and worker)
+- [Flower](https://flower.readthedocs.io/en/latest/)
 
-```shell
-$ brew install uv
-$ uv python install 3.13
-$ uv sync
-```
+Migrations are applied automatically during startup.
 
-## Database setup
+## Create superuser
 
-In order to run this application locally, you need to set up a Postgres database
-server.
-
-Here are the instructions for macOS:
+You can run the following command to create a superuser in Django:
 
 ```shell
-$ brew install postgresql
-$ brew services start postgresql
+$ docker compose -f docker-compose.local.yml run --rm django python manage.py createsuperuser
 ```
 
-You can verify that Postgres is running by running `pg_isready`.
+## Populating the database and media assets
 
-Launch a Postgres shell by running `psql postgres` on the shell, and then run
-the following commands:
+The site can generally tolerate missing data (pages will just render empty).
 
-```sql
-CREATE USER django_notcms_owner WITH PASSWORD 'password';
-ALTER ROLE django_notcms_owner SET client_encoding TO 'utf8';
-ALTER ROLE django_notcms_owner SET default_transaction_isolation TO 'read committed';
-ALTER ROLE django_notcms_owner SET timezone to 'UTC';
-CREATE DATABASE notcms OWNER django_notcms_owner;
+By default, Wagtail CMS has an empty "Welcome to your Wagtail site!" page, so you need to go to `/cms` to create a new HomePage (and all the other special singleton pages) manually. You will also need to create all the site menus yourself.
+
+Fortunately for me, I can dump production DB into a `.sql` file and load it directly to my database:
+
+```sh
+$ cat dump.sql | docker exec -i notcms_local_postgres psql -U postgres_user -d postgres_db
 ```
 
-This should set up the permissions correctly, but if you run into any permission
-issues down the line, I've found the following commands helped:
+Again, as I have the privileges to my S3 bucket, I can pull media files so that they appear on my local development environment as well. This is purely optional:
 
-```sql
-GRANT ALL PRIVILEGES ON DATABASE notcms TO django_notcms_owner;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO django_notcms_owner;
-GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO django_notcms_owner;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO django_notcms_owner;
-GRANT USAGE ON SCHEMA public TO django_notcms_owner;
-GRANT CREATE ON SCHEMA public TO django_notcms_owner;
+```sh
+$ aws s3 sync s3://i.bozbalci.me media
 ```
 
-## Preparing the environment
+## Non-Docker setups
 
-Create a `.env` file at the project root. You need the following keys:
+I don't really do this anymore, but if you have to, here's a short summary:
 
-```dotenv
-# Postgres
-POSTGRES_HOST="localhost"
-POSTGRES_PORT=""
-POSTGRES_NAME="notcms"
-POSTGRES_USER="django_notcms_owner"
-POSTGRES_PASSWORD="password"
-```
-
-## Dependencies
-
-Install node dependencies and build the frontend:
-
-```shell
-$ pnpm install
-$ pnpm run build
-# Optionally, start the Vite development server (continue on a separate terminal)
-$ pnpm run dev
-```
-
-Start the Django development server:
-
-```shell
-$ uv run manage.py migrate
-$ uv run manage.py collectstatic
-$ uv run manage.py runserver
-```
+1. Install uv
+2. `uv python install 3.13` and then `uv sync`
+3. Install Postgres and run the following queries:
+   ```postgresql
+   CREATE USER postgres_user WITH PASSWORD 'postgres_password';
+   ALTER ROLE postgres_user SET client_encoding TO 'utf8';
+   ALTER ROLE postgres_user SET default_transaction_isolation TO 'read committed';
+   ALTER ROLE postgres_user SET timezone to 'UTC';
+   CREATE DATABASE postgres_db OWNER postgres_user;
+   
+   -- Just in case, I remember I had to run these at some point
+   GRANT ALL PRIVILEGES ON DATABASE postgres_db TO postgres_user;
+   GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO postgres_user;
+   GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO postgres_user;
+   GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO postgres_user;
+   GRANT USAGE ON SCHEMA public TO postgres_user;
+   GRANT CREATE ON SCHEMA public TO postgres_user;
+   ```
+4. Create an `.env` file at the project root.
+     - This is a good start: `cp .envs/.local/.postgres .env`
+5. Install Node dependencies, I use [pnpm](https://pnpm.io/)
+6. Start the Vite dev server: `pnpm run dev`
+7. `uv run manage.py migrate`
+8. `uv run manage.py collectstatic`
+9. `uv run manage.py runserver`
+10. Troubleshoot issues until done!

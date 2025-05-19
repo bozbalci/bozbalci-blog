@@ -5,19 +5,22 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "celery[redis]>=5.5.2",
     "django==5.2.1",
+    "django-celery-beat>=2.8.1",
     "django-cors-headers==4.7.0",
     "django-debug-toolbar==5.2.0",
+    "django-environ>=0.12.0",
     "django-ninja>=1.4.1",
     "django-redis>=5.4.0",
     "django-storages[s3]==1.14.6",
     "django-vite==3.1.0",
     "exifread==3.3.0",
+    "flower>=2.0.1",
     "gunicorn>=23.0.0",
     "httpx>=0.28.1",
     "jinja2==3.1.6",
     "psycopg2-binary>=2.9.10",
-    "python-dotenv>=1.1.0",
     "sentry-sdk[django]>=2.27.0",
     "wagtail>=7.0",
     "wagtail-footnotes>=0.13.0",
@@ -29,6 +32,7 @@ dev = [
     "colorama>=0.4.6",
     "fabric>=3.2.2",
     "ruff>=0.11.9",
+    "watchfiles>=1.0.5",
 ]
 
 [tool.ruff.lint]

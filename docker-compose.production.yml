@@ -1,0 +1,52 @@
+volumes:
+  production_redis_data: {}
+  production_traefik: {}
+
+services:
+  traefik:
+    build:
+      context: .
+      dockerfile: ./compose/production/traefik/Dockerfile
+    image: notcms_production_traefik
+    cap_add:
+      - NET_BIND_SERVICE
+    depends_on:
+      - django
+    volumes:
+      - production_traefik:/etc/traefik/acme
+    ports:
+      - '0.0.0.0:80:80'
+      - '0.0.0.0:443:443'
+      - '0.0.0.0:5555:5555'
+
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: notcms_production_django
+    depends_on:
+      - redis
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    command: /start
+
+  redis:
+    image: docker.io/redis:6
+    volumes:
+      - production_redis_data:/data
+
+  celeryworker:
+    <<: *django
+    image: notcms_production_celeryworker
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: notcms_production_celerybeat
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: notcms_production_flower
+    command: /start-flower

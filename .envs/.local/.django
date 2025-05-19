@@ -1,0 +1,14 @@
+USE_DOCKER=True
+
+# Django
+DJANGO_DEBUG=True
+DJANGO_SECRET_KEY="ueRDZfmjHYBfht1zFr8kzDBgLrxuBk0oMIxiGOOv2ctQqg7SdjDzNbpBrStBqa63"
+
+# Redis
+REDIS_URL=redis://redis:6379
+
+# Celery
+
+# Flower
+CELERY_FLOWER_USER=CqFbiEtVbnMcsfnwkFncEQGfhJcxefzs
+CELERY_FLOWER_PASSWORD=610QEYTIePXXBD0wOOb9VBDqu0C8OKHNbQan48WHlkD7SP3bkuUvpgm3mr5ngE1p

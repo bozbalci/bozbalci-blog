@@ -11,13 +11,16 @@ router = Router()
 
 
 @router.get("/last-played", response=LastfmTrack)
-def get_last_played_track(request) -> LastfmTrack | None:
+def get_last_played_track(request, skip_cache: bool = False) -> LastfmTrack | None:
     """
     Get the last track played by me as reported by Last.fm. The response from Last.fm
     is cached for a few minutes, so this endpoint does not always return the latest
     track.
     """
-    return lastfm_api.get_last_played()
+    if skip_cache:
+        return lastfm_api.get_last_played()
+    else:
+        return lastfm_api.get_cached_last_played()
 
 
 @router.get("/albums", response=list[AlbumSchema])

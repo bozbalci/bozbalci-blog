@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@import "lightgallery/css/lightgallery.css";
+
+@import "./global/colors.css";
+@import "./global/fonts.css";
+@import "./global/global-styles.css";
+
+@import "./compositions/grid.css";
+@import "./compositions/sidebar.css";
+
+@import "./utilities/typography.css";
+@import "./utilities/wrapper.css";
+@import "./utilities/flow.css";
+@import "./utilities/no-js.css";
+@import "./utilities/shame.css";
+
+@import "./theme.css";
+
+@source "../../templates/**";

@@ -1,0 +1,26 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/webmaster/bozbalci-blog
+            git fetch origin
+            git reset --hard origin/master
+            docker compose -f docker-compose.production.yml up \
+              --build --force-recreate --remove-orphans -d

@@ -1,0 +1,74 @@
+from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.templatetags.static import static
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+from django_vite.templatetags.django_vite import (
+    vite_asset,
+    vite_asset_url,
+    vite_hmr_client,
+    vite_legacy_asset,
+    vite_legacy_polyfills,
+    vite_preload_asset,
+    vite_react_refresh,
+)
+from jinja2 import Environment
+
+from notcms.blog import templatetags as blog_tags
+from notcms.music import templatetags as music_tags
+from notcms.photo import templatetags as photo_tags
+
+
+def enqueue_script(path):
+    return vite_asset(f"notcms/static/js/{path}")
+
+
+def enqueue_style(path):
+    asset_url = vite_asset_url(f"notcms/static/css/{path}")
+    return mark_safe(f'<link rel="stylesheet" type="text/css" href="{asset_url}">')
+
+
+def environment(**options):
+    env = Environment(**options)
+
+    env.globals.update(
+        {
+            "static": static,
+            "url": reverse,
+            # Vite
+            "vite_asset": vite_asset,
+            "vite_asset_url": vite_asset_url,
+            "vite_hmr_client": vite_hmr_client,
+            "vite_legacy_asset": vite_legacy_asset,
+            "vite_legacy_polyfills": vite_legacy_polyfills,
+            "vite_preload_asset": vite_preload_asset,
+            "vite_react_refresh": vite_react_refresh,
+            # Vite helpers
+            "enqueue_script": enqueue_script,
+            "enqueue_style": enqueue_style,
+            # Blog
+            "now": blog_tags.now,
+            "routablepageurl": blog_tags.routablepageurl,
+            "naked_css": blog_tags.naked_css,
+            "get_menu": blog_tags.get_menu,
+            "get_footer_text": blog_tags.get_footer_text,
+            "unfuck_footnotes": blog_tags.unfuck_footnotes,
+            # Music
+            "get_last_played": music_tags.get_last_played,
+        }
+    )
+
+    env.filters.update(
+        {
+            "naturaltime": naturaltime,
+            # Blog
+            "format_date": blog_tags.format_date,
+            "format_iso_date": blog_tags.format_iso_date,
+            "strip_outer_p": blog_tags.strip_outer_p,
+            # Music
+            "stars": music_tags.stars,
+            # Photo
+            "lg_caption": photo_tags.lg_caption,
+        }
+    )
+
+    return env

@@ -1,10 +1,9 @@
+from django.conf import settings
 from wagtail import blocks
 from wagtail.images.blocks import ImageBlock
 from wagtail_footnotes.blocks import RichTextBlockWithFootnotes
 
-from notcms.settings.base import WAGTAILADMIN_RICH_TEXT_EDITORS
-
-WAGTAIL_RICH_TEXT_EDITOR_FEATURES = WAGTAILADMIN_RICH_TEXT_EDITORS["default"][
+WAGTAIL_RICH_TEXT_EDITOR_FEATURES = settings.WAGTAILADMIN_RICH_TEXT_EDITORS["default"][
     "OPTIONS"
 ]["features"]
 

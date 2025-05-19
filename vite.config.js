@@ -13,13 +13,20 @@ const getEntryPoints = (baseDir) => {
 };
 
 export default defineConfig({
+  server: {
+    host: true,
+    port: 5173,
+  },
   plugins: [tailwindcss(), vue()],
   base: "/static",
   build: {
     manifest: "manifest.json",
-    outDir: resolve("./static/dist"),
+    outDir: resolve("./notcms/static/dist"),
     rollupOptions: {
-      input: ["static/css/main.css", ...getEntryPoints("static/js")],
+      input: [
+        "notcms/static/css/main.css",
+        ...getEntryPoints("notcms/static/js"),
+      ],
       output: {
         entryFileNames: "[hash].js",
         assetFileNames: "[hash].[ext]",
@@ -28,7 +35,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": resolve(__dirname, "static/js"),
+      "@": resolve(__dirname, "notcms/static/js"),
       vue: "vue/dist/vue.esm-bundler",
     },
   },

@@ -32,4 +32,4 @@ def stars(value: int):
 def get_last_played(request):
     from .lastfm import lastfm_api
 
-    return lastfm_api.get_last_played()
+    return lastfm_api.get_last_played_cached()

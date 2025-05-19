@@ -12,8 +12,6 @@ env.read_env(str(BASE_DIR / ".env"))
 
 SSH_HOST = env("FABRIC_SSH_HOST")
 SSH_USER = env("FABRIC_SSH_USER")
-GITHUB_REPO = env("FABRIC_GITHUB_REPO")
-PROJECT_NAME = env("FABRIC_PROJECT_NAME", default=GITHUB_REPO.split("/")[1])
 
 
 def query_yes_no(question, default="yes"):
@@ -59,7 +57,7 @@ class Remote:
 
     @contextmanager
     def project_root(self):
-        with self.conn.cd(PROJECT_NAME):
+        with self.conn.cd("bozbalci-blog"):
             yield
 
     def _compose(self, command):
@@ -92,6 +90,15 @@ class Remote:
         with self.project_root():
             self._compose("ps")
 
+    def push_prod_envfiles(self):
+        self.conn.run("mkdir -p bozbalci-blog/.envs/.production")
+        self.conn.put(
+            ".envs/.production/.django", "bozbalci-blog/.envs/.production/.django"
+        )
+        self.conn.put(
+            ".envs/.production/.postgres", "bozbalci-blog/.envs/.production/.postgres"
+        )
+
 
 @task
 def migrate(c):
@@ -116,3 +123,8 @@ def logs(c, service: str | None = None):
 @task
 def ps(c):
     Remote().ps()
+
+
+@task
+def push_prod_envfiles(c):
+    Remote().push_prod_envfiles()

@@ -1,11 +1,13 @@
 from datetime import datetime
 
 import httpx
+from django.core.cache import cache
 from django.utils.timezone import make_aware
 
-from notcms.blog.helpers import cache_response
 from notcms.music.models import LastfmSettings
 from notcms.music.schemas import LastfmTrack
+
+GET_LAST_PLAYED_CACHE_KEY = "music_lastfm_get_last_played"
 
 
 class LastfmAPI:
@@ -29,7 +31,12 @@ class LastfmAPI:
     def username(self):
         return self.settings.username
 
-    @cache_response("music_lastfm_get_last_played", timeout=180)
+    def get_last_played_cached(self):
+        data = cache.get(GET_LAST_PLAYED_CACHE_KEY)
+        if data is None:
+            return None
+        return LastfmTrack(**data)
+
     def get_last_played(self):
         # Get the recent tracks from Last.fm API
         params = {

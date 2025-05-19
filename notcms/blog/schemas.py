@@ -1,8 +1,12 @@
-from ninja import ModelSchema
+from ninja import ModelSchema, Schema
 from pydantic import Field
 from wagtail.images.models import AbstractRendition
 
 from notcms.blog.models import BlogPostPage, NowPostPage
+
+
+class HealthResponse(Schema):
+    motd: str
 
 
 class RenditionSchema(ModelSchema):

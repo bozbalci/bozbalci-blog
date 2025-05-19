@@ -2,7 +2,15 @@ from ninja import Router
 from ninja.pagination import paginate
 
 from notcms.blog.models import BlogPostPage, NowPostPage
-from notcms.blog.schemas import BlogPostSchema, NowPostSchema
+from notcms.blog.schemas import BlogPostSchema, HealthResponse, NowPostSchema
+
+default_router = Router()
+
+
+@default_router.get("/health", response=HealthResponse)
+def health(request):
+    return HealthResponse(motd="bozbalci API is healthy")
+
 
 router = Router()
 

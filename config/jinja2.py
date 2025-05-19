@@ -17,15 +17,13 @@ from notcms.blog import templatetags as blog_tags
 from notcms.music import templatetags as music_tags
 from notcms.photo import templatetags as photo_tags
 
-# Vite helpers
-
 
 def enqueue_script(path):
-    return vite_asset(f"static/js/{path}")
+    return vite_asset(f"notcms/static/js/{path}")
 
 
 def enqueue_style(path):
-    asset_url = vite_asset_url(f"static/css/{path}")
+    asset_url = vite_asset_url(f"notcms/static/css/{path}")
     return mark_safe(f'<link rel="stylesheet" type="text/css" href="{asset_url}">')
 
 

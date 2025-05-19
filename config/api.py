@@ -1,9 +1,9 @@
 from ninja import NinjaAPI
 
+from notcms.blog.api import default_router
 from notcms.blog.api import router as blog_router
 from notcms.music.api import router as music_router
 from notcms.photo.api import router as photo_router
-from notcms.schemas import HealthResponse
 
 api = NinjaAPI(
     title="bozbalci API",
@@ -13,11 +13,7 @@ api = NinjaAPI(
 <p>Use responsibly and with caution. I may introduce breaking changes at will!</p>""",
 )
 
+api.add_router("/", default_router, tags=[""])
 api.add_router("/blog/", blog_router, tags=["blog"])
 api.add_router("/music/", music_router, tags=["music"])
 api.add_router("/gallery/", photo_router, tags=["gallery"])
-
-
-@api.get("/health", response=HealthResponse)
-def health(request):
-    return HealthResponse(motd="bozbalci API is healthy")

@@ -32,7 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 GITHUB_REPO = "bozbalci/bozbalci-blog"
 
-DJANGO_SETTINGS_MODULE = "notcms.settings.prod"
+DJANGO_SETTINGS_MODULE = "config.settings.production"
 
 CONFIGURATION_FILES = {
     "gunicorn.service": "/etc/systemd/system/gunicorn.service",

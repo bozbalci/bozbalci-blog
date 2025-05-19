@@ -20,7 +20,7 @@ urlpatterns = (
         path("toys/", include(toys_urls)),
         path("blog/feed/", BlogFeed(), name="feed"),
         path("api/v2/", api.urls),
-        path("tapen/", admin.site.urls),
+        path(settings.ADMIN_URL, admin.site.urls),
         path("cms/", include(wagtailadmin_urls)),
         path("documents/", include(wagtaildocs_urls)),
         # Admin-only URL, required for wagtail_footnotes

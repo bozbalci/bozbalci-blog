@@ -1,0 +1,80 @@
+volumes:
+  notcms_local_redis_data: {}
+  notcms_local_postgres_data: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: notcms_local_django
+    container_name: notcms_local_django
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - /app/.venv
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - '8000:8000'
+    command: /start
+
+  postgres:
+    image: docker.io/postgres:16
+    container_name: notcms_local_postgres
+    volumes:
+      - notcms_local_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.envs/.local/.postgres
+
+  redis:
+    image: docker.io/redis:6
+    container_name: notcms_local_redis
+    volumes:
+      - notcms_local_redis_data:/data
+
+  celeryworker:
+    <<: *django
+    image: notcms_local_celeryworker
+    container_name: notcms_local_celeryworker
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: notcms_local_celerybeat
+    container_name: notcms_local_celerybeat
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: notcms_local_flower
+    container_name: notcms_local_flower
+    ports:
+      - '5555:5555'
+    command: /start-flower
+
+  vite:
+    build:
+      context: .
+      dockerfile: ./compose/local/vite/Dockerfile
+    image: notcms_local_vite
+    container_name: notcms_local_vite
+    depends_on:
+      - django
+    ports:
+      - '5173:5173'
+    volumes:
+      - .:/app:z
+      - /app/node_modules
+    command: npm run dev

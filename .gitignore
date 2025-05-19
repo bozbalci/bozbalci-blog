@@ -39,14 +39,8 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Environments
-.env
+# uv virtualenv
 .venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
 # Nuclear option for JetBrains IDEs
 .idea/
@@ -98,5 +92,7 @@ pyrightconfig.json
 # Node modules
 node_modules/
 
-# Secrets
-secrets/
+# Envs
+.env
+.envs/
+!.envs/.local

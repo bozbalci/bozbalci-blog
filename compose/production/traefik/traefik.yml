@@ -12,9 +12,6 @@ entryPoints:
   web-secure:
     address: ':443'
 
-  flower:
-    address: ':5555'
-
 certificatesResolvers:
   letsencrypt:
     # https://doc.traefik.io/traefik/https/acme/#lets-encrypt
@@ -39,7 +36,7 @@ http:
     flower-secure-router:
       rule: 'Host(`celery-flower.bozbalci.me`)'
       entryPoints:
-        - flower
+        - web-secure
       service: flower
       tls:
         certResolver: letsencrypt
@@ -63,7 +60,6 @@ http:
           - url: http://flower:5555
 
 providers:
-  # https://doc.traefik.io/traefik/master/providers/file/
   file:
     filename: /etc/traefik/traefik.yml
     watch: true

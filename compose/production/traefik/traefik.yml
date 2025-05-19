@@ -37,7 +37,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: 'Host(`bozbalci.me`)'
+      rule: 'Host(`celery-flower.bozbalci.me`)'
       entryPoints:
         - flower
       service: flower

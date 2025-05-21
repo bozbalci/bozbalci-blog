@@ -9,29 +9,45 @@
           {% include "music/partials/lastfm_widget.html" %}
         {% endif %}
         {{ get_footer_text()|richtext }}
+          {% set fine_print_menu = get_menu("footer-fine-print-menu") %}
+          {% if fine_print_menu %}
+          <nav class="mt-[1em]">
+            <ul class="flex flex-wrap space-x-2xs">
+            {% for item in fine_print_menu %}
+              <li class="before:content-['#'] before:text-gray-8 dark:before:text-gray-dark-8">
+                  <a href="{{item.url}}">{{item.title}}</a>
+              </li>
+            {% endfor %}
+            </ul>
+          </nav>
+          {% endif %}
       </div>
       <div class="flex space-x-m">
         {% set footer_left = get_menu("footer-left") %}
         {% set footer_right = get_menu("footer-right") %}
 
         {% if footer_left %}
-        <ul class="space-y-3xs">
-            {% for item in footer_left %}
-              <li>
-                <a href="{{ item.url }}" rel="{{ item.rel }}">{{ item.title }}</a>
-              </li>
-            {% endfor %}
-        </ul>
+          <nav>
+              <ul class="space-y-3xs">
+                  {% for item in footer_left %}
+                  <li>
+                      <a href="{{ item.url }}" rel="{{ item.rel }}">{{ item.title }}</a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </nav>
         {% endif %}
 
         {% if footer_right %}
-          <ul class="space-y-3xs">
-            {% for item in footer_right %}
-              <li>
-                <a href="{{ item.url }}" rel="{{ item.rel }}">{{ item.title }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+          <nav>
+              <ul class="space-y-3xs">
+                  {% for item in footer_right %}
+                  <li>
+                      <a href="{{ item.url }}" rel="{{ item.rel }}">{{ item.title }}</a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </nav>
         {% endif %}
       </div>
     </div>

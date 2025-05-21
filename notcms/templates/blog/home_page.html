@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block fulltitle %}Berk Özbalcı{% endblock %}
+{% block fulltitle %}{{ page.seo_title or page.title }}{% endblock %}
 
 {% block main %}
   <article class="wrapper">

@@ -30,10 +30,11 @@ The site can generally tolerate missing data (pages will just render empty).
 
 By default, Wagtail CMS has an empty "Welcome to your Wagtail site!" page, so you need to go to `/cms` to create a new HomePage (and all the other special singleton pages) manually. You will also need to create all the site menus yourself.
 
-Fortunately for me, I can dump production DB into a `.sql` file and load it directly to my database:
+Fortunately for me, I can dump the production DB load it directly to my database:
 
 ```sh
-$ cat dump.sql | docker exec -i notcms_local_postgres psql -U postgres_user -d postgres_db
+$ PGPASSWORD=... pg_dump -U django_notcms_owner -h .. -p ... -d notcms -Fc -f dump.pg
+$ cat dump.pg | docker exec -i notcms_local_postgres pg_restore -U django_notcms_owner -d notcms
 ```
 
 Again, as I have the privileges to my S3 bucket, I can pull media files so that they appear on my local development environment as well. This is purely optional:

@@ -6,10 +6,7 @@ from django_vite.templatetags.django_vite import (
     vite_asset,
     vite_asset_url,
     vite_hmr_client,
-    vite_legacy_asset,
-    vite_legacy_polyfills,
     vite_preload_asset,
-    vite_react_refresh,
 )
 from jinja2 import Environment
 
@@ -38,10 +35,7 @@ def environment(**options):
             "vite_asset": vite_asset,
             "vite_asset_url": vite_asset_url,
             "vite_hmr_client": vite_hmr_client,
-            "vite_legacy_asset": vite_legacy_asset,
-            "vite_legacy_polyfills": vite_legacy_polyfills,
             "vite_preload_asset": vite_preload_asset,
-            "vite_react_refresh": vite_react_refresh,
             # Vite helpers
             "enqueue_script": enqueue_script,
             "enqueue_style": enqueue_style,

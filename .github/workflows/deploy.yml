@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/webmaster/bozbalci-blog
+            cd /home/${{ secrets.SSH_USER }}/bozbalci-blog
             git fetch origin
             git reset --hard origin/master
             docker compose -f docker-compose.production.yml up \

@@ -1,6 +1,7 @@
 import lightGallery from "lightgallery";
 
 import { LIGHTGALLERY_LICENSE_KEY } from "@/lightbox/constants.js";
+import mount from "@/lib/mount.js";
 
 function registerLightbox(element) {
   const options = {
@@ -15,9 +16,4 @@ function registerLightbox(element) {
   lightGallery(element, options);
 }
 
-window.onload = () => {
-  const element = document.getElementById("lightbox-gallery");
-  if (element) {
-    registerLightbox(element);
-  }
-};
+mount("#lightbox-gallery", registerLightbox);

@@ -1,0 +1,11 @@
+{% if menu %}
+  <nav>
+    <ul class="space-y-3xs">
+      {% for item in menu %}
+        <li>
+          <a href="{{ item.url }}" rel="{{ item.rel }}">{{ item.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}

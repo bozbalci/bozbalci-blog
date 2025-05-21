@@ -63,8 +63,6 @@ class PhotoPage(Page):
     parent_page_types = ["PhotoGalleryIndexPage"]
     subpage_types = []
 
-    thumbnail_filter = "fill-600x600"
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         return {**context, **get_sidebar_navigation_context()}

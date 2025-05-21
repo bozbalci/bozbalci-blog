@@ -40,10 +40,7 @@ class PhotoSchema(ModelSchema):
 
     @staticmethod
     def resolve_images(photo: PhotoPage) -> list[AbstractRendition]:
-        filters = [
-            "original",
-            photo.thumbnail_filter,
-        ]
+        filters = ["original", "fill-600x600"]
         if image := photo.image:
             return image.get_renditions(*filters).values()
 

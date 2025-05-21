@@ -22,8 +22,8 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    # Admin-only URL, required for wagtail_footnotes
-    path("footnotes/", include(footnotes_urls)),
+    path("footnotes/", include(footnotes_urls)),  # Admin-only
+    path("i18n/", include("django.conf.urls.i18n")),
     path("sitemap.xml", sitemap),
     path(
         "robots.txt",

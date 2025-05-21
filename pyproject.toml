@@ -19,11 +19,11 @@ dependencies = [
     "flower>=2.0.1",
     "gunicorn>=23.0.0",
     "httpx>=0.28.1",
-    "jinja2==3.1.6",
     "psycopg2-binary>=2.9.10",
     "sentry-sdk[django]>=2.27.0",
     "wagtail>=7.0",
     "wagtail-footnotes>=0.13.0",
+    "wagtail-localize>=1.12.1",
     "whitenoise==6.9.0",
 ]
 

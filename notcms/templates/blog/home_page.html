@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block fulltitle %}{{ page.seo_title or page.title }}{% endblock %}
+{% load wagtailcore_tags %}
+
+{% block fulltitle %}{{ page.seo_title|default:page.title }}{% endblock %}
 
 {% block main %}
   <article class="wrapper">

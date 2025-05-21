@@ -1,5 +1,8 @@
 {% extends "base_with_sidebar.html" %}
 
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
 {% block title %}Photo Albums{% endblock %}
 
 {% block navigation %}
@@ -10,17 +13,13 @@
   <ul class="auto-grid grid-min-item-[12rem]">
     {% for album in albums %}
       <li>
-        <a href="{{ pageurl(album) }}" class="no-underline">
+        <a href="{% pageurl album %}" class="no-underline">
           <div class="photo-thumbnail">
             {% if album.cover_image %}
-            {{ image(album.cover_image,
-          "width-600",
-          class="border-1 border-gray-6 dark:border-gray-dark-6 aspect-square object-cover" ,
-                loading="lazy")
-                }}
-              {% else %}
+              {% image album.cover_image fill-600x600 class="border-1 border-gray-6 dark:border-gray-dark-6 aspect-square object-cover" loading="lazy" %}
+            {% else %}
               <div class="border-1 border-gray-6 dark:border-gray-dark-6 aspect-square width-[600px] font-mono flex items-center justify-center bg-gray-3 dark:bg-gray-dark-3">
-              Empty
+                Empty
               </div>
             {% endif %}
           </div>

@@ -12,6 +12,10 @@ staticfiles/
 # Virtualenv
 .venv
 
+# Translations
+*.pot
+*.mo
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml

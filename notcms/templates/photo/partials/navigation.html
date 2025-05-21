@@ -1,7 +1,9 @@
+{% load wagtailcore_tags %}
+
 <nav class="lg:sticky lg:top-gutter">
   <ul>
     <li>
-      <a href="{{ pageurl(gallery_index) }}">Camera roll</a>
+      <a href="{% pageurl gallery_index %}">Camera roll</a>
     </li>
     <li class="mt-xs text-gray-9 dark:text-gray-dark-9">
       Albums
@@ -13,7 +15,7 @@
           {{ album.title }}
         </span>
         {% else %}
-          <a href="{{ pageurl(album) }}">
+          <a href="{% pageurl album %}">
             {{ album.title }}
           </a>
         {% endif %}

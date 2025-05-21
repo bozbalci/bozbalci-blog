@@ -1,3 +1,5 @@
+{% load menu %}
+
 <header class="mb-m py-m leading-single">
   <div class="wrapper flex items-center justify-between">
     <h1>
@@ -22,9 +24,9 @@
     </h1>
     <nav>
       <ul class="flex items-center gap-x-2xs">
-        {% set header_menu = get_menu("header") %}
+        {% get_menu "header" as header_menu %}
         {% if header_menu %}
-          {% for item in get_menu("header") %}
+          {% for item in header_menu %}
             <li class="py-2xs px-xs">
               <a href="{{ item.url }}" class="no-underline" rel="{{ item.rel }}">
                 {{ item.title }}

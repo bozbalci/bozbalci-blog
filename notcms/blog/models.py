@@ -7,6 +7,7 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import (
     DraftStateMixin,
+    Locale,
     Orderable,
     Page,
     PreviewableMixin,
@@ -25,14 +26,15 @@ class HomePage(Page):
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + ["body"]
-    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        posts = BlogPostPage.objects.live().order_by("-date")[
-            : self.MAX_ENTRIES_IN_HOME_PAGE
-        ]
+        posts = (
+            BlogPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date")[: self.MAX_ENTRIES_IN_HOME_PAGE]
+        )
 
         return {
             **context,
@@ -57,6 +59,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
     def blog_post_by_slug(self, request, year, month, slug):
         post = get_object_or_404(
             BlogPostPage.objects.live(),
+            locale=Locale.get_active(),
             date__year=year,
             date__month=month,
             slug=slug,
@@ -141,7 +144,9 @@ class ThenIndexPage(Page):
         return {
             **context,
             "archive_title": "Then",
-            "posts": NowPostPage.objects.live().order_by("-date"),
+            "posts": NowPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date"),
         }
 
 

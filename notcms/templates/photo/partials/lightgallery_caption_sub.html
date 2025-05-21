@@ -1,3 +1,6 @@
+{% load datetime_filters %}
+{% load wagtailcore_tags %}
+
 <div class="font-mono text-step--2">
   <div class="e-textbg">
     {% if photo.title %}
@@ -37,10 +40,6 @@
         {{ photo.exif_shot_at|format_date }}
       </time>
     {% endif %}
-    <a
-      href="{{ pageurl(photo) }}"
-      class="e-permalink"
-      >Permalink</a
-    >
+    <a href="{% pageurl photo %}" class="e-permalink" >Permalink</a>
   </div>
 </div>

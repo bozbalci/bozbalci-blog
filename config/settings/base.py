@@ -29,6 +29,7 @@ LANGUAGES = [
 USE_I18N = True
 USE_TZ = True
 SITE_ID = 1
+LOCALE_PATHS = [str(BASE_DIR / "locale")]
 
 # -----------------------------------------------------------------------------
 # DATABASES
@@ -75,6 +76,8 @@ WAGTAIL_APPS = [
     "wagtail",
     # Plugins
     "wagtail_footnotes",
+    "wagtail_localize",
+    "wagtail_localize.locales",
 ]
 
 THIRD_PARTY_APPS = [
@@ -162,7 +165,7 @@ MEDIA_URL = "/media/"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [str(APPS_DIR / "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -170,19 +173,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
-    {
-        "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": [APPS_DIR / "templates"],
-        "OPTIONS": {
-            "environment": "config.jinja2.environment",
-            "extensions": [
-                "wagtail.jinja2tags.core",
-                "wagtail.admin.jinja2tags.userbar",
-                "wagtail.images.jinja2tags.images",
-                "wagtail.contrib.settings.jinja2tags.settings",
+                "wagtail.contrib.settings.context_processors.settings",
+                "notcms.blog.context_processors.naked_css",
             ],
         },
     },

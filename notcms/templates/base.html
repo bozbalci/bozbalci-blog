@@ -1,3 +1,7 @@
+{% load static %}
+{% load vite %}
+{% load wagtailuserbar %}
+
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -30,23 +34,22 @@
     <link
       rel="icon"
       type="image/png"
-      href="{{ static("favicon-96x96.png") }}"
+      href="{% static "favicon-96x96.png" %}"
       sizes="96x96"
     />
-    <link rel="icon" type="image/svg+xml" href="{{ static("favicon.svg") }}" />
-    <link rel="shortcut icon" href="{{ static("favicon.ico") }}" />
+    <link rel="icon" type="image/svg+xml" href="{% static "favicon.svg" %}" />
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="{{ static("apple-touch-icon.png") }}"
+      href="{% static "apple-touch-icon.png" %}"
     />
     <meta name="apple-mobile-web-app-title" content="bozbalci" />
     {% block extrahead %}
     {% endblock %}
-    {% set no_css = naked_css(request) %}
     {% if not no_css %}
-      {{ enqueue_style("main.css") }}
-      {{ vite_hmr_client() }}
+      {% enqueue_style "main.css" %}
+      {% enqueue_hmr_client %}
     {% endif %}
     <script
       src="https://cdn.usefathom.com/script.js"
@@ -77,9 +80,9 @@
     {% block footer %}
       {% include "partials/footer.html" %}
     {% endblock %}
-    {{ enqueue_script("theme-toggle/app.js") }}
+    {% enqueue_script "theme-toggle" %}
     {% block scripts %}
     {% endblock %}
-    {{ wagtailuserbar() }}
+    {% wagtailuserbar %}
   </body>
 </html>

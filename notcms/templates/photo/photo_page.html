@@ -1,27 +1,32 @@
 {% extends "base_with_sidebar.html" %}
+{% load wagtailcore_tags %}
+{% load datetime_filters %}
 
-{% block title %}{{ page.title or "Untitled Photo" }}{% endblock %}
+{% load wagtailimages_tags %}
+
+{% load vite %}
+
+{% block title %}{{ page.title|default:"Untitled Photo" }}{% endblock %}
 
 {% block navigation %}
   {% include "photo/partials/navigation.html" %}
 {% endblock %}
 
 {% block scripts %}
-  {{ enqueue_script("lightbox/app.js") }}
+  {% enqueue_script "lightbox" %}
 {% endblock %}
 
 {% block content %}
   <article class="h-entry">
     <div id="article-container" class="prose mx-auto">
       <div id="lightbox">
-        {% set original = image(page.image, "original") %}
+        {% image page.image original as original %}
         <img src="{{ original.url }}" alt="{{ page.title }}" />
       </div>
 
       <div
         class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight"
       >
-      {% set photo = page %}
         {% if photo.exif_make %}
           <div class="text-left">
             <div class="e-camera">
@@ -76,9 +81,9 @@
           <li>
             <a href="/gallery">Back to the gallery</a>
           </li>
-          {% for album in photo.albums.all() %}
+          {% for album in photo.albums.all %}
             <li>
-              <a href="{{ pageurl(album) }}">
+              <a href="{% pageurl album %}">
                 Back to the album &lsquo;{{ album.title }}&rsquo;
               </a>
             </li>

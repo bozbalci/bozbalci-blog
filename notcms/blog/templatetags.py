@@ -65,14 +65,17 @@ def routablepageurl(context, page, url_name, *args, **kwargs):
     return base_url + routed_url
 
 
-@cache_response("is_naked_day", timeout=60 * 10)
 def is_naked_day(month=4, day=9):
-    current_year = datetime.now().year
-    base_time = datetime(current_year, month, day)
-    start = (base_time + timedelta(hours=-14)).timestamp()
-    end = (base_time + timedelta(hours=36)).timestamp()
-    now = datetime.now().timestamp()
-    return start <= now <= end
+    def _compute_is_naked_day():
+        current_time = datetime.now()
+        base = datetime(current_time.year, month, day)
+        start = base - timedelta(hours=14)
+        end = base + timedelta(hours=36)
+        return start <= current_time <= end
+
+    return cache.get_or_set(
+        "is_naked_day", lambda: _compute_is_naked_day, timeout=60 * 10
+    )
 
 
 def naked_css(request):
@@ -82,14 +85,18 @@ def naked_css(request):
     April 9 is CSS Naked Day. This context processor sets a flag
     that can be used in templates to disable loading CSS.
     """
+    if not request:
+        return False
 
-    if "nocss" in request.GET:
+    if "css" in request.GET:
+        request.session["nocss"] = False
+    elif "nocss" in request.GET:
         request.session["nocss"] = True
-    elif "css" in request.GET:
-        request.session.pop("nocss", None)
 
-    no_css = request.session.get("nocss", False) or is_naked_day()
-    return no_css
+    if "nocss" in request.session:
+        return request.session["nocss"]
+    else:
+        return is_naked_day()
 
 
 def get_menu(key):

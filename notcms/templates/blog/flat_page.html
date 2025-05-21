@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }}{% endblock %}
+{% block title %}{{ page.seo_title or page.title }}{% endblock %}
 
 {% block main %}
   <article class="h-entry wrapper">

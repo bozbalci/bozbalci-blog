@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <title>{% block fulltitle %}{% block title %}{% endblock %} – Berk Özbalcı{% endblock %}</title>
-    <meta name="description" content="Personal home page of Berk Özbalcı" />
-    <meta
-      name="keywords"
-      content="blog, software, music, photography, coffee, django, indieweb"
-    />
+    {% if page and page.search_description %}
+      <meta name="description" content="{{ page.search_description }}" />
+    {% else %}
+      <meta name="description" content="Personal home page of Berk Özbalcı" />
+    {% endif %}
+    <meta property="og:site_name" content="Berk Özbalcı" />
     <meta name="author" content="Berk Özbalcı" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content="Django 5.2.1" />

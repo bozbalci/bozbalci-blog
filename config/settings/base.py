@@ -21,7 +21,7 @@ if READ_DOT_ENV_FILE:
 # -----------------------------------------------------------------------------
 DEBUG = env.bool("DJANGO_DEBUG", False)
 TIME_ZONE = "UTC"
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
 LANGUAGES = [
     ("en", _("English")),
     ("tr", _("Turkish")),
@@ -124,6 +124,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
@@ -281,6 +282,10 @@ CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 # WAGTAIL
 # -----------------------------------------------------------------------------
 WAGTAIL_SITE_NAME = "bozbalci blog"
+
+WAGTAIL_I18N_ENABLED = True
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES
 
 WAGTAILDOCS_EXTENSIONS = [
     "csv",

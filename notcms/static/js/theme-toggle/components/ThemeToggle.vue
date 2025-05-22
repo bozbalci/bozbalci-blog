@@ -65,9 +65,9 @@ import PcIcon from "@/theme-toggle/components/PcIcon.vue";
 import { ref, watch } from "vue";
 
 const settings = [
-  { value: "light", label: "Light", icon: SunIcon },
-  { value: "dark", label: "Dark", icon: MoonIcon },
-  { value: "system", label: "System", icon: PcIcon },
+  { value: "light", label: gettext("Light"), icon: SunIcon },
+  { value: "dark", label: gettext("Dark"), icon: MoonIcon },
+  { value: "system", label: gettext("System"), icon: PcIcon },
 ];
 
 const storedTheme = localStorage.getItem("theme") || "system";

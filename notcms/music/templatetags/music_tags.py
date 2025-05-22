@@ -24,6 +24,6 @@ def stars(value: int):
         "full_stars": range(full_stars),
         "has_half_star": has_half_star,
         "empty_stars": range(empty_stars),
-        "scaled_value": scaled_value,
+        "scaled_value": int(scaled_value) if value.is_integer() else scaled_value,
         "total_stars": total_stars,
     }

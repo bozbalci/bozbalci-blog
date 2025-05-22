@@ -1,8 +1,10 @@
+{% load i18n %}
 {% load humanize %}
 
 <p>
-    <span class="block font-semibold"> Latest track from <a
-        href="https://last.fm/user/theconjuring666">Last.fm</a>:</span>
+  {% blocktrans trimmed with link="https://last.fm/user/theconjuring666" span_class="block font-semibold" %}
+    <span class="{{ span_class }}">Latest track from <a href="{{ link }}">Last.fm</a>:</span>
+  {% endblocktrans %}
   <span class="block">
     <img
         src="{{ last_played.image_url }}"
@@ -22,7 +24,9 @@
   </span>
   <span class="block text-gray-11 dark:text-gray-dark-11">
     {% if not last_played.now_playing %}
-      scrobbled {{ last_played.scrobbled_at|naturaltime }}
+      {% blocktrans trimmed with time=last_played.scrobbled_at|naturaltime %}
+        scrobbled {{ time }}
+      {% endblocktrans %}
     {% else %}
       <svg
           class="inline-block"
@@ -60,7 +64,7 @@
           ></animate>
         </rect>
       </svg>
-      <span> listening now </span>
+      <span>{% trans "listening now" %}</span>
     {% endif %}
   </span>
 </p>

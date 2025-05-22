@@ -7,7 +7,7 @@ from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.images.models import Image
-from wagtail.models import Page
+from wagtail.models import Locale, Page
 
 
 def get_fractional_value(formatted: str) -> float:
@@ -19,8 +19,12 @@ def get_fractional_value(formatted: str) -> float:
 
 def get_sidebar_navigation_context():
     return {
-        "gallery_index": PhotoGalleryIndexPage.objects.first(),
-        "albums": PhotoAlbumPage.objects.order_by("title"),
+        "gallery_index": PhotoGalleryIndexPage.objects.live().get(
+            locale=Locale.get_active()
+        ),
+        "albums": PhotoAlbumPage.objects.live()
+        .filter(locale=Locale.get_active())
+        .order_by("title"),
     }
 
 
@@ -34,6 +38,7 @@ class PhotoGalleryIndexPage(RoutablePageMixin, Page):
         return {
             **context,
             "photos": PhotoPage.objects.live()
+            .filter(locale=Locale.get_active())
             .select_related("image")
             .order_by("-first_published_at"),
             **get_sidebar_navigation_context(),
@@ -118,7 +123,6 @@ class PhotoAlbumsIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "albums": PhotoAlbumPage.objects.order_by("title"),
             **get_sidebar_navigation_context(),
         }
 

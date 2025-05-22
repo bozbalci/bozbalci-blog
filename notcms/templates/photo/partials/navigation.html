@@ -1,12 +1,13 @@
+{% load i18n %}
 {% load wagtailcore_tags %}
 
 <nav class="lg:sticky lg:top-gutter">
   <ul>
     <li>
-      <a href="{% pageurl gallery_index %}">Camera roll</a>
+      <a href="{% pageurl gallery_index %}">{% trans "Camera roll" %}</a>
     </li>
     <li class="mt-xs text-gray-9 dark:text-gray-dark-9">
-      Albums
+      {% trans "Albums" %}
     </li>
     {% for album in albums %}
       <li>

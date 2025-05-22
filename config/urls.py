@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from django.views.i18n import JavaScriptCatalog
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
@@ -60,6 +61,7 @@ if settings.DEBUG:
 
 urlpatterns += i18n_patterns(
     path("toys/", include(toys_urls)),
+    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
     re_path(r"^", include(wagtail_urls)),
     prefix_default_language=False,
 )

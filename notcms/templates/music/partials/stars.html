@@ -1,10 +1,15 @@
+{% load i18n %}
+
+{% blocktrans trimmed asvar aria_label %}
+  {{ scaled_value }} out of {{ total_stars }} stars
+{% endblocktrans %}
 <div
   class="a-stars flex items-center"
   role="img"
-  title="{{ scaled_value }}/{{ total_stars }}"
-  aria-label="{{ scaled_value }} out of {{ total_stars }} stars"
+  title="{{ aria_label }}"
+  aria-label="{{ aria_label }}"
 >
-  <span class="sr-only">{{ scaled_value }} out of {{ total_stars }} stars</span>
+  <span class="sr-only">{{ aria_label }}</span>
   {% for _ in full_stars %}
     <svg
       class="size-4"

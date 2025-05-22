@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, PublishingPanel
@@ -51,8 +52,10 @@ class BlogIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "archive_title": "Writing",
-            "posts": BlogPostPage.objects.live().order_by("-date"),
+            "archive_title": _("Writing"),
+            "posts": BlogPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date"),
         }
 
     @path(r"<int:year>/<int:month>/<slug:slug>/")
@@ -111,6 +114,8 @@ class BlogPostPage(Page):
 class FlatPage(Page):
     body = StreamField(CommonPostBodyBlock(), null=True, blank=True)
 
+    subpage_types = []
+
     content_panels = Page.content_panels + [
         "body",
         InlinePanel("footnotes", label="Footnotes"),
@@ -143,7 +148,7 @@ class ThenIndexPage(Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "archive_title": "Then",
+            "archive_title": _("Then"),
             "posts": NowPostPage.objects.live()
             .filter(locale=Locale.get_active())
             .order_by("-date"),
@@ -179,8 +184,8 @@ class NowPostPage(Page):
 
 
 @register_snippet
-class Menu(ClusterableModel):
-    key = models.SlugField(unique=True)
+class Menu(TranslatableMixin, ClusterableModel):
+    key = models.SlugField()
     label = models.CharField(max_length=255)
 
     panels = [
@@ -193,7 +198,6 @@ class Menu(ClusterableModel):
         return self.label
 
 
-@register_snippet
 class MenuItem(Orderable):
     menu = ParentalKey("Menu", on_delete=models.CASCADE, related_name="items")
     title = models.CharField(max_length=255)

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 {% load datetime_filters %}
 {% load wagtail_hacks %}
 {% load wagtailcore_tags %}
@@ -14,23 +15,14 @@
         {% with first_published_at=page.date|default:page.first_published_at.date %}
           {% if first_published_at %}
             <div class="entry-meta">
-              Posted on
-              <a href="{% pageurl page %}" rel="bookmark">
-                <time
-                    class="entry-date published"
-                    datetime="{{ first_published_at|format_iso_date }}"
-                >
-                  {{ first_published_at|format_date }}</time
-                ></a
-              >
+              {% blocktrans trimmed with url=page.get_url isodate=first_published_at|format_iso_date date=first_published_at|format_date %}
+                Posted on <a href="{{ url }}" rel="bookmark"><time class="entry-date published" datetime="{{ isodate }}">{{ date }}</time></a>
+              {% endblocktrans %}
               {% if page.last_published_at.date != first_published_at %}
-                &middot; last updated
-                <time
-                    class="updated"
-                    datetime="{{ page.last_published_at|format_iso_date }}"
-                >
-                  {{ page.last_published_at|format_date }}
-                </time>
+                {% blocktrans trimmed with isodate=page.last_published_at|format_iso_date date=page.last_published_at|format_date %}
+                  &middot; last updated
+                  <time class="updated" datetime="{{ isodate }}">{{ date }}</time>
+                {% endblocktrans %}
               {% endif %}
             </div>
           {% endif %}

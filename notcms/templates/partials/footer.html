@@ -5,7 +5,7 @@
 {% load snippets %}
 
 <footer
-  class="mt-2xl bg-gray-2 dark:bg-gray-dark-2 border-t border-gray-6 dark:border-gray-dark-6 py-m"
+    class="mt-2xl bg-gray-2 dark:bg-gray-dark-2 border-t border-gray-6 dark:border-gray-dark-6 py-m"
 >
   <div class="wrapper text-step--1">
     <div class="flex items-end justify-between flex-wrap-reverse gap-s-l">
@@ -24,9 +24,22 @@
         {% if footer_fine_print_menu %}
           <nav class="mt-[1em]">
             <ul class="flex flex-wrap space-x-2xs">
+              {% if page %}
+                {% for language_code, language_name in LANGUAGES %}
+                  {% get_language_info for language_code as lang %}
+
+                  {% language language_code %}
+                    <li class="before:content-['#'] before:text-gray-8 dark:before:text-gray-dark-8">
+                      <a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ language_code }}">
+                          {{ lang.name_local }}
+                      </a>
+                    </li>
+                  {% endlanguage %}
+              {% endfor %}
+              {% endif %}
               {% for item in footer_fine_print_menu %}
                 <li class="before:content-['#'] before:text-gray-8 dark:before:text-gray-dark-8">
-                  <a href="{{item.url}}">{{item.title}}</a>
+                  <a href="{{ item.url }}">{{ item.title }}</a>
                 </li>
               {% endfor %}
             </ul>

@@ -32,6 +32,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/notcms/templates" />
+        <option value="$MODULE_DIR$/notcms/photo/templates" />
       </list>
     </option>
   </component>

@@ -29,6 +29,8 @@ services:
       - notcms_local_postgres_data:/var/lib/postgresql/data
     env_file:
       - ./.envs/.local/.postgres
+    ports:
+      - '5432:5432'
 
   redis:
     image: docker.io/redis:6

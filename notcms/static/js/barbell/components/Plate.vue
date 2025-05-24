@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({ plate: Object, weightUnit: String });
-const emit = defineEmits(["add"]);
+const emit = defineEmits(['add']);
 </script>
 
 <template>

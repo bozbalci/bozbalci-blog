@@ -9,7 +9,7 @@ SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
     default="ueRDZfmjHYBfht1zFr8kzDBgLrxuBk0oMIxiGOOv2ctQqg7SdjDzNbpBrStBqa63",
 )
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["caporegime.local", "localhost", "0.0.0.0", "127.0.0.1"]
 
 # -----------------------------------------------------------------------------
 # Storages

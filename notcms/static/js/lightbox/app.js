@@ -1,7 +1,7 @@
-import lightGallery from "lightgallery";
+import lightGallery from 'lightgallery';
 
-import { LIGHTGALLERY_LICENSE_KEY } from "@/lightbox/constants.js";
-import mount from "@/lib/mount.js";
+import { LIGHTGALLERY_LICENSE_KEY } from '@/lightbox/constants.js';
+import mount from '@/lib/mount.js';
 
 function registerLightbox(element) {
   const options = {
@@ -14,4 +14,4 @@ function registerLightbox(element) {
   lightGallery(element, options);
 }
 
-mount("#lightbox", registerLightbox);
+mount('#lightbox', registerLightbox);

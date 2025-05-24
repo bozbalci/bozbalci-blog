@@ -1,9 +1,14 @@
+from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from notcms.photo.models import PhotoPage
 
+register = template.Library()
 
+
+@register.simple_tag
+@mark_safe
 def lg_caption(photo: PhotoPage):
     """
     Converts a `PhotoPage` into the appropriate `data-sub-html=` attribute
@@ -17,4 +22,4 @@ def lg_caption(photo: PhotoPage):
     )
     translation_table = str.maketrans({'"': "'", "\n": ""})
     rendered_html = rendered_html.translate(translation_table)
-    return mark_safe(rendered_html)
+    return rendered_html

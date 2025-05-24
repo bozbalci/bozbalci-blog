@@ -1,9 +1,9 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
-import App from "@/barbell/layout/App.vue";
+import App from '@/barbell/layout/App.vue';
 
 const app = createApp(App);
 app.use(createPinia());
 
-app.mount("#barbell");
+app.mount('#barbell');

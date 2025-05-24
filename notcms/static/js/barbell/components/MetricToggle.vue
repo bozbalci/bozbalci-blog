@@ -4,10 +4,10 @@ import {
   ListboxButton,
   ListboxOption,
   ListboxOptions,
-} from "@headlessui/vue";
-import { useBarbellStore } from "@/barbell/stores/barbell.js";
-import { storeToRefs } from "pinia";
-import { unitSettings } from "@/barbell/constants.js";
+} from '@headlessui/vue';
+import { useBarbellStore } from '@/barbell/stores/barbell.js';
+import { storeToRefs } from 'pinia';
+import { unitSettings } from '@/barbell/constants.js';
 
 const store = useBarbellStore();
 

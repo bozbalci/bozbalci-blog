@@ -1,36 +1,30 @@
 {% extends "base_with_sidebar.html" %}
-
+{% load lightgallery %}
+{% load vite %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 {% block title %}Gallery{% endblock %}
-
 {% block navigation %}
-  {% include "photo/partials/navigation.html" %}
+    {% include "photo/partials/navigation.html" %}
 {% endblock %}
-
 {% block scripts %}
-  {{ enqueue_script("lightbox-gallery/app.js") }}
+    {% enqueue_script "lightbox-gallery" %}
 {% endblock %}
-
 {% block content %}
-  {% if photos %}
-  <div class="auto-grid grid-gutter-3xs" id="lightbox-gallery">
-    {% for photo in photos %}
-      {% set original_url = image(photo.image, "original").url %}
-      <a href="{{ pageurl(photo) }}">
-        <div
-          class="photo-thumbnail"
-          data-src="{{ original_url }}"
-          data-sub-html="{{ photo|lg_caption }}"
-        >
-          {{ image(photo.image,
-          photo.thumbnail_filter,
-          class="border-1 border-gray-6 dark:border-gray-dark-6 aspect-square object-cover") }}
+    {% if photos %}
+        <div class="auto-grid grid-gutter-3xs" id="lightbox-gallery">
+            {% for photo in photos %}
+                <a href="{% pageurl photo %}">
+                    {% image photo.image original as original %}
+                    <div class="photo-thumbnail"
+                         data-src="{{ original.url }}"
+                         data-sub-html="{% lg_caption photo %}">
+                        {% image photo.image fill-600x600 class="border-1 border-gray-6 dark:border-gray-dark-6 aspect-square object-cover" loading="lazy" %}
+                    </div>
+                </a>
+            {% endfor %}
         </div>
-      </a>
-    {% endfor %}
-  </div>
     {% else %}
-    <div>
-      This album is currently empty. Please check back later!
-    </div>
-  {% endif %}
+        <div>This album is currently empty. Please check back later!</div>
+    {% endif %}
 {% endblock %}

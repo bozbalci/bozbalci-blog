@@ -1,9 +1,12 @@
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views import defaults as default_views
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
+from django.views.i18n import JavaScriptCatalog
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
@@ -16,14 +19,13 @@ from notcms.toys import urls as toys_urls
 from .api import api
 
 urlpatterns = [
-    path("toys/", include(toys_urls)),
     path("blog/feed/", BlogFeed(), name="feed"),
     path("api/v2/", api.urls),
     path(settings.ADMIN_URL, admin.site.urls),
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    # Admin-only URL, required for wagtail_footnotes
-    path("footnotes/", include(footnotes_urls)),
+    path("footnotes/", include(footnotes_urls)),  # Admin-only
+    path("i18n/", include("django.conf.urls.i18n")),
     path("sitemap.xml", sitemap),
     path(
         "robots.txt",
@@ -57,5 +59,20 @@ if settings.DEBUG:
 
         urlpatterns = [*debug_toolbar_urls(), *urlpatterns]
 
-# All other URLs route to Wagtail
-urlpatterns += [re_path(r"^", include(wagtail_urls))]
+
+def get_jsi18n_version():
+    return "20250524-v2"
+
+
+urlpatterns += i18n_patterns(
+    path("toys/", include(toys_urls)),
+    path(
+        "jsi18n/",
+        cache_page(86400, key_prefix=f"jsi18n-{get_jsi18n_version()}")(
+            JavaScriptCatalog.as_view()
+        ),
+        name="javascript-catalog",
+    ),
+    path("", include(wagtail_urls)),
+    prefix_default_language=False,
+)

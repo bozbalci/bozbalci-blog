@@ -58,19 +58,19 @@ import {
   ListboxButton,
   ListboxOption,
   ListboxOptions,
-} from "@headlessui/vue";
-import SunIcon from "@/theme-toggle/components/SunIcon.vue";
-import MoonIcon from "@/theme-toggle/components/MoonIcon.vue";
-import PcIcon from "@/theme-toggle/components/PcIcon.vue";
-import { ref, watch } from "vue";
+} from '@headlessui/vue';
+import SunIcon from '@/icons/SunIcon.vue';
+import MoonIcon from '@/icons/MoonIcon.vue';
+import PcIcon from '@/icons/PcIcon.vue';
+import { ref, watch } from 'vue';
 
 const settings = [
-  { value: "light", label: "Light", icon: SunIcon },
-  { value: "dark", label: "Dark", icon: MoonIcon },
-  { value: "system", label: "System", icon: PcIcon },
+  { value: 'light', label: gettext('Light'), icon: SunIcon },
+  { value: 'dark', label: gettext('Dark'), icon: MoonIcon },
+  { value: 'system', label: gettext('System'), icon: PcIcon },
 ];
 
-const storedTheme = localStorage.getItem("theme") || "system";
+const storedTheme = localStorage.getItem('theme') || 'system';
 
 const initialTheme =
   settings.find((setting) => setting.value === storedTheme) || settings[2];
@@ -80,18 +80,18 @@ const selectedTheme = ref(initialTheme);
 watch(selectedTheme, (newTheme) => {
   const themeValue = newTheme.value;
 
-  localStorage.setItem("theme", themeValue);
+  localStorage.setItem('theme', themeValue);
 
   const element = document.documentElement;
-  element.classList.toggle("dark", themeValue === "dark");
-  element.classList.toggle("light", themeValue === "light");
+  element.classList.toggle('dark', themeValue === 'dark');
+  element.classList.toggle('light', themeValue === 'light');
 
   const isDark =
-    themeValue === "dark" ||
-    (themeValue === "system" &&
-      matchMedia("(prefers-color-scheme: dark)").matches);
+    themeValue === 'dark' ||
+    (themeValue === 'system' &&
+      matchMedia('(prefers-color-scheme: dark)').matches);
   document
     .querySelector('meta[name="theme-color"]')
-    .setAttribute("content", isDark ? "#111210" : "#fcfdfc");
+    .setAttribute('content', isDark ? '#111210' : '#fcfdfc');
 });
 </script>

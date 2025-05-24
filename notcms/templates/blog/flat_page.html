@@ -1,59 +1,45 @@
 {% extends "base.html" %}
-
-{% block title %}{{ page.seo_title or page.title }}{% endblock %}
-
+{% load snippets %}
+{% load i18n %}
+{% load datetime_filters %}
+{% load wagtail_hacks %}
+{% load wagtailcore_tags %}
+{% block title %}{{ page.seo_title|default:page.title }}{% endblock %}
 {% block main %}
-  <article class="h-entry wrapper">
-    <div id="article-container" class="prose mx-auto">
-      <header class="post-header">
-        <h1 class="entry-title">{{ page.title }}</h1>
-        {% if page.date %}
-        {% set first_published_at = page.date %}
-        {% else %}
-        {% set first_published_at = page.first_published_at %}
-        {% endif %}
-        {% if first_published_at %}
-        <div class="entry-meta">
-          Posted on
-          <a href="{{ pageurl(page) }}" rel="bookmark">
-            <time
-                class="entry-date published"
-                datetime="{{ first_published_at|format_iso_date }}"
-            >
-              {{ first_published_at|format_date }}</time
-            ></a
-          >
-          {% if page.last_published_at.date() != first_published_at %}
-            &middot; last updated
-            <time
-                class="updated"
-                datetime="{{ page.last_published_at|format_iso_date }}"
-            >
-              {{ page.last_published_at|format_date }}
-            </time>
-          {% endif %}
+    <article class="h-entry wrapper">
+        <div id="article-container" class="prose mx-auto">
+            <header class="post-header">
+                <h1 class="entry-title">{{ page.title }}</h1>
+                {% with first_published_at=page.date|default:page.first_published_at.date %}
+                    {% if first_published_at %}
+                        <div class="entry-meta">
+                            {% blocktrans trimmed with url=page.get_url isodate=first_published_at|format_iso_date date=first_published_at|format_date %}
+                                Posted on <a href="{{ url }}" rel="bookmark"><time class="entry-date published" datetime="{{ isodate }}">{{ date }}</time></a>
+                            {% endblocktrans %}
+                            {% if page.last_published_at.date != first_published_at %}
+                                {% blocktrans trimmed with isodate=page.last_published_at|format_iso_date date=page.last_published_at|format_date %}
+                                    · last updated <time class="updated" datetime="{{ isodate }}">{{ date }}</time>
+                                {% endblocktrans %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </header>
+            {% if is_now_post %}
+                <div class="bg-gray-3 dark:bg-gray-dark-3 p-m mb-s">
+                    {% get_now_post_preamble as now_post_preamble %}
+                    {{ now_post_preamble|richtext }}
+                </div>
+            {% endif %}
+            {# Post body #}
+            {% unfuck_footnotes page.body %}
+            {% include "blog/partials/wagtail_footnotes.html" %}
+            {# End post body #}
+            <footer class="post-footer mt-m">
+                <p>
+                    <a href="{% pageurl home %}">Back to the home page</a>
+                </p>
+            </footer>
         </div>
-      {% endif %}
-      </header>
-      {% if is_now_post %}
-        <div class="bg-gray-3 dark:bg-gray-dark-3 p-m mb-s">
-          <p>
-            (This is a <a href="https://nownownow.com/about">now page</a>,
-            inspired by <a href="https://sive.rs/">Derek Sivers</a> and many
-            other people who have one on their personal websites.)
-          </p>
-          <p>
-            See past updates on the <a href="{{ slugurl("then") }}">archive</a>.
-          </p>
-        </div>
-      {% endif %}
-      {{ unfuck_footnotes(page.body) }}
-      {% include "blog/partials/wagtail_footnotes.html" %}
-      <footer class="post-footer mt-m">
-        <p>
-          <a href="/">Back to the home page</a>
-        </p>
-      </footer>
-    </div>
-  </article>
+    </article>
 {% endblock %}

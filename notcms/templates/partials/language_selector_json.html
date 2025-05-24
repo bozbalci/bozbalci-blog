@@ -1,0 +1,22 @@
+{% load wagtailcore_tags %}
+{% load i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
+{% get_language_info_list for LANGUAGES as languages %}
+{# Ugly but valid JSON #}
+<script type="application/json" id="locale-info">
+  {
+    "activeLocale": "{{ CURRENT_LANGUAGE }}",
+    "locales": {
+    {% for language_code, language_name in LANGUAGES %}
+      {% language language_code %}
+        {% if page %}
+          "{{ language_code }}": "{% pageurl page.localized %}"
+        {% else %}
+          "{{ language_code }}": "/{% if language_code != "en" %}{{ language_code }}{% endif %}"
+        {% endif %}
+      {% endlanguage %}
+      {% if not forloop.last %},{% endif %}
+    {% endfor %}
+    }
+  }
+</script>

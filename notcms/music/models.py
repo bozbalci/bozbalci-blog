@@ -8,7 +8,7 @@ from wagtail.contrib.settings.models import BaseGenericSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.fields import RichTextField
 from wagtail.images.models import Image
-from wagtail.models import Page
+from wagtail.models import Locale, Page
 
 
 class MusicCollectionIndexPage(RoutablePageMixin, Page):
@@ -27,7 +27,11 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
 
     @staticmethod
     def get_queryset():
-        return AlbumPage.objects.live().select_related("cover_image")
+        return (
+            AlbumPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .select_related("cover_image")
+        )
 
     def render_with_albums(self, request, albums):
         return self.render(
@@ -94,7 +98,7 @@ class AlbumPage(Page):
             "album": self,
             "music_index": self.get_parent().specific,
             "related_albums": AlbumPage.objects.live()
-            .filter(artist=self.artist)
+            .filter(artist=self.artist, locale=Locale.get_active())
             .exclude(id=self.id)
             .order_by("-first_published_at")[: self.MAX_RELATED_ALBUMS_SHOWN],
         }

@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, PublishingPanel
@@ -7,6 +8,7 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import (
     DraftStateMixin,
+    Locale,
     Orderable,
     Page,
     PreviewableMixin,
@@ -25,14 +27,15 @@ class HomePage(Page):
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + ["body"]
-    max_count = 1
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        posts = BlogPostPage.objects.live().order_by("-date")[
-            : self.MAX_ENTRIES_IN_HOME_PAGE
-        ]
+        posts = (
+            BlogPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date")[: self.MAX_ENTRIES_IN_HOME_PAGE]
+        )
 
         return {
             **context,
@@ -49,14 +52,17 @@ class BlogIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "archive_title": "Writing",
-            "posts": BlogPostPage.objects.live().order_by("-date"),
+            "archive_title": _("Writing"),
+            "posts": BlogPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date"),
         }
 
     @path(r"<int:year>/<int:month>/<slug:slug>/")
     def blog_post_by_slug(self, request, year, month, slug):
         post = get_object_or_404(
             BlogPostPage.objects.live(),
+            locale=Locale.get_active(),
             date__year=year,
             date__month=month,
             slug=slug,
@@ -92,21 +98,24 @@ class BlogPostPage(Page):
             "post": self,
         }
 
-    @property
-    def permalink(self):
-        return f"/blog/{self.date:%Y/%m}/{self.slug}"
+    def get_url_parts(self, request=None):
+        site_id, site_root_url, relative_page_url = super().get_url_parts(request)
 
-    def get_sitemap_urls(self, request=None):
-        return [
-            {
-                "location": request.build_absolute_uri(self.permalink),
-                "lastmod": self.last_published_at,
-            }
-        ]
+        original_url = relative_page_url.rstrip("/")  # remove trailing slash
+        *prefix, slug = original_url.split("/")
+        parts = [*prefix, f"{self.date:%Y/%m}", slug]
+        new_url = "/".join(parts)
+        new_url += (
+            "/" if relative_page_url.endswith("/") else ""
+        )  # append trailing slash if needed
+
+        return site_id, site_root_url, new_url
 
 
 class FlatPage(Page):
     body = StreamField(CommonPostBodyBlock(), null=True, blank=True)
+
+    subpage_types = []
 
     content_panels = Page.content_panels + [
         "body",
@@ -140,8 +149,10 @@ class ThenIndexPage(Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "archive_title": "Then",
-            "posts": NowPostPage.objects.live().order_by("-date"),
+            "archive_title": _("Then"),
+            "posts": NowPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date"),
         }
 
 
@@ -174,8 +185,8 @@ class NowPostPage(Page):
 
 
 @register_snippet
-class Menu(ClusterableModel):
-    key = models.SlugField(unique=True)
+class Menu(TranslatableMixin, ClusterableModel):
+    key = models.SlugField()
     label = models.CharField(max_length=255)
 
     panels = [
@@ -188,7 +199,6 @@ class Menu(ClusterableModel):
         return self.label
 
 
-@register_snippet
 class MenuItem(Orderable):
     menu = ParentalKey("Menu", on_delete=models.CASCADE, related_name="items")
     title = models.CharField(max_length=255)
@@ -234,3 +244,16 @@ class FooterText(
 
     class Meta(TranslatableMixin.Meta):
         verbose_name_plural = "Footer Text"
+
+
+@register_snippet
+class NowPostPreamble(TranslatableMixin, models.Model):
+    body = RichTextField(blank=True)
+
+    panels = [FieldPanel("body")]
+
+    def __str__(self):
+        return "Now post preamble"
+
+    class Meta(TranslatableMixin.Meta):
+        verbose_name_plural = "Now post preambles"

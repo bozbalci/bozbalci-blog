@@ -2,15 +2,15 @@
 const props = defineProps({
   type: {
     type: String,
-    default: "button",
+    default: 'button',
   },
   variant: {
     type: String,
-    default: "primary",
+    default: 'primary',
   },
   size: {
     type: String,
-    default: "md",
+    default: 'md',
   },
   disabled: {
     type: Boolean,
@@ -18,17 +18,17 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["click"]);
+const emit = defineEmits(['click']);
 
-const baseClasses = "rounded font-mono font-medium cursor-pointer";
+const baseClasses = 'rounded font-mono font-medium cursor-pointer';
 const variantClasses = {
   primary:
-    "bg-gray-8 dark:bg-gray-dark-8 hover:bg-gray-7 dark:hover:bg-gray-dark-7",
+    'bg-gray-8 dark:bg-gray-dark-8 hover:bg-gray-7 dark:hover:bg-gray-dark-7',
 };
 const sizeClasses = {
-  sm: "px-3 py-1 text-sm",
-  md: "px-4 py-2 text-base",
-  lg: "px-5 py-3 text-lg",
+  sm: 'px-3 py-1 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-5 py-3 text-lg',
 };
 </script>
 

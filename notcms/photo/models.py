@@ -5,9 +5,8 @@ from django import forms
 from django.db import models
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel
-from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.images.models import Image
-from wagtail.models import Page
+from wagtail.models import Locale, Page
 
 
 def get_fractional_value(formatted: str) -> float:
@@ -19,12 +18,16 @@ def get_fractional_value(formatted: str) -> float:
 
 def get_sidebar_navigation_context():
     return {
-        "gallery_index": PhotoGalleryIndexPage.objects.first(),
-        "albums": PhotoAlbumPage.objects.order_by("title"),
+        "gallery_index": PhotoGalleryIndexPage.objects.live().get(
+            locale=Locale.get_active()
+        ),
+        "albums": PhotoAlbumPage.objects.live()
+        .filter(locale=Locale.get_active())
+        .order_by("title"),
     }
 
 
-class PhotoGalleryIndexPage(RoutablePageMixin, Page):
+class PhotoGalleryIndexPage(Page):
     subpage_types = ["PhotoPage", "PhotoAlbumsIndexPage"]
     template = "photo/gallery.html"
     max_count = 1
@@ -34,17 +37,27 @@ class PhotoGalleryIndexPage(RoutablePageMixin, Page):
         return {
             **context,
             "photos": PhotoPage.objects.live()
+            .filter(locale=Locale.get_active())
             .select_related("image")
             .order_by("-first_published_at"),
             **get_sidebar_navigation_context(),
         }
 
 
+def limit_photo_page_album_choices():
+    return models.Q(locale__id="1")
+
+
 class PhotoPage(Page):
     caption = models.CharField(max_length=255, blank=True)
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
     albums = ParentalManyToManyField(
-        "photo.PhotoAlbumPage", related_name="photos", blank=True
+        "photo.PhotoAlbumPage",
+        related_name="photos",
+        blank=True,
+        # Hack, see: https://github.com/wagtail/wagtail-localize/issues/534
+        # Also see: https://github.com/wagtail/wagtail/issues/8821
+        limit_choices_to=limit_photo_page_album_choices,
     )
     exif_make = models.CharField(max_length=255, blank=True)
     exif_model = models.CharField(max_length=255, blank=True)
@@ -63,11 +76,25 @@ class PhotoPage(Page):
     parent_page_types = ["PhotoGalleryIndexPage"]
     subpage_types = []
 
-    thumbnail_filter = "fill-600x600"
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        return {**context, **get_sidebar_navigation_context()}
+
+        # Hack to get the localized album pages from the current photo page
+        active_locale = Locale.get_active()
+        localized_albums = (
+            PhotoAlbumPage.objects.live()
+            .filter(
+                locale=active_locale,
+                translation_key__in=self.albums.values("translation_key"),
+            )
+            .order_by("title")
+        )
+
+        return {
+            **context,
+            **get_sidebar_navigation_context(),
+            "related_albums": localized_albums,
+        }
 
     def extract_exif(self):
         image_file = self.image.file
@@ -110,7 +137,7 @@ class PhotoPage(Page):
         super().save(*args, **kwargs)
 
 
-class PhotoAlbumsIndexPage(RoutablePageMixin, Page):
+class PhotoAlbumsIndexPage(Page):
     parent_page_types = ["PhotoGalleryIndexPage"]
     subpage_types = ["PhotoAlbumPage"]
     template = "photo/albums_index.html"
@@ -120,7 +147,6 @@ class PhotoAlbumsIndexPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "albums": PhotoAlbumPage.objects.order_by("title"),
             **get_sidebar_navigation_context(),
         }
 
@@ -137,9 +163,15 @@ class PhotoAlbumPage(Page):
     template = "photo/gallery.html"
 
     def get_photos(self):
+        # Slightly hacky, get the Photos from the EN locale; then filter only
+        # localized ones
+        default_locale = Locale.get_default()
+        active_locale = Locale.get_active()
+        album_in_default_locale = self.get_translation(default_locale)
+
         return (
             PhotoPage.objects.live()
-            .filter(albums=self)
+            .filter(albums=album_in_default_locale, locale=active_locale)
             .select_related("image")
             .order_by("-first_published_at")
         )

@@ -1,20 +1,18 @@
 {% extends "base.html" %}
-
-{% block fulltitle %}{{ page.seo_title or page.title }}{% endblock %}
-
+{% load wagtailcore_tags %}
+{% block fulltitle %}{{ page.seo_title|default:page.title }}{% endblock %}
 {% block main %}
-  <article class="wrapper">
-    <div class="prose mx-auto">
-      {{ page.body|richtext }}
-
-      {% if posts %}
-        <h2>Writing</h2>
-        <div class="divide-y-1 divide-gray-5 dark:divide-gray-dark-5">
-          {% for post in posts %}
-            {% include "blog/partials/post_list_item.html" %}
-          {% endfor %}
+    <article class="wrapper">
+        <div class="prose mx-auto">
+            {{ page.body|richtext }}
+            {% if posts %}
+                <h2>Writing</h2>
+                <div class="divide-y-1 divide-gray-5 dark:divide-gray-dark-5">
+                    {% for post in posts %}
+                        {% include "blog/partials/post_list_item.html" %}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-      {% endif %}
-    </div>
-  </article>
+    </article>
 {% endblock %}

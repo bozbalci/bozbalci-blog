@@ -1,20 +1,25 @@
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{% block fulltitle %}{% block title %}{% endblock %} – Berk Özbalcı{% endblock %}</title>
-    {% if page and page.search_description %}
-      <meta name="description" content="{{ page.search_description }}" />
-    {% else %}
-      <meta name="description" content="Personal home page of Berk Özbalcı" />
-    {% endif %}
-    <meta property="og:site_name" content="Berk Özbalcı" />
-    <meta name="author" content="Berk Özbalcı" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content="Django 5.2.1" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#fcfdfc" />
-    <script>
+{% load static %}
+{% load vite %}
+{% load wagtailuserbar %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en" }}" class="no-js">
+    <head>
+        <meta charset="UTF-8" />
+        {# djlint:off #}
+        <title>{% block fulltitle %}{% block title %}{% endblock %}– Berk Özbalcı{% endblock %}</title>
+        {# djlint:on #}
+        {% if page and page.search_description %}
+            <meta name="description" content="{{ page.search_description }}" />
+        {% else %}
+            <meta name="description" content="Personal home page of Berk Özbalcı" />
+        {% endif %}
+        <meta property="og:site_name" content="Berk Özbalcı" />
+        <meta name="author" content="Berk Özbalcı" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Django 5.2.1" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="theme-color" content="#fcfdfc" />
+        <script>
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
@@ -26,60 +31,49 @@
         .querySelector('meta[name="theme-color"]')
         .setAttribute("content", isDark ? "#111210" : "#fcfdfc");
       document.documentElement.classList.remove("no-js");
-    </script>
-    <link
-      rel="icon"
-      type="image/png"
-      href="{{ static("favicon-96x96.png") }}"
-      sizes="96x96"
-    />
-    <link rel="icon" type="image/svg+xml" href="{{ static("favicon.svg") }}" />
-    <link rel="shortcut icon" href="{{ static("favicon.ico") }}" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="{{ static("apple-touch-icon.png") }}"
-    />
-    <meta name="apple-mobile-web-app-title" content="bozbalci" />
-    {% block extrahead %}
-    {% endblock %}
-    {% set no_css = naked_css(request) %}
-    {% if not no_css %}
-      {{ enqueue_style("main.css") }}
-      {{ vite_hmr_client() }}
-    {% endif %}
-    <script
-      src="https://cdn.usefathom.com/script.js"
-      data-site="NCNLPAKL"
-      defer
-    ></script>
-  </head>
-  <body>
-    <a href="#main-content" class="sr-only focus:not-sr-only">
-      Skip to main content
-    </a>
-    {% if no_css %}
-      <p>
-        You are currently viewing a version of this site without stylesheets
-        loaded. This is either because we're observing
-        <a href="https://css-naked-day.github.io/">CSS Naked Day</a> or you
-        triggered it by appending <code>?nocss</code> to the URL.
-        <a href="?css">Revert to normal</a>
-      </p>
-    {% endif %}
-    {% block header %}
-      {% include "partials/header.html" %}
-    {% endblock %}
-    <main id="main-content" class="main">
-      {% block main %}
-      {% endblock %}
-    </main>
-    {% block footer %}
-      {% include "partials/footer.html" %}
-    {% endblock %}
-    {{ enqueue_script("theme-toggle/app.js") }}
-    {% block scripts %}
-    {% endblock %}
-    {{ wagtailuserbar() }}
-  </body>
+        </script>
+        <link rel="icon"
+              type="image/png"
+              href="{% static "favicon-96x96.png" %}"
+              sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="{% static "favicon.svg" %}" />
+        <link rel="shortcut icon" href="{% static "favicon.ico" %}" />
+        <link rel="apple-touch-icon"
+              sizes="180x180"
+              href="{% static "apple-touch-icon.png" %}" />
+        <meta name="apple-mobile-web-app-title" content="bozbalci" />
+        {% block extrahead %}{% endblock %}
+        {% if not no_css %}
+            {% enqueue_style "main.css" %}
+            {% enqueue_hmr_client %}
+        {% endif %}
+        <script src="https://cdn.usefathom.com/script.js" data-site="NCNLPAKL" defer></script>
+    </head>
+    <body>
+        <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>
+        {% if no_css %}
+            <p>
+                You are currently viewing a version of this site without stylesheets
+                loaded. This is either because we're observing
+                <a href="https://css-naked-day.github.io/">CSS Naked Day</a> or you
+                triggered it by appending <code>?nocss</code> to the URL.
+                <a href="?css">Revert to normal</a>
+            </p>
+        {% endif %}
+        {% block header %}
+            {% include "partials/header.html" %}
+        {% endblock %}
+        <main id="main-content" class="main">
+            {% block main %}{% endblock %}
+        </main>
+        {% block footer %}
+            {% include "partials/footer.html" %}
+        {% endblock %}
+        <script src="{% url 'javascript-catalog' %}"></script>
+        {% include "partials/language_selector_json.html" %}
+        {% enqueue_script "theme-toggle" %}
+        {% enqueue_script "language-selector" %}
+        {% block scripts %}{% endblock %}
+        {% wagtailuserbar %}
+    </body>
 </html>

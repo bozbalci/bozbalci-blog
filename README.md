@@ -1,6 +1,10 @@
 # not a cms
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Code style: djlint](https://img.shields.io/badge/html%20style-djlint-blue.svg)](https://www.djlint.com)
+[![CI status](https://github.com/bozbalci/bozbalci-blog/actions/workflows/ci.yml/badge.svg)](https://github.com/bozbalci/bozbalci-blog/actions)
+[![Deploy status](https://github.com/bozbalci/bozbalci-blog/actions/workflows/deploy.yml/badge.svg)](https://github.com/bozbalci/bozbalci-blog/actions)
 ![GitHub License](https://img.shields.io/github/license/bozbalci/bozbalci-blog)
 ![Total lines of code](https://sloc.xyz/github/bozbalci/bozbalci-blog)
 

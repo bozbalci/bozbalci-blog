@@ -1,0 +1,32 @@
+# Translations for Berk Özbalcı's blog
+# Copyright (C) 2025 Berk Özbalcı
+# Berk Özbalcı <webmaster@bozbalci.me>, 2025
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-24 17:38+0000\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: notcms/static/js/theme-toggle/components/ThemeToggle.vue:68
+msgid "Light"
+msgstr "Açık"
+
+#: notcms/static/js/theme-toggle/components/ThemeToggle.vue:69
+msgid "Dark"
+msgstr "Koyu"
+
+#: notcms/static/js/theme-toggle/components/ThemeToggle.vue:70
+msgid "System"
+msgstr "Sistem"
+
+#~ msgid "English"
+#~ msgstr "İngilizce"
+
+#~ msgid "Turkish"
+#~ msgstr "Türkçe"

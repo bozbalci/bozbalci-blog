@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
@@ -73,6 +73,6 @@ urlpatterns += i18n_patterns(
         ),
         name="javascript-catalog",
     ),
-    re_path(r"^", include(wagtail_urls)),
+    path("", include(wagtail_urls)),
     prefix_default_language=False,
 )

@@ -1,13 +1,13 @@
-import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
+import { defineStore } from 'pinia';
+import { ref, computed, watch } from 'vue';
 
 import {
   availableBars,
   availablePlates,
   unitSettings,
-} from "@/barbell/constants.js";
+} from '@/barbell/constants.js';
 
-export const useBarbellStore = defineStore("barbell", () => {
+export const useBarbellStore = defineStore('barbell', () => {
   // Reactive state
   const selectedUnitSetting = ref(unitSettings[0]);
   const selectedBar = ref(availableBars[0]);

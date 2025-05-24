@@ -52,3 +52,7 @@ select = [
     # isort
     "I",
 ]
+
+[tool.djlint]
+ignore="T003"
+indent=2

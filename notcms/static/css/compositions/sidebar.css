@@ -39,12 +39,12 @@ EXCEPTIONS
 /*
 A flipped version where the sidebar is on the right
 */
-.sidebar[data-direction="rtl"] > :last-child {
+.sidebar[data-direction='rtl'] > :last-child {
   flex-basis: var(--sidebar-target-width, 20rem);
   flex-grow: 1;
 }
 
-.sidebar[data-direction="rtl"] > :first-child {
+.sidebar[data-direction='rtl'] > :first-child {
   flex-basis: 0;
   flex-grow: 999;
   min-inline-size: var(--sidebar-content-min-width, 50%);

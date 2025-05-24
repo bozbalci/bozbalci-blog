@@ -1,6 +1,6 @@
-exclude: '^docs/|/migrations/|'
+exclude: '^docs/|/migrations/'
 default_stages: [pre-commit]
-minimum_pre_commit_version: "3.2.0"
+minimum_pre_commit_version: '3.2.0'
 
 default_language_version:
   python: python3.13
@@ -21,6 +21,12 @@ repos:
       - id: check-docstring-first
       - id: detect-private-key
 
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.7.8
+    hooks:
+      - id: uv-lock
+
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:
@@ -32,7 +38,7 @@ repos:
     rev: '1.25.0'
     hooks:
       - id: django-upgrade
-        args: ['--target-version', '5.2.1']
+        args: ['--target-version', '5.0']
 
   # Run the Ruff linter.
   - repo: https://github.com/astral-sh/ruff-pre-commit

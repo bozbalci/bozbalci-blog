@@ -1,6 +1,6 @@
 <script setup>
-import ThemeToggle from "@/theme-toggle/components/ThemeToggle.vue";
-import MetricToggle from "@/barbell/components/MetricToggle.vue";
+import ThemeToggle from '@/theme-toggle/components/ThemeToggle.vue';
+import MetricToggle from '@/barbell/components/MetricToggle.vue';
 </script>
 
 <template>

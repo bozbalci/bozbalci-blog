@@ -1,6 +1,6 @@
 <script setup>
-import { useBarbellStore } from "@/barbell/stores/barbell.js";
-import { storeToRefs } from "pinia";
+import { useBarbellStore } from '@/barbell/stores/barbell.js';
+import { storeToRefs } from 'pinia';
 
 const store = useBarbellStore();
 const { platesOnBar, selectedBar } = storeToRefs(store);

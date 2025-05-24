@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-24 03:09+0000\n"
+"POT-Creation-Date: 2025-05-24 17:38+0000\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,47 +29,47 @@ msgstr ""
 msgid "Then"
 msgstr ""
 
-#: notcms/templates/blog/flat_page.html:19
+#: notcms/templates/blog/flat_page.html:16
 #, python-format
 msgid ""
 "Posted on <a href=\"%(url)s\" rel=\"bookmark\"><time class=\"entry-date "
 "published\" datetime=\"%(isodate)s\">%(date)s</time></a>"
 msgstr ""
 
-#: notcms/templates/blog/flat_page.html:23
+#: notcms/templates/blog/flat_page.html:20
 #, python-format
 msgid ""
-"&middot; last updated <time class=\"updated\" "
-"datetime=\"%(isodate)s\">%(date)s</time>"
+"· last updated <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</"
+"time>"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:22
-#: notcms/templates/music/album_page.html:70
+#: notcms/templates/music/album_page.html:16
+#: notcms/templates/music/album_page.html:63
 #, python-format
 msgid "Cover art for %(artist)s - %(title)s"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:29
+#: notcms/templates/music/album_page.html:22
 msgid "Artist"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:31
+#: notcms/templates/music/album_page.html:26
 msgid "Release year"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:34
+#: notcms/templates/music/album_page.html:31
 msgid "Berk's rating"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:42
+#: notcms/templates/music/album_page.html:41
 msgid "View release on Discogs"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:47
+#: notcms/templates/music/album_page.html:46
 msgid "Scrobble this album"
 msgstr ""
 
-#: notcms/templates/music/album_page.html:59
+#: notcms/templates/music/album_page.html:56
 msgid "Also in collection"
 msgstr ""
 
@@ -77,66 +77,66 @@ msgstr ""
 msgid "Music Collection"
 msgstr ""
 
-#: notcms/templates/music/partials/lastfm_widget.html:6
+#: notcms/templates/music/partials/lastfm_widget.html:5
 #, python-format
 msgid "Latest track from <a href=\"%(link)s\">Last.fm</a>:"
 msgstr ""
 
-#: notcms/templates/music/partials/lastfm_widget.html:29
+#: notcms/templates/music/partials/lastfm_widget.html:22
 #, python-format
 msgid "scrobbled %(time)s"
 msgstr ""
 
-#: notcms/templates/music/partials/lastfm_widget.html:69
+#: notcms/templates/music/partials/lastfm_widget.html:44
 msgid "listening now"
 msgstr ""
 
-#: notcms/templates/music/partials/navigation.html:9
+#: notcms/templates/music/partials/navigation.html:7
 msgid "Everything"
 msgstr ""
 
-#: notcms/templates/music/partials/navigation.html:14
+#: notcms/templates/music/partials/navigation.html:10
 msgid "All-time favourites"
 msgstr ""
 
-#: notcms/templates/music/partials/navigation.html:24
+#: notcms/templates/music/partials/navigation.html:16
 msgid "Shuffled"
 msgstr ""
 
-#: notcms/templates/music/partials/stars.html:3
+#: notcms/templates/music/partials/stars.html:2
 #, python-format
 msgid "%(scaled_value)s out of %(total_stars)s stars"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:10
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:9
 msgid "Untitled"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:16
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:15
 msgid "Camera"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:19
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:18
 msgid "Lens"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:23
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:22
 msgid "Focal length"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:25
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:24
 msgid "Aperture"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:27
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:26
 msgid "Shutter speed"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:29
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:28
 msgid "ISO"
 msgstr ""
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:34
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:33
 msgid "Uploaded"
 msgstr ""
 
@@ -148,29 +148,29 @@ msgstr ""
 msgid "Permalink"
 msgstr ""
 
-#: notcms/templates/photo/partials/navigation.html:7
+#: notcms/templates/photo/partials/navigation.html:6
 msgid "Camera roll"
 msgstr ""
 
-#: notcms/templates/photo/partials/navigation.html:10
+#: notcms/templates/photo/partials/navigation.html:8
 msgid "Albums"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:58
+#: notcms/templates/photo/photo_page.html:50
 #, python-format
 msgid "Uploaded on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:66
+#: notcms/templates/photo/photo_page.html:58
 #, python-format
 msgid "Taken on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:78
+#: notcms/templates/photo/photo_page.html:69
 msgid "Back to the gallery"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:83
+#: notcms/templates/photo/photo_page.html:74
 #, python-format
-msgid "Back to the album &lsquo;%(title)s&rsquo;"
+msgid "Back to the album ‘%(title)s’"
 msgstr ""

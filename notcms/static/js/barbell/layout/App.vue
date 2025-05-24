@@ -1,7 +1,7 @@
 <script setup>
-import Controls from "@/barbell/components/Controls.vue";
-import Header from "@/barbell/layout/Header.vue";
-import BarView from "@/barbell/components/BarView.vue";
+import Controls from '@/barbell/components/Controls.vue';
+import Header from '@/barbell/layout/Header.vue';
+import BarView from '@/barbell/components/BarView.vue';
 </script>
 
 <template>

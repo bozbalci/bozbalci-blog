@@ -18,8 +18,7 @@
                             {% endblocktrans %}
                             {% if page.last_published_at.date != first_published_at %}
                                 {% blocktrans trimmed with isodate=page.last_published_at|format_iso_date date=page.last_published_at|format_date %}
-                                    &middot; last updated
-                                    <time class="updated" datetime="{{ isodate }}">{{ date }}</time>
+                                    · last updated <time class="updated" datetime="{{ isodate }}">{{ date }}</time>
                                 {% endblocktrans %}
                             {% endif %}
                         </div>
@@ -38,7 +37,7 @@
             {# End post body #}
             <footer class="post-footer mt-m">
                 <p>
-                    <a href="/">Back to the home page</a>
+                    <a href="{% pageurl home %}">Back to the home page</a>
                 </p>
             </footer>
         </div>

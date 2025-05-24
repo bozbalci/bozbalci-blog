@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
 {% block main %}
     <section class="wrapper">
         <div class="prose mx-auto">
@@ -7,7 +10,7 @@
             </h1>
             {% block message %}{% endblock %}
             <p>
-                <a href="/">Back to the home page</a>
+                <a href="{% if home %}{% pageurl home %}{% else %}/{% endif %}">Back to the home page</a>
             </p>
         </div>
     </section>

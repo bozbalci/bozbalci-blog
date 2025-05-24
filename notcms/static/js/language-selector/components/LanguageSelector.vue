@@ -50,24 +50,24 @@ import {
   ListboxButton,
   ListboxOption,
   ListboxOptions,
-} from "@headlessui/vue";
-import { ref, watch } from "vue";
-import GlobeIcon from "@/icons/GlobeIcon.vue";
+} from '@headlessui/vue';
+import { ref, watch } from 'vue';
+import GlobeIcon from '@/icons/GlobeIcon.vue';
 
 const settings = [
-  { value: "en", label: "English", icon: "🇬🇧" },
-  { value: "tr", label: "Türkçe", icon: "🇹🇷" },
+  { value: 'en', label: 'English', icon: '🇬🇧' },
+  { value: 'tr', label: 'Türkçe', icon: '🇹🇷' },
 ];
 
 const defaultLocaleInfo = {
-  activeLocale: "en",
+  activeLocale: 'en',
   locales: {
-    en: "/",
-    tr: "/tr/",
+    en: '/',
+    tr: '/tr/',
   },
 };
 
-const localeInfoElement = document.getElementById("locale-info");
+const localeInfoElement = document.getElementById('locale-info');
 const localeInfo = localeInfoElement
   ? JSON.parse(localeInfoElement.textContent)
   : defaultLocaleInfo;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-24 03:09+0000\n"
+"POT-Creation-Date: 2025-05-24 17:38+0000\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "Then"
 msgstr ""
 
-#: notcms/templates/blog/flat_page.html:19
+#: notcms/templates/blog/flat_page.html:16
 #, python-format
 msgid ""
 "Posted on <a href=\"%(url)s\" rel=\"bookmark\"><time class=\"entry-date "
@@ -38,42 +38,40 @@ msgstr ""
 "Yayım tarihi <a href=\"%(url)s\" rel=\"bookmark\"><time class=\"entry-date "
 "published\" datetime=\"%(isodate)s\">%(date)s</time></a>"
 
-#: notcms/templates/blog/flat_page.html:23
+#: notcms/templates/blog/flat_page.html:20
 #, python-format
 msgid ""
-"&middot; last updated <time class=\"updated\" "
-"datetime=\"%(isodate)s\">%(date)s</time>"
+"· last updated <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr ""
-"&middot; son güncellenme <time class=\"updated\" "
-"datetime=\"%(isodate)s\">%(date)s</time>"
+"· son güncellenme <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</time>"
 
-#: notcms/templates/music/album_page.html:22
-#: notcms/templates/music/album_page.html:70
+#: notcms/templates/music/album_page.html:16
+#: notcms/templates/music/album_page.html:63
 #, python-format
 msgid "Cover art for %(artist)s - %(title)s"
 msgstr "%(artist)s - %(title)s albüm kapağı"
 
-#: notcms/templates/music/album_page.html:29
+#: notcms/templates/music/album_page.html:22
 msgid "Artist"
 msgstr "Sanatçı"
 
-#: notcms/templates/music/album_page.html:31
+#: notcms/templates/music/album_page.html:26
 msgid "Release year"
 msgstr "Yıl"
 
-#: notcms/templates/music/album_page.html:34
+#: notcms/templates/music/album_page.html:31
 msgid "Berk's rating"
 msgstr "Berk'in puanı"
 
-#: notcms/templates/music/album_page.html:42
+#: notcms/templates/music/album_page.html:41
 msgid "View release on Discogs"
 msgstr "Albümü Discogs'da görüntüle"
 
-#: notcms/templates/music/album_page.html:47
+#: notcms/templates/music/album_page.html:46
 msgid "Scrobble this album"
 msgstr "Albümü skropla"
 
-#: notcms/templates/music/album_page.html:59
+#: notcms/templates/music/album_page.html:56
 msgid "Also in collection"
 msgstr "Koleksiyondan başka albümler"
 
@@ -81,66 +79,66 @@ msgstr "Koleksiyondan başka albümler"
 msgid "Music Collection"
 msgstr "Müzik Koleksiyonu"
 
-#: notcms/templates/music/partials/lastfm_widget.html:6
+#: notcms/templates/music/partials/lastfm_widget.html:5
 #, python-format
 msgid "Latest track from <a href=\"%(link)s\">Last.fm</a>:"
 msgstr "<a href=\"%(link)s\">Last.fm</a>'de çalınan son parça:"
 
-#: notcms/templates/music/partials/lastfm_widget.html:29
+#: notcms/templates/music/partials/lastfm_widget.html:22
 #, python-format
 msgid "scrobbled %(time)s"
 msgstr "%(time)s skroplandı"
 
-#: notcms/templates/music/partials/lastfm_widget.html:69
+#: notcms/templates/music/partials/lastfm_widget.html:44
 msgid "listening now"
 msgstr "şu anda çalıyor"
 
-#: notcms/templates/music/partials/navigation.html:9
+#: notcms/templates/music/partials/navigation.html:7
 msgid "Everything"
 msgstr "Her şey"
 
-#: notcms/templates/music/partials/navigation.html:14
+#: notcms/templates/music/partials/navigation.html:10
 msgid "All-time favourites"
 msgstr "Favoriler"
 
-#: notcms/templates/music/partials/navigation.html:24
+#: notcms/templates/music/partials/navigation.html:16
 msgid "Shuffled"
 msgstr "Karışık"
 
-#: notcms/templates/music/partials/stars.html:3
+#: notcms/templates/music/partials/stars.html:2
 #, python-format
 msgid "%(scaled_value)s out of %(total_stars)s stars"
 msgstr "%(total_stars)s üzerinden %(scaled_value)s yıldız"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:10
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:9
 msgid "Untitled"
 msgstr "İsimsiz"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:16
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:15
 msgid "Camera"
 msgstr "Kamera"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:19
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:18
 msgid "Lens"
 msgstr "Lens"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:23
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:22
 msgid "Focal length"
 msgstr "Odak mesafesi"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:25
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:24
 msgid "Aperture"
 msgstr "Diyafram"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:27
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:26
 msgid "Shutter speed"
 msgstr "Enstantane"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:29
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:28
 msgid "ISO"
 msgstr "ISO"
 
-#: notcms/templates/photo/partials/lightgallery_caption_sub.html:34
+#: notcms/templates/photo/partials/lightgallery_caption_sub.html:33
 msgid "Uploaded"
 msgstr "Yüklendi"
 
@@ -152,29 +150,29 @@ msgstr "Çekildi"
 msgid "Permalink"
 msgstr "Kalıcı bağlantı"
 
-#: notcms/templates/photo/partials/navigation.html:7
+#: notcms/templates/photo/partials/navigation.html:6
 msgid "Camera roll"
 msgstr "Kamera rulosu"
 
-#: notcms/templates/photo/partials/navigation.html:10
+#: notcms/templates/photo/partials/navigation.html:8
 msgid "Albums"
 msgstr "Albümler"
 
-#: notcms/templates/photo/photo_page.html:58
+#: notcms/templates/photo/photo_page.html:50
 #, python-format
 msgid "Uploaded on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr "<time datetime=\"%(isodate)s\">%(date)s</time> tarihinde yüklendi"
 
-#: notcms/templates/photo/photo_page.html:66
+#: notcms/templates/photo/photo_page.html:58
 #, python-format
 msgid "Taken on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr "<time datetime=\"%(isodate)s\">%(date)s</time> tarihinde çekildi"
 
-#: notcms/templates/photo/photo_page.html:78
+#: notcms/templates/photo/photo_page.html:69
 msgid "Back to the gallery"
 msgstr "Galeriye geri dön"
 
-#: notcms/templates/photo/photo_page.html:83
+#: notcms/templates/photo/photo_page.html:74
 #, python-format
-msgid "Back to the album &lsquo;%(title)s&rsquo;"
-msgstr "&lsquo;%(title)s&rsquo; albümüne geri dön"
+msgid "Back to the album ‘%(title)s’"
+msgstr "‘%(title)s’ albümüne geri dön"

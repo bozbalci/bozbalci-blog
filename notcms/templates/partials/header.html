@@ -1,8 +1,10 @@
+{% load wagtailcore_tags %}
 {% load menu %}
+
 <header class="mb-m py-m leading-single">
     <div class="wrapper flex items-center justify-between">
         <h1>
-            <a href="/{% if LANGUAGE_CODE != "en" %}{{ LANGUAGE_CODE }}/{% endif %}"
+            <a href="{% pageurl home %}"
                class="flex items-center no-underline font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 512 512"

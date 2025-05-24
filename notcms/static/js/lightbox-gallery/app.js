@@ -1,7 +1,7 @@
-import lightGallery from "lightgallery";
+import lightGallery from 'lightgallery';
 
-import { LIGHTGALLERY_LICENSE_KEY } from "@/lightbox/constants.js";
-import mount from "@/lib/mount.js";
+import { LIGHTGALLERY_LICENSE_KEY } from '@/lightbox/constants.js';
+import mount from '@/lib/mount.js';
 
 function registerLightbox(element) {
   const options = {
@@ -10,10 +10,10 @@ function registerLightbox(element) {
     counter: true,
     licenseKey: LIGHTGALLERY_LICENSE_KEY,
     subHtmlSelectorRelative: true,
-    selector: ".photo-thumbnail",
+    selector: '.photo-thumbnail',
   };
 
   lightGallery(element, options);
 }
 
-mount("#lightbox-gallery", registerLightbox);
+mount('#lightbox-gallery', registerLightbox);

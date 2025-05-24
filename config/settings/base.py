@@ -175,7 +175,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.i18n",
                 "wagtail.contrib.settings.context_processors.settings",
-                "notcms.blog.context_processors.naked_css",
+                "notcms.blog.context_processors.notcms_globals",
             ],
         },
     },

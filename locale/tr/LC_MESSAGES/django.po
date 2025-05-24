@@ -23,11 +23,11 @@ msgstr "Türkçe"
 
 #: notcms/blog/models.py:55
 msgid "Writing"
-msgstr ""
+msgstr "Yazılar"
 
 #: notcms/blog/models.py:152
 msgid "Then"
-msgstr ""
+msgstr "Eskiden"
 
 #: notcms/templates/blog/flat_page.html:16
 #, python-format

@@ -98,17 +98,18 @@ class BlogPostPage(Page):
             "post": self,
         }
 
-    @property
-    def permalink(self):
-        return f"/blog/{self.date:%Y/%m}/{self.slug}"
+    def get_url_parts(self, request=None):
+        site_id, site_root_url, relative_page_url = super().get_url_parts(request)
 
-    def get_sitemap_urls(self, request=None):
-        return [
-            {
-                "location": request.build_absolute_uri(self.permalink),
-                "lastmod": self.last_published_at,
-            }
-        ]
+        original_url = relative_page_url.rstrip("/")  # remove trailing slash
+        *prefix, slug = original_url.split("/")
+        parts = [*prefix, f"{self.date:%Y/%m}", slug]
+        new_url = "/".join(parts)
+        new_url += (
+            "/" if relative_page_url.endswith("/") else ""
+        )  # append trailing slash if needed
+
+        return site_id, site_root_url, new_url
 
 
 class FlatPage(Page):
@@ -243,3 +244,16 @@ class FooterText(
 
     class Meta(TranslatableMixin.Meta):
         verbose_name_plural = "Footer Text"
+
+
+@register_snippet
+class NowPostPreamble(TranslatableMixin, models.Model):
+    body = RichTextField(blank=True)
+
+    panels = [FieldPanel("body")]
+
+    def __str__(self):
+        return "Now post preamble"
+
+    class Meta(TranslatableMixin.Meta):
+        verbose_name_plural = "Now post preambles"

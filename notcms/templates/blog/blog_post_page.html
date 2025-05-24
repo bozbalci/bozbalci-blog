@@ -3,7 +3,7 @@
 {% block extrahead %}
   <meta property="og:title" content="{{ page.seo_title|default:page.title }} - Berk Özbalcı" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://bozbalci.me{{ request.path }}" />
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
   <meta property="og:description" content="{{ page.search_description }}" />
   {% if page.is_draft %}
     <meta name="robots" content="noindex" />

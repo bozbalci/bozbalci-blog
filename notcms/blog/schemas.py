@@ -19,12 +19,7 @@ class RenditionSchema(ModelSchema):
 
 
 class BlogPostSchema(ModelSchema):
-    url: str
-
-    @staticmethod
-    def resolve_url(page: BlogPostPage, context):
-        request = context["request"]
-        return request.build_absolute_uri(page.permalink)
+    url: str = Field(None, alias="get_full_url")
 
     class Config:
         model = BlogPostPage

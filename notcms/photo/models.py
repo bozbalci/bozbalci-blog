@@ -5,7 +5,6 @@ from django import forms
 from django.db import models
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel
-from wagtail.contrib.routable_page.models import RoutablePageMixin
 from wagtail.images.models import Image
 from wagtail.models import Locale, Page
 
@@ -28,7 +27,7 @@ def get_sidebar_navigation_context():
     }
 
 
-class PhotoGalleryIndexPage(RoutablePageMixin, Page):
+class PhotoGalleryIndexPage(Page):
     subpage_types = ["PhotoPage", "PhotoAlbumsIndexPage"]
     template = "photo/gallery.html"
     max_count = 1
@@ -45,6 +44,10 @@ class PhotoGalleryIndexPage(RoutablePageMixin, Page):
         }
 
 
+def limit_photo_page_album_choices():
+    return models.Q(locale__id="1")
+
+
 class PhotoPage(Page):
     caption = models.CharField(max_length=255, blank=True)
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
@@ -54,7 +57,7 @@ class PhotoPage(Page):
         blank=True,
         # Hack, see: https://github.com/wagtail/wagtail-localize/issues/534
         # Also see: https://github.com/wagtail/wagtail/issues/8821
-        limit_choices_to={"locale": Locale.get_default()},
+        limit_choices_to=limit_photo_page_album_choices,
     )
     exif_make = models.CharField(max_length=255, blank=True)
     exif_model = models.CharField(max_length=255, blank=True)
@@ -134,7 +137,7 @@ class PhotoPage(Page):
         super().save(*args, **kwargs)
 
 
-class PhotoAlbumsIndexPage(RoutablePageMixin, Page):
+class PhotoAlbumsIndexPage(Page):
     parent_page_types = ["PhotoGalleryIndexPage"]
     subpage_types = ["PhotoAlbumPage"]
     template = "photo/albums_index.html"

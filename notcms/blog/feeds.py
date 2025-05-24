@@ -22,7 +22,7 @@ class BlogFeed(Feed):
         return item.intro
 
     def item_link(self, item: BlogPostPage):
-        return item.permalink
+        return item.get_full_url()
 
     def item_pubdate(self, item: BlogPostPage):
         return make_aware(datetime.combine(item.date, time.min))

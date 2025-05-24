@@ -4,11 +4,7 @@
 <div class="flex items-start justify-between py-s gap-x-s">
   <a
     class="whitespace-nowrap overflow-hidden overflow-ellipsis"
-    {% if post.permalink %}
-      href="{{ post.permalink }}"
-    {% else %}
       href="{% pageurl post %}"
-    {% endif %}
     >{{ post.title }}</a
   >
   <time

@@ -3,7 +3,7 @@
 {% load wagtailuserbar %}
 
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="{{ LANGUAGE_CODE|default:"en" }}" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <title>{% block fulltitle %}{% block title %}{% endblock %} – Berk Özbalcı{% endblock %}</title>
@@ -81,7 +81,9 @@
       {% include "partials/footer.html" %}
     {% endblock %}
     <script src="{% url 'javascript-catalog' %}"></script>
+    {% include "partials/language_selector_json.html" %}
     {% enqueue_script "theme-toggle" %}
+    {% enqueue_script "language-selector" %}
     {% block scripts %}
     {% endblock %}
     {% wagtailuserbar %}

@@ -4,7 +4,7 @@
   <div class="wrapper flex items-center justify-between">
     <h1>
       <a
-          href="/{% if LANGUAGE_CODE != "en" %}{{ LANGUAGE_CODE }}{% endif %}"
+          href="/{% if LANGUAGE_CODE != "en" %}{{ LANGUAGE_CODE }}/{% endif %}"
           class="flex items-center no-underline font-semibold"
       >
         <svg
@@ -34,6 +34,9 @@
             </li>
           {% endfor %}
         {% endif %}
+        <li class="py-2xs px-xs hide-no-js" id="language-selector">
+          <div class="size-6"></div>
+        </li>
         <li class="py-2xs px-xs hide-no-js" id="theme-toggle">
           <div class="size-6"></div>
         </li>

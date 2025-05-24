@@ -61,7 +61,7 @@ if settings.DEBUG:
 
 
 def get_jsi18n_version():
-    return "1748052191"
+    return "20250524-v2"
 
 
 urlpatterns += i18n_patterns(

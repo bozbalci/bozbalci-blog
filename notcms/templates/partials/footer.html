@@ -22,26 +22,30 @@
 
         {% get_menu "footer-fine-print-menu" as footer_fine_print_menu %}
         {% if footer_fine_print_menu %}
-          <nav class="mt-[1em]">
+          <nav class="mt-[1em] space-y-[1em]">
             <ul class="flex flex-wrap space-x-2xs">
-              {% if page %}
-                {% for language_code, language_name in LANGUAGES %}
-                  {% get_language_info for language_code as lang %}
-
-                  {% language language_code %}
-                    <li class="before:content-['#'] before:text-gray-8 dark:before:text-gray-dark-8">
-                      <a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ language_code }}">
-                          {{ lang.name_local }}
-                      </a>
-                    </li>
-                  {% endlanguage %}
-              {% endfor %}
-              {% endif %}
               {% for item in footer_fine_print_menu %}
                 <li class="before:content-['#'] before:text-gray-8 dark:before:text-gray-dark-8">
                   <a href="{{ item.url }}">{{ item.title }}</a>
                 </li>
               {% endfor %}
+            </ul>
+            <ul class="flex flex-wrap space-x-2xs">
+              {% if page %}
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% for language_code, language_name in LANGUAGES %}
+                  {% if language_code != CURRENT_LANGUAGE %}
+                    {% get_language_info for language_code as lang %}
+                    {% language language_code %}
+                      <li class="before:content-['#'] before:text-gray-8 dark:before:text-gray-dark-8">
+                        <a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ language_code }}">
+                          {{ lang.name_local }}
+                        </a>
+                      </li>
+                    {% endlanguage %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
             </ul>
           </nav>
         {% endif %}

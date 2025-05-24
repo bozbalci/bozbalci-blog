@@ -49,7 +49,12 @@ class PhotoPage(Page):
     caption = models.CharField(max_length=255, blank=True)
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
     albums = ParentalManyToManyField(
-        "photo.PhotoAlbumPage", related_name="photos", blank=True
+        "photo.PhotoAlbumPage",
+        related_name="photos",
+        blank=True,
+        # Hack, see: https://github.com/wagtail/wagtail-localize/issues/534
+        # Also see: https://github.com/wagtail/wagtail/issues/8821
+        limit_choices_to={"locale": Locale.get_default()},
     )
     exif_make = models.CharField(max_length=255, blank=True)
     exif_model = models.CharField(max_length=255, blank=True)
@@ -70,7 +75,23 @@ class PhotoPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        return {**context, **get_sidebar_navigation_context()}
+
+        # Hack to get the localized album pages from the current photo page
+        active_locale = Locale.get_active()
+        localized_albums = (
+            PhotoAlbumPage.objects.live()
+            .filter(
+                locale=active_locale,
+                translation_key__in=self.albums.values("translation_key"),
+            )
+            .order_by("title")
+        )
+
+        return {
+            **context,
+            **get_sidebar_navigation_context(),
+            "related_albums": localized_albums,
+        }
 
     def extract_exif(self):
         image_file = self.image.file
@@ -139,9 +160,15 @@ class PhotoAlbumPage(Page):
     template = "photo/gallery.html"
 
     def get_photos(self):
+        # Slightly hacky, get the Photos from the EN locale; then filter only
+        # localized ones
+        default_locale = Locale.get_default()
+        active_locale = Locale.get_active()
+        album_in_default_locale = self.get_translation(default_locale)
+
         return (
             PhotoPage.objects.live()
-            .filter(albums=self)
+            .filter(albums=album_in_default_locale, locale=active_locale)
             .select_related("image")
             .order_by("-first_published_at")
         )

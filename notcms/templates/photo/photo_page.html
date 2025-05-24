@@ -77,7 +77,7 @@
           <li>
             <a href="{% pageurl gallery_index %}">{% trans "Back to the gallery" %}</a>
           </li>
-          {% for album in photo.albums.all %}
+          {% for album in related_albums %}
             <li>
               <a href="{% pageurl album %}">
                 {% blocktrans trimmed with title=album.title %}

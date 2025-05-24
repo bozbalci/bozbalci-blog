@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views import defaults as default_views
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from wagtail import urls as wagtail_urls
@@ -59,9 +60,19 @@ if settings.DEBUG:
         urlpatterns = [*debug_toolbar_urls(), *urlpatterns]
 
 
+def get_jsi18n_version():
+    return "1748052191"
+
+
 urlpatterns += i18n_patterns(
     path("toys/", include(toys_urls)),
-    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
+    path(
+        "jsi18n/",
+        cache_page(86400, key_prefix=f"jsi18n-{get_jsi18n_version()}")(
+            JavaScriptCatalog.as_view()
+        ),
+        name="javascript-catalog",
+    ),
     re_path(r"^", include(wagtail_urls)),
     prefix_default_language=False,
 )

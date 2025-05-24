@@ -4,7 +4,7 @@
   <div class="wrapper flex items-center justify-between">
     <h1>
       <a
-          href="/"
+          href="/{% if LANGUAGE_CODE != "en" %}{{ LANGUAGE_CODE }}{% endif %}"
           class="flex items-center no-underline font-semibold"
       >
         <svg

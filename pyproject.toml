@@ -1,9 +1,13 @@
 [project]
 name = "bozbalci-blog"
-version = "1.0.0"
+version = "2.0.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
+authors = [
+    {name = "Berk Özbalcı", email = "webmaster@bozbalci.me"}
+]
+license = "MIT"
 dependencies = [
     "celery[redis]>=5.5.2",
     "django==5.2.1",
@@ -15,7 +19,7 @@ dependencies = [
     "django-redis>=5.4.0",
     "django-storages[s3]==1.14.6",
     "django-vite==3.1.0",
-    "exifread==3.3.0",
+    "exifread==3.3.1",
     "flower>=2.0.1",
     "gunicorn>=23.0.0",
     "httpx>=0.28.1",
@@ -34,7 +38,7 @@ dev = [
     "fabric>=3.2.2",
     "pre-commit>=4.2.0",
     "pytest>=8.3.5",
-    "ruff>=0.11.9",
+    "ruff>=0.11.11",
     "watchfiles>=1.0.5",
 ]
 

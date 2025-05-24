@@ -15,3 +15,9 @@ TEMPLATES[0]["OPTIONS"]["debug"] = True  # type: ignore[index]
 STORAGES["default"] = {
     "BACKEND": "django.core.files.storage.FileSystemStorage",
 }
+
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": True,
+    }
+}

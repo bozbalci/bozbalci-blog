@@ -1,3 +1,31 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--ds=config.settings.test --reuse-db --import-mode=importlib"
+python_files = [
+    "tests.py",
+    "test_*.py",
+]
+
+[tool.djlint]
+ignore="T003,H031"
+indent=2
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
 [project]
 name = "bozbalci-blog"
 version = "2.0.0"
@@ -38,26 +66,7 @@ dev = [
     "fabric>=3.2.2",
     "pre-commit>=4.2.0",
     "pytest>=8.3.5",
+    "pytest-django>=4.11.1",
     "ruff>=0.11.11",
     "watchfiles>=1.0.5",
 ]
-
-[tool.ruff.lint]
-select = [
-    # pycodestyle
-    "E",
-    # Pyflakes
-    "F",
-    # pyupgrade
-    "UP",
-    # flake8-bugbear
-    "B",
-    # flake8-simplify
-    "SIM",
-    # isort
-    "I",
-]
-
-[tool.djlint]
-ignore="T003,H031"
-indent=2

@@ -10,7 +10,7 @@
         <div class="wrapper text-step--1">
             <div class="flex justify-between items-center">
                 <div>
-                    <a href="{% pageurl home %}">bozbalci</a>
+                    <a href="{% if home %}{% pageurl home %}{% else %}/{% endif %}">bozbalci</a>
                 </div>
                 <div>🏋</div>
                 <div>

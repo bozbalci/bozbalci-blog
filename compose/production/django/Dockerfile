@@ -97,9 +97,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 USER django
 
-# TODO Enable this once we have i18n and a test profile
-# RUN DATABASE_URL="" \
-#   DJANGO_SETTINGS_MODULE="config.settings.test" \
-#   python manage.py compilemessages
+RUN DATABASE_URL="" \
+ DJANGO_SETTINGS_MODULE="config.settings.test" \
+ python manage.py compilemessages --ignore=.venv
 
 ENTRYPOINT ["/entrypoint"]

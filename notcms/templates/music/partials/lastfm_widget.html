@@ -2,9 +2,11 @@
 {% load humanize %}
 
 <p>
-  {% blocktrans trimmed with link="https://last.fm/user/theconjuring666" span_class="block font-semibold" %}
-    <span class="{{ span_class }}">Latest track from <a href="{{ link }}">Last.fm</a>:</span>
-  {% endblocktrans %}
+    <span class="block font-semibold">
+    {% blocktrans trimmed with link="https://last.fm/user/theconjuring666" span_class="block font-semibold" %}
+      Latest track from <a href="{{ link }}">Last.fm</a>:
+    {% endblocktrans %}
+    </span>
   <span class="block">
     <img
         src="{{ last_played.image_url }}"

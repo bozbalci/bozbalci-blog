@@ -55,5 +55,5 @@ select = [
 ]
 
 [tool.djlint]
-ignore="T003"
+ignore="T003,H031"
 indent=2

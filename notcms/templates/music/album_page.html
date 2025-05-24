@@ -11,10 +11,10 @@
     <div class="flow">
         <div class="a-album sidebar">
             <div class="a-cover-art">
-                <img {% image album.cover_image original as original %}
-                     src="{{ original.url }}"
-                     alt="{% blocktrans with artist=album.artist title=album.title%}Cover art for {{ artist }} - {{ title }}{% endblocktrans %}"
-                     class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6" />
+            {% blocktrans asvar cover_alt_text trimmed with artist=album.artist title=album.title %}
+  Cover art for {{ artist }} - {{ title }}
+{% endblocktrans %}
+{% image album.cover_image original alt=cover_alt_text class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6" %}
             </div>
             <div class="a-meta font-mono text-step--1">
                 <h1 class="a-title text-step-1 font-bold mb-s">{{ album.title }}</h1>
@@ -58,11 +58,10 @@
                     {% for album in related_albums %}
                         <li>
                             <a href="{% pageurl album %}" class="no-underline">
-                                <img {% image album.cover_image original as original %}
-                                     src="{{ original.url }}"
-                                     alt="{% blocktrans with artist=album.artist title=album.title%}Cover art for {{ artist }} - {{ title }}{% endblocktrans %}"
-                                     class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6"
-                                     loading="lazy" />
+                            {% blocktrans asvar cover_alt_text trimmed with artist=album.artist title=album.title %}
+  Cover art for {{ artist }} - {{ title }}
+{% endblocktrans %}
+{% image album.cover_image original alt=cover_alt_text class="aspect-square object-cover border-1 border-gray-6 dark:border-gray-dark-6" loading="lazy" %}
                                 <div class="a-title font-bold text-gray-12 dark:text-gray-dark-12 mt-3xs">{{ album.title }}</div>
                                 <div class="a-artist text-gray-11 dark:text-gray-dark-11 text-step--1">{{ album.artist }}</div>
                             </a>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-24 17:38+0000\n"
+"POT-Creation-Date: 2025-05-24 21:26+0000\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,12 +41,15 @@ msgstr ""
 #: notcms/templates/blog/flat_page.html:20
 #, python-format
 msgid ""
-"· last updated <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</time>"
+"· last updated <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</"
+"time>"
 msgstr ""
-"· son güncellenme <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</time>"
+"· son güncellenme <time class=\"updated\" datetime=\"%(isodate)s\">%(date)s</"
+"time>"
 
-#: notcms/templates/music/album_page.html:16
-#: notcms/templates/music/album_page.html:63
+#: notcms/templates/music/album_page.html:14
+#: notcms/templates/music/album_page.html:61
+#: notcms/templates/music/index.html:16
 #, python-format
 msgid "Cover art for %(artist)s - %(title)s"
 msgstr "%(artist)s - %(title)s albüm kapağı"
@@ -158,21 +161,21 @@ msgstr "Kamera rulosu"
 msgid "Albums"
 msgstr "Albümler"
 
-#: notcms/templates/photo/photo_page.html:50
+#: notcms/templates/photo/photo_page.html:49
 #, python-format
 msgid "Uploaded on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr "<time datetime=\"%(isodate)s\">%(date)s</time> tarihinde yüklendi"
 
-#: notcms/templates/photo/photo_page.html:58
+#: notcms/templates/photo/photo_page.html:57
 #, python-format
 msgid "Taken on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr "<time datetime=\"%(isodate)s\">%(date)s</time> tarihinde çekildi"
 
-#: notcms/templates/photo/photo_page.html:69
+#: notcms/templates/photo/photo_page.html:68
 msgid "Back to the gallery"
 msgstr "Galeriye geri dön"
 
-#: notcms/templates/photo/photo_page.html:74
+#: notcms/templates/photo/photo_page.html:73
 #, python-format
 msgid "Back to the album ‘%(title)s’"
 msgstr "‘%(title)s’ albümüne geri dön"

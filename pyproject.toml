@@ -30,7 +30,9 @@ dependencies = [
 [dependency-groups]
 dev = [
     "colorama>=0.4.6",
+    "djlint>=1.36.4",
     "fabric>=3.2.2",
+    "pre-commit>=4.2.0",
     "ruff>=0.11.9",
     "watchfiles>=1.0.5",
 ]

@@ -1,33 +1,20 @@
 {% extends "base.html" %}
-
 {% block fulltitle %}Barbell Calculator{% endblock %}
-
-{% block header %}
-{% endblock %}
-
-{% block scripts %}
-  {{ enqueue_script("barbell/app.js") }}
-{% endblock %}
-
-{% block main %}
-  <div id="barbell"></div>
-{% endblock %}
-
+{% block header %}{% endblock %}
+{% block scripts %}{{ enqueue_script("barbell/app.js") }}{% endblock %}
+{% block main %}<div id="barbell"></div>{% endblock %}
 {% block footer %}
-  <footer class="mt-2xl border-t border-gray-6 dark:border-gray-dark-6 py-m">
-    <div class="wrapper text-step--1">
-      <div class="flex justify-between items-center">
-        <div>
-          <a href="/">bozbalci</a>
+    <footer class="mt-2xl border-t border-gray-6 dark:border-gray-dark-6 py-m">
+        <div class="wrapper text-step--1">
+            <div class="flex justify-between items-center">
+                <div>
+                    <a href="/">bozbalci</a>
+                </div>
+                <div>🏋</div>
+                <div>
+                    <a href="https://github.com/bozbalci/bozbalci-blog/tree/master/static/js/barbell">View source</a>
+                </div>
+            </div>
         </div>
-        <div>🏋</div>
-        <div>
-          <a
-            href="https://github.com/bozbalci/bozbalci-blog/tree/master/static/js/barbell"
-            >View source</a
-          >
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
 {% endblock %}

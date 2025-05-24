@@ -1,16 +1,14 @@
 {% extends "base.html" %}
-
 {% block title %}{{ archive_title }}{% endblock %}
-
 {% block main %}
-  <article class="wrapper">
-    <div class="prose mx-auto">
-      <h1>{{ archive_title }}</h1>
-      <div class="divide-y-1 divide-gray-5 dark:divide-gray-dark-5">
-        {% for post in posts %}
-          {% include "blog/partials/post_list_item.html" %}
-        {% endfor %}
-      </div>
-    </div>
-  </article>
+    <article class="wrapper">
+        <div class="prose mx-auto">
+            <h1>{{ archive_title }}</h1>
+            <div class="divide-y-1 divide-gray-5 dark:divide-gray-dark-5">
+                {% for post in posts %}
+                    {% include "blog/partials/post_list_item.html" %}
+                {% endfor %}
+            </div>
+        </div>
+    </article>
 {% endblock %}

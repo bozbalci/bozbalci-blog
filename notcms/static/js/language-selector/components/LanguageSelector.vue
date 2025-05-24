@@ -52,7 +52,7 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 import { ref, watch } from "vue";
-import GlobeIcon from "@/language-selector/components/GlobeIcon.vue";
+import GlobeIcon from "@/icons/GlobeIcon.vue";
 
 const settings = [
   { value: "en", label: "English", icon: "🇬🇧" },

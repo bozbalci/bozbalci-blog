@@ -1,12 +1,9 @@
 {% extends "base.html" %}
-
 {% block main %}
-  <div class="wrapper">
-    <div class="sidebar items-start" data-has-navigation>
-      {% block navigation %}
-      {% endblock %}
-      {% block content %}
-      {% endblock %}
+    <div class="wrapper">
+        <div class="sidebar items-start" data-has-navigation>
+            {% block navigation %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
     </div>
-  </div>
 {% endblock %}

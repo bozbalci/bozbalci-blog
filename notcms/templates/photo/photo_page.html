@@ -1,93 +1,84 @@
 {% extends "base_with_sidebar.html" %}
-
 {% load i18n %}
 {% load datetime_filters %}
 {% load vite %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
-
 {% block title %}{{ page.title|default:"Untitled Photo" }}{% endblock %}
-
 {% block navigation %}
-  {% include "photo/partials/navigation.html" %}
+    {% include "photo/partials/navigation.html" %}
 {% endblock %}
-
 {% block scripts %}
-  {% enqueue_script "lightbox" %}
+    {% enqueue_script "lightbox" %}
 {% endblock %}
-
 {% block content %}
-  <article class="h-entry">
-    <div id="article-container" class="prose mx-auto">
-      <div id="lightbox">
-        {% image page.image original as original %}
-        <img src="{{ original.url }}" alt="{{ page.title }}" />
-      </div>
-      <div
-        class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight"
-      >
-        {% if page.exif_make %}
-          <div class="text-left">
-            <div class="e-camera">
-              <span class="e-make">{{ page.exif_make }}</span>
-              <span class="e-model">{{ page.exif_model }}</span>
+    <article class="h-entry">
+        <div id="article-container" class="prose mx-auto">
+            <div id="lightbox">
+                {% image page.image original as original %}
+                <img src="{{ original.url }}" alt="{{ page.title }}" />
             </div>
-            <div>
-              <span class="e-lens">{{ page.exif_lens }}</span>
+            <div class="font-mono flex items-start justify-between mt-s text-step--2 leading-tight">
+                {% if page.exif_make %}
+                    <div class="text-left">
+                        <div class="e-camera">
+                            <span class="e-make">{{ page.exif_make }}</span>
+                            <span class="e-model">{{ page.exif_model }}</span>
+                        </div>
+                        <div>
+                            <span class="e-lens">{{ page.exif_lens }}</span>
+                        </div>
+                        <div>
+                            <span class="e-focal-length">{{ page.exif_focal_length }}</span>,
+                            <span class="e-aperture">&fnof;/{{ page.exif_aperture }}</span>,
+                            <span class="e-shutter">{{ page.exif_shutter_speed }}</span>,
+                            <span class="e-iso">ISO {{ page.exif_iso }}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    {# Placeholder for flex justify-between #}
+                    <div></div>
+                {% endif %}
+                <div class="text-right">
+                    {% if page.title %}
+                        <div>
+                            <span class="e-title italic double-quote">{{ page.title }}</span>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <span class="e-uploaded">
+                            {% blocktrans trimmed with isodate=page.first_published_at|format_iso_date date=page.first_published_at|format_date %}
+                                Uploaded on <time datetime="{{ isodate }}">{{ date }}</time>
+                            {% endblocktrans %}
+                        </span>
+                    </div>
+                    {% if page.exif_shot_at %}
+                        <div>
+                            <span class="e-taken text-gray-10 dark:text-gray-dark-10">
+                                {% blocktrans trimmed with isodate=page.exif_shot_at|format_iso_date date=page.exif_shot_at|format_date %}
+                                    Taken on <time datetime="{{ isodate }}">{{ date }}</time>
+                                {% endblocktrans %}
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-            <div>
-              <span class="e-focal-length">{{ page.exif_focal_length }}</span>,
-              <span class="e-aperture">&fnof;/{{ page.exif_aperture }}</span>,
-              <span class="e-shutter">{{ page.exif_shutter_speed }}</span>,
-              <span class="e-iso">ISO {{ page.exif_iso }}</span>
+            <div class="mx-auto font-serif mt-s">
+                <ul>
+                    <li>
+                        <a href="{% pageurl gallery_index %}">{% trans "Back to the gallery" %}</a>
+                    </li>
+                    {% for album in related_albums %}
+                        <li>
+                            <a href="{% pageurl album %}">
+                                {% blocktrans trimmed with title=album.title %}
+                                    Back to the album &lsquo;{{ title }}&rsquo;
+                                {% endblocktrans %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-          </div>
-        {% else %}
-          {# Placeholder for flex justify-between #}
-          <div></div>
-        {% endif %}
-
-        <div class="text-right">
-          {% if page.title %}
-            <div>
-              <span class="e-title italic double-quote">{{ page.title }}</span>
-            </div>
-          {% endif %}
-          <div>
-            <span class="e-uploaded">
-              {% blocktrans trimmed with isodate=page.first_published_at|format_iso_date date=page.first_published_at|format_date %}
-                Uploaded on <time datetime="{{ isodate }}">{{ date }}</time>
-              {% endblocktrans %}
-            </span>
-          </div>
-          {% if page.exif_shot_at %}
-            <div>
-              <span class="e-taken text-gray-10 dark:text-gray-dark-10">
-              {% blocktrans trimmed with isodate=page.exif_shot_at|format_iso_date date=page.exif_shot_at|format_date %}
-                Taken on <time datetime="{{ isodate }}">{{ date }}</time>
-              {% endblocktrans %}
-              </span>
-            </div>
-          {% endif %}
         </div>
-      </div>
-
-      <div class="mx-auto font-serif mt-s">
-        <ul>
-          <li>
-            <a href="{% pageurl gallery_index %}">{% trans "Back to the gallery" %}</a>
-          </li>
-          {% for album in related_albums %}
-            <li>
-              <a href="{% pageurl album %}">
-                {% blocktrans trimmed with title=album.title %}
-                  Back to the album &lsquo;{{ title }}&rsquo;
-                {% endblocktrans %}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </article>
+    </article>
 {% endblock %}

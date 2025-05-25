@@ -131,7 +131,12 @@ class NowIndexPage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        post = NowPostPage.objects.live().order_by("-date").first()
+        post = (
+            NowPostPage.objects.live()
+            .filter(locale=Locale.get_active())
+            .order_by("-date")
+            .first()
+        )
 
         return {
             **context,

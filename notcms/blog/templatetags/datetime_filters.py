@@ -3,7 +3,6 @@ from datetime import date, datetime
 from django import template
 from django.utils.formats import date_format
 
-DATE_FMT = "F j, Y"
 ISO_DATE_FMT = "c"
 
 

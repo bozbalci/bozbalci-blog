@@ -73,7 +73,7 @@
         {% include "partials/language_selector_json.html" %}
         {% enqueue_script "theme-toggle" %}
         {% enqueue_script "language-selector" %}
-        {% block scripts %}{% endblock %}
         {% wagtailuserbar %}
+        {% render_enqueued_scripts %}
     </body>
 </html>

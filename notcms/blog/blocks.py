@@ -48,6 +48,25 @@ class CaptionedImageBlock(blocks.StructBlock):
         template = "blocks/captioned_image.html"
 
 
+class ImageCarouselItemBlock(blocks.StructBlock):
+    image = ImageBlock(required=True)
+    caption = blocks.RichTextBlock(required=False)
+
+    class Meta:
+        icon = "image"
+        label = "Carousel Image"
+
+
+class ImageCarouselBlock(blocks.StructBlock):
+    images = blocks.ListBlock(ImageCarouselItemBlock(), required=True)
+    caption = blocks.RichTextBlock(required=False)
+
+    class Meta:
+        icon = "folder-open-inverse"
+        label = "Image Carousel"
+        template = "blocks/image_carousel.html"
+
+
 class CommonPostBodyBlock(blocks.StreamBlock):
     blockquote = blocks.BlockQuoteBlock()
     paragraph = RichTextBlockWithFootnotes(features=WAGTAIL_RICH_TEXT_EDITOR_FEATURES)
@@ -55,3 +74,4 @@ class CommonPostBodyBlock(blocks.StreamBlock):
     captioned_image = CaptionedImageBlock()
     code = CodeBlock()
     details = SummaryDetailsBlock()
+    image_carousel = ImageCarouselBlock()

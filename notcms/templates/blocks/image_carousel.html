@@ -1,0 +1,23 @@
+{% load lightgallery %}
+{% load vite %}
+{% load wagtail_hacks %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+<div class="bg-gray-3 dark:bg-gray-dark-3 p-s my-[1em]">
+  <div class="image-carousel flex w-full overflow-y-scroll space-x-s">
+    {% for item in value.images %}
+      {% image item.image original as original %}
+      {# djlint:off #}
+      <div class="flex-shrink-0" data-src="{{ original.url }}" data-sub-html="<div class='font-sans'>{{ item.caption|richtext|double_to_single_quotes|strip_outer_p }}</div>">
+        {# djlint:on #}
+        {% image item.image width-300 loading="lazy" class="border-1 border-gray-6 dark:border-gray-dark-6 object-cover" %}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="mt-s">
+    {{ value.caption|richtext }}
+  </div>
+</div>
+
+{% enqueue_script "lightbox-carousel" %}

@@ -8,7 +8,7 @@ from wagtail.contrib.settings.models import BaseGenericSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.fields import RichTextField
 from wagtail.images.models import Image
-from wagtail.models import Locale, Page
+from wagtail.models import Page
 
 
 class MusicCollectionIndexPage(RoutablePageMixin, Page):
@@ -22,14 +22,14 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
         return {
             **context,
             "music_index": self,
-            "albums": self.get_queryset().order_by("-first_published_at"),
+            "albums": self.get_queryset(request).order_by("-first_published_at"),
         }
 
     @staticmethod
-    def get_queryset():
+    def get_queryset(request):
         return (
             AlbumPage.objects.live()
-            .filter(locale=Locale.get_active())
+            .filter(locale=request.locale)
             .select_related("cover_image")
         )
 
@@ -47,7 +47,9 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
         if year is None:
             year = datetime.now().year
 
-        return self.render_with_albums(request, self.get_queryset().filter(year=year))
+        return self.render_with_albums(
+            request, self.get_queryset(request).filter(year=year)
+        )
 
     @path("rated/<int:rating>/")
     @path("rated/perfect/")
@@ -56,12 +58,14 @@ class MusicCollectionIndexPage(RoutablePageMixin, Page):
             rating = 10
 
         return self.render_with_albums(
-            request, self.get_queryset().filter(rating=rating)
+            request, self.get_queryset(request).filter(rating=rating)
         )
 
     @path("shuffled/")
     def shuffled(self, request):
-        return self.render_with_albums(request, self.get_queryset().order_by(Random()))
+        return self.render_with_albums(
+            request, self.get_queryset(request).order_by(Random())
+        )
 
 
 class AlbumPage(Page):
@@ -98,7 +102,7 @@ class AlbumPage(Page):
             "album": self,
             "music_index": self.get_parent().specific,
             "related_albums": AlbumPage.objects.live()
-            .filter(artist=self.artist, locale=Locale.get_active())
+            .filter(artist=self.artist, locale=request.locale)
             .exclude(id=self.id)
             .order_by("-first_published_at")[: self.MAX_RELATED_ALBUMS_SHOWN],
         }

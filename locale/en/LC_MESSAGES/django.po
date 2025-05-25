@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-24 21:26+0000\n"
+"POT-Creation-Date: 2025-05-25 03:39+0000\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,12 +21,16 @@ msgstr ""
 msgid "Turkish"
 msgstr ""
 
-#: notcms/blog/models.py:55
+#: notcms/blog/models.py:54
 msgid "Writing"
 msgstr ""
 
-#: notcms/blog/models.py:152
+#: notcms/blog/models.py:156
 msgid "Then"
+msgstr ""
+
+#: notcms/templates/base_error.html:14 notcms/templates/blog/flat_page.html:40
+msgid "Back to the home page"
 msgstr ""
 
 #: notcms/templates/blog/flat_page.html:16
@@ -157,21 +161,21 @@ msgstr ""
 msgid "Albums"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:49
+#: notcms/templates/photo/photo_page.html:46
 #, python-format
 msgid "Uploaded on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:57
+#: notcms/templates/photo/photo_page.html:54
 #, python-format
 msgid "Taken on <time datetime=\"%(isodate)s\">%(date)s</time>"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:68
+#: notcms/templates/photo/photo_page.html:65
 msgid "Back to the gallery"
 msgstr ""
 
-#: notcms/templates/photo/photo_page.html:73
+#: notcms/templates/photo/photo_page.html:70
 #, python-format
 msgid "Back to the album ‘%(title)s’"
 msgstr ""

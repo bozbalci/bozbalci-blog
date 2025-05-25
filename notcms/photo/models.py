@@ -16,13 +16,13 @@ def get_fractional_value(formatted: str) -> float:
     return float(formatted)
 
 
-def get_sidebar_navigation_context():
+def get_sidebar_navigation_context(request):
     return {
         "gallery_index": PhotoGalleryIndexPage.objects.live().get(
-            locale=Locale.get_active()
+            locale=request.locale
         ),
         "albums": PhotoAlbumPage.objects.live()
-        .filter(locale=Locale.get_active())
+        .filter(locale=request.locale)
         .order_by("title"),
     }
 
@@ -37,10 +37,10 @@ class PhotoGalleryIndexPage(Page):
         return {
             **context,
             "photos": PhotoPage.objects.live()
-            .filter(locale=Locale.get_active())
+            .filter(locale=request.locale)
             .select_related("image")
             .order_by("-first_published_at"),
-            **get_sidebar_navigation_context(),
+            **get_sidebar_navigation_context(request),
         }
 
 
@@ -80,11 +80,10 @@ class PhotoPage(Page):
         context = super().get_context(request, *args, **kwargs)
 
         # Hack to get the localized album pages from the current photo page
-        active_locale = Locale.get_active()
         localized_albums = (
             PhotoAlbumPage.objects.live()
             .filter(
-                locale=active_locale,
+                locale=request.locale,
                 translation_key__in=self.albums.values("translation_key"),
             )
             .order_by("title")
@@ -92,7 +91,7 @@ class PhotoPage(Page):
 
         return {
             **context,
-            **get_sidebar_navigation_context(),
+            **get_sidebar_navigation_context(request),
             "related_albums": localized_albums,
         }
 
@@ -147,7 +146,7 @@ class PhotoAlbumsIndexPage(Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            **get_sidebar_navigation_context(),
+            **get_sidebar_navigation_context(request),
         }
 
 
@@ -162,11 +161,11 @@ class PhotoAlbumPage(Page):
     subpage_types = []
     template = "photo/gallery.html"
 
-    def get_photos(self):
+    def get_photos(self, request=None):
         # Slightly hacky, get the Photos from the EN locale; then filter only
         # localized ones
+        active_locale = request.locale if request else Locale.get_active()
         default_locale = Locale.get_default()
-        active_locale = Locale.get_active()
         album_in_default_locale = self.get_translation(default_locale)
 
         return (
@@ -180,8 +179,8 @@ class PhotoAlbumPage(Page):
         context = super().get_context(request, *args, **kwargs)
         return {
             **context,
-            "photos": self.get_photos(),
-            **get_sidebar_navigation_context(),
+            **get_sidebar_navigation_context(request),
+            "photos": self.get_photos(request),
         }
 
     @property

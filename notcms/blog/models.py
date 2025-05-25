@@ -8,7 +8,6 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import (
     DraftStateMixin,
-    Locale,
     Orderable,
     Page,
     PreviewableMixin,
@@ -33,7 +32,7 @@ class HomePage(Page):
 
         posts = (
             BlogPostPage.objects.live()
-            .filter(locale=Locale.get_active())
+            .filter(locale=request.locale)
             .order_by("-date")[: self.MAX_ENTRIES_IN_HOME_PAGE]
         )
 
@@ -54,7 +53,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
             **context,
             "archive_title": _("Writing"),
             "posts": BlogPostPage.objects.live()
-            .filter(locale=Locale.get_active())
+            .filter(locale=request.locale)
             .order_by("-date"),
         }
 
@@ -62,7 +61,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
     def blog_post_by_slug(self, request, year, month, slug):
         post = get_object_or_404(
             BlogPostPage.objects.live(),
-            locale=Locale.get_active(),
+            locale=request.locale,
             date__year=year,
             date__month=month,
             slug=slug,
@@ -133,7 +132,7 @@ class NowIndexPage(Page):
 
         post = (
             NowPostPage.objects.live()
-            .filter(locale=Locale.get_active())
+            .filter(locale=request.locale)
             .order_by("-date")
             .first()
         )
@@ -156,7 +155,7 @@ class ThenIndexPage(Page):
             **context,
             "archive_title": _("Then"),
             "posts": NowPostPage.objects.live()
-            .filter(locale=Locale.get_active())
+            .filter(locale=request.locale)
             .order_by("-date"),
         }
 

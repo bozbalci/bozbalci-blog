@@ -1,6 +1,7 @@
 from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from wagtail.rich_text import RichText
 
 from notcms.photo.models import PhotoPage
 
@@ -21,5 +22,15 @@ def lg_caption(photo: PhotoPage):
         "photo/partials/lightgallery_caption_sub.html", {"photo": photo}
     )
     translation_table = str.maketrans({'"': "'", "\n": ""})
-    rendered_html = rendered_html.translate(translation_table)
-    return rendered_html
+    return rendered_html.translate(translation_table)
+
+
+@register.filter
+@mark_safe
+def double_to_single_quotes(richtext: RichText) -> str:
+    """
+    Example: data-sub-html={{ caption|richtext|double_to_single_quotes }}
+    """
+    html = str(richtext)
+    translation_table = str.maketrans({'"': "'", "\n": ""})
+    return html.translate(translation_table)

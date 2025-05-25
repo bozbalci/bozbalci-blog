@@ -7,9 +7,6 @@
 {% block navigation %}
     {% include "photo/partials/navigation.html" %}
 {% endblock %}
-{% block scripts %}
-    {% enqueue_script "lightbox-gallery" %}
-{% endblock %}
 {% block content %}
     {% if photos %}
         <div class="auto-grid grid-gutter-3xs" id="lightbox-gallery">
@@ -27,4 +24,5 @@
     {% else %}
         <div>This album is currently empty. Please check back later!</div>
     {% endif %}
+    {% enqueue_script "lightbox-gallery" %}
 {% endblock %}

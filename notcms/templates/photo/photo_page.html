@@ -8,9 +8,6 @@
 {% block navigation %}
     {% include "photo/partials/navigation.html" %}
 {% endblock %}
-{% block scripts %}
-    {% enqueue_script "lightbox" %}
-{% endblock %}
 {% block content %}
     <article class="h-entry">
         <div id="article-container" class="prose mx-auto">
@@ -80,4 +77,5 @@
             </div>
         </div>
     </article>
+    {% enqueue_script "lightbox" %}
 {% endblock %}

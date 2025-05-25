@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from django.core.cache import cache
-from wagtail.models import Locale
 
 from notcms.blog.models import HomePage
 
@@ -42,6 +41,6 @@ def is_naked_css(request):
 
 def notcms_globals(request):
     return {
-        "home": HomePage.objects.live().filter(locale=Locale.get_active()).first(),
+        "home": HomePage.objects.live().filter(locale=request.locale).first(),
         "no_css": is_naked_css(request),
     }

@@ -1,15 +1,17 @@
 from django import template
+from django.core.cache import cache
 from django.db.models import Prefetch
-from wagtail.models import Locale
 
 from notcms.blog.models import Menu, MenuItem
 
 register = template.Library()
 
 
-@register.simple_tag
-def get_menu(key):
-    # cache_key = f"blog_menu_{key}"
+@register.simple_tag(takes_context=True)
+def get_menu(context, key):
+    request = context["request"]
+    locale = request.locale
+    cache_key = f"blog_menu-{key}-{locale.language_code}"
 
     def fetch_menu_items():
         try:
@@ -20,18 +22,16 @@ def get_menu(key):
                         "sort_order"
                     ),
                 )
-            ).get(key=key, locale=Locale.get_active())
+            ).get(key=key, locale=locale)
             return list(menu.items.all())
         except Menu.DoesNotExist:
             return None
 
-    # return cache.get_or_set(cache_key, fetch_menu_items, timeout=60 * 10)
-
-    return fetch_menu_items()
+    return cache.get_or_set(cache_key, fetch_menu_items, timeout=60 * 10)
 
 
-@register.inclusion_tag("partials/footer_menu.html")
-def render_footer_menu(key):
+@register.inclusion_tag("partials/footer_menu.html", takes_context=True)
+def render_footer_menu(context, key):
     return {
-        "menu": get_menu(key),
+        "menu": get_menu(context, key),
     }

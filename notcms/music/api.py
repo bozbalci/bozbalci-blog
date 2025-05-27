@@ -20,7 +20,7 @@ def get_last_played_track(request, skip_cache: bool = False) -> LastfmTrack | No
     if skip_cache:
         return lastfm_api.get_last_played()
     else:
-        return lastfm_api.get_cached_last_played()
+        return lastfm_api.get_last_played_cached()
 
 
 @router.get("/albums", response=list[AlbumSchema])

@@ -43,7 +43,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 # Python 'run' stage
-FROM python:3.13-slim-bookworm AS python-run-stage
+FROM python:3.13.6-slim-bookworm AS python-run-stage
 
 ARG APP_HOME=/app
 

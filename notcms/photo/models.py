@@ -2,6 +2,8 @@ from datetime import datetime
 
 import exifread
 from django.db import models
+from django.db.models import F
+from django.db.models.functions import Coalesce
 from wagtail.admin.panels import FieldPanel
 from wagtail.images.models import Image
 from wagtail.models import Page
@@ -151,14 +153,22 @@ class PhotoAlbumPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        photos = (
+            self.get_children()
+            .live()
+            .annotate(
+                source_first_published_at=Coalesce(
+                    F("alias_of__first_published_at"),
+                    F("first_published_at"),
+                )
+            )
+            .order_by(F("source_first_published_at").desc(nulls_last=True))
+            .specific()
+        )
         return {
             **context,
             **get_sidebar_navigation_context(request),
-            "photos": self.get_children()
-            .live()
-            .order_by("-first_published_at")
-            .select_related("image")
-            .specific,
+            "photos": photos,
         }
 
     @property

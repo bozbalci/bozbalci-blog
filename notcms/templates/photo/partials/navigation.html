@@ -15,5 +15,10 @@
                 {% endif %}
             </li>
         {% endfor %}
+        {% if page.view_restrictions.exists %}
+          <li>
+            <span class="text-gray-10 dark:text-gray-dark-10">{{ page.title }}</span>
+          </li>
+        {% endif %}
     </ul>
 </nav>

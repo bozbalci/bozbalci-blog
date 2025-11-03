@@ -328,6 +328,8 @@ WAGTAIL_FOOTNOTES_TEXT_FEATURES = [
     "strikethrough",
 ]
 
+WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = "password.html"
+
 # We don't render the footnote reference using templates, see issue:
 # https://github.com/torchbox/wagtail-footnotes/issues/59
 # WAGTAIL_FOOTNOTES_REFERENCE_TEMPLATE =

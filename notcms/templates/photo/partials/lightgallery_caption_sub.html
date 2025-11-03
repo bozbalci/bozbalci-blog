@@ -3,10 +3,10 @@
 {% load wagtailcore_tags %}
 <div class="font-mono text-step--2">
     <div class="e-textbg">
-        {% if photo.title %}
-            <span class="e-title italic double-quote">{{ photo.title }}</span>
+        {% if photo.caption %}
+            <span class="e-title italic double-quote">{{ photo.caption }}</span>
         {% else %}
-            <span class="e-untitled">{% trans "Untitled" %}</span>
+            <span class="e-untitled italic">{% trans "Untitled" %}</span>
         {% endif %}
     </div>
     {# Skip EXIF fields if not present #}

@@ -154,7 +154,11 @@ class PhotoAlbumPage(Page):
         return {
             **context,
             **get_sidebar_navigation_context(request),
-            "photos": self.get_children().live().select_related("image").specific,
+            "photos": self.get_children()
+            .live()
+            .order_by("-first_published_at")
+            .select_related("image")
+            .specific,
         }
 
     @property

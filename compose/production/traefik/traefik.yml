@@ -18,7 +18,9 @@ certificatesResolvers:
     acme:
       email: 'webmaster@bozbalci.me'
       storage: /etc/traefik/acme/acme.json
-      tlsChallenge: {}
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 0
 
 http:
   routers:

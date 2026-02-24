@@ -11,20 +11,32 @@ router = Router()
 @router.get("/photos", response=list[PhotoSchema])
 @paginate
 def get_all_photos(request):
-    return PhotoPage.objects.live().order_by("-first_published_at")
+    return (
+        PhotoPage.objects.live()
+        .filter(include_in_camera_roll=True)
+        .order_by("-first_published_at")
+    )
 
 
 @router.get("/photo/{slug}", response=PhotoSchema)
 def get_photo_by_slug(request, slug: str):
-    return get_object_or_404(PhotoPage.objects.live(), slug=slug)
+    return get_object_or_404(
+        PhotoPage.objects.live().filter(include_in_camera_roll=True), slug=slug
+    )
 
 
 @router.get("/albums", response=list[PhotoAlbumSchema])
 @paginate
 def get_all_photo_albums(request):
-    return PhotoAlbumPage.objects.live().order_by("title")
+    return (
+        PhotoAlbumPage.objects.live()
+        .filter(view_restrictions_isnull=True)
+        .order_by("title")
+    )
 
 
 @router.get("/album/{slug}", response=PhotoAlbumSchema)
 def get_photo_album_by_slug(request, slug: str):
-    return get_object_or_404(PhotoAlbumPage.objects.live(), slug=slug)
+    return get_object_or_404(
+        PhotoAlbumPage.objects.live().filter(view_restrictions_isnull=True), slug=slug
+    )

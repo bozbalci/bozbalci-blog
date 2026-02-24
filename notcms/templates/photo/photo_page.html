@@ -4,7 +4,7 @@
 {% load vite %}
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
-{% block title %}{{ page.title|default:"Untitled Photo" }}{% endblock %}
+{% block title %}{{ page.caption|default:"Untitled Photo" }}{% endblock %}
 {% block navigation %}
     {% include "photo/partials/navigation.html" %}
 {% endblock %}
@@ -36,9 +36,13 @@
                     <div class="block"></div>
                 {% endif %}
                 <div class="text-right">
-                    {% if page.title %}
+                    {% if page.caption %}
                         <div>
-                            <span class="e-title italic double-quote">{{ page.title }}</span>
+                            <span class="e-title italic double-quote">{{ page.caption }}</span>
+                        </div>
+                    {% else %}
+                        <div>
+                          <span class="e-untitled italic">{% trans "Untitled" %}</span>
                         </div>
                     {% endif %}
                     <div>
@@ -64,15 +68,15 @@
                     <li>
                         <a href="{% pageurl gallery_index %}">{% trans "Back to the gallery" %}</a>
                     </li>
-                    {% for album in related_albums %}
-                        <li>
-                            <a href="{% pageurl album %}">
-                                {% blocktrans trimmed with title=album.title %}
-                                    Back to the album ‘{{ title }}’
-                                {% endblocktrans %}
-                            </a>
-                        </li>
-                    {% endfor %}
+                    {% if current_album %}
+                      <li>
+                          <a href="{% pageurl current_album %}">
+                              {% blocktrans trimmed with title=current_album.title %}
+                                  Back to the album ‘{{ title }}’
+                              {% endblocktrans %}
+                          </a>
+                      </li>
+                  {% endif %}
                 </ul>
             </div>
         </div>

@@ -1,12 +1,12 @@
 from datetime import datetime
 
 import exifread
-from django import forms
 from django.db import models
-from modelcluster.fields import ParentalManyToManyField
+from django.db.models import F
+from django.db.models.functions import Coalesce
 from wagtail.admin.panels import FieldPanel
 from wagtail.images.models import Image
-from wagtail.models import Locale, Page
+from wagtail.models import Page
 
 
 def get_fractional_value(formatted: str) -> float:
@@ -16,14 +16,15 @@ def get_fractional_value(formatted: str) -> float:
     return float(formatted)
 
 
-def get_sidebar_navigation_context(request):
+def get_sidebar_navigation_context(request, current_album=None):
     return {
         "gallery_index": PhotoGalleryIndexPage.objects.live().get(
-            locale=request.locale
+            locale=request.locale,
         ),
         "albums": PhotoAlbumPage.objects.live()
-        .filter(locale=request.locale)
+        .filter(locale=request.locale, view_restrictions__isnull=True)
         .order_by("title"),
+        "current_album": current_album,
     }
 
 
@@ -37,13 +38,14 @@ class PhotoGalleryIndexPage(Page):
         return {
             **context,
             "photos": PhotoPage.objects.live()
-            .filter(locale=request.locale)
+            .filter(locale=request.locale, include_in_camera_roll=True)
             .select_related("image")
             .order_by("-first_published_at"),
             **get_sidebar_navigation_context(request),
         }
 
 
+# This needs to exist for now because it's mentioned in a migration.
 def limit_photo_page_album_choices():
     return models.Q(locale__id="1")
 
@@ -51,14 +53,6 @@ def limit_photo_page_album_choices():
 class PhotoPage(Page):
     caption = models.CharField(max_length=255, blank=True)
     image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
-    albums = ParentalManyToManyField(
-        "photo.PhotoAlbumPage",
-        related_name="photos",
-        blank=True,
-        # Hack, see: https://github.com/wagtail/wagtail-localize/issues/534
-        # Also see: https://github.com/wagtail/wagtail/issues/8821
-        limit_choices_to=limit_photo_page_album_choices,
-    )
     exif_make = models.CharField(max_length=255, blank=True)
     exif_model = models.CharField(max_length=255, blank=True)
     exif_lens = models.CharField(max_length=255, blank=True)
@@ -67,32 +61,28 @@ class PhotoPage(Page):
     exif_shutter_speed = models.CharField(max_length=255, blank=True)
     exif_iso = models.CharField(max_length=255, blank=True)
     exif_shot_at = models.DateTimeField(blank=True, null=True)
+    include_in_camera_roll = models.BooleanField(null=False, blank=False, default=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel("caption"),
         FieldPanel("image"),
-        FieldPanel("albums", widget=forms.CheckboxSelectMultiple),
+        FieldPanel("include_in_camera_roll"),
     ]
 
-    parent_page_types = ["PhotoGalleryIndexPage"]
+    parent_page_types = ["PhotoGalleryIndexPage", "PhotoAlbumPage"]
     subpage_types = []
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        # Hack to get the localized album pages from the current photo page
-        localized_albums = (
-            PhotoAlbumPage.objects.live()
-            .filter(
-                locale=request.locale,
-                translation_key__in=self.albums.values("translation_key"),
-            )
-            .order_by("title")
-        )
+        if isinstance(self.get_parent().specific, PhotoAlbumPage):
+            current_album = self.get_parent().specific
+        else:
+            current_album = None
 
         return {
             **context,
-            **get_sidebar_navigation_context(request),
-            "related_albums": localized_albums,
+            **get_sidebar_navigation_context(request, current_album),
         }
 
     def extract_exif(self):
@@ -158,31 +148,33 @@ class PhotoAlbumPage(Page):
     ]
 
     parent_page_types = ["PhotoAlbumsIndexPage"]
-    subpage_types = []
+    subpage_types = ["PhotoPage"]
     template = "photo/gallery.html"
-
-    def get_photos(self, request=None):
-        # Slightly hacky, get the Photos from the EN locale; then filter only
-        # localized ones
-        active_locale = request.locale if request else Locale.get_active()
-        default_locale = Locale.get_default()
-        album_in_default_locale = self.get_translation(default_locale)
-
-        return (
-            PhotoPage.objects.live()
-            .filter(albums=album_in_default_locale, locale=active_locale)
-            .select_related("image")
-            .order_by("-first_published_at")
-        )
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        photos = (
+            self.get_children()
+            .live()
+            .annotate(
+                source_first_published_at=Coalesce(
+                    F("alias_of__first_published_at"),
+                    F("first_published_at"),
+                )
+            )
+            .order_by(F("source_first_published_at").desc(nulls_last=True))
+            .specific()
+        )
         return {
             **context,
             **get_sidebar_navigation_context(request),
-            "photos": self.get_photos(request),
+            "photos": photos,
         }
 
     @property
     def cover_image(self):
-        return self.get_photos().first().image if self.get_photos() else None
+        children = self.get_children()
+        if children:
+            return children.first().specific.image
+        else:
+            return None

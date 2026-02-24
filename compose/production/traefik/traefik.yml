@@ -22,7 +22,6 @@ certificatesResolvers:
         provider: cloudflare
         delayBeforeCheck: 0
 
-
 http:
   routers:
     web-secure-router:

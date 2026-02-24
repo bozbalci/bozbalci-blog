@@ -23,10 +23,10 @@ services:
     command: /start
 
   postgres:
-    image: docker.io/postgres:16
+    image: docker.io/postgres:18
     container_name: notcms_local_postgres
     volumes:
-      - notcms_local_postgres_data:/var/lib/postgresql/data
+      - notcms_local_postgres_data:/var/lib/postgresql
     env_file:
       - ./.envs/.local/.postgres
     ports:

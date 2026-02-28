@@ -13,7 +13,7 @@
   "description": "",
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.4",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "vite": "^6.3.5"
   },
   "dependencies": {
